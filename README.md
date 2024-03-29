@@ -8,9 +8,13 @@ Click on `Use this template` to copy the Mintlify starter kit. The starter kit c
 - API Reference pages
 - Use of popular components
 
+git add . && git commit -m "Hello World" && git push
+
 ### Development
 
 Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command
+
+
 
 ```
 npm i -g mintlify

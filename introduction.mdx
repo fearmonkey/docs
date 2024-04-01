@@ -4,23 +4,17 @@ description: 'Welcome to the OwnId Developer Portal'
 ---
 
 <img
-  className="block dark:hidden"
-  src="/images/hero-light.svg"
-  alt="Hero Light"
-/>
-<img
-  className="hidden dark:block"
-  src="/images/hero-dark.svg"
-  alt="Hero Dark"
+  src="/images/oi_widget.png"
+  alt="Widget"
 />
 
 By integrating your identity management system with the OwnId platform your web customers get frictionless access to your online products & services anywhere along their digital journey. 
 
 ## How does it work?
-OwnId lets you integrate your existing identity access management (<Tooltip tip="Synonymous with Id management systems, IdM.">IAM</Tooltip>) system with our platform to provide an automated, password-free login process for your users and any or all of their devices.
+OwnId lets you integrate your existing identity access management (<Tooltip tip="Synonymous with Id management systems, IdM.">IAM</Tooltip>) system with our platform to provide an automated, password-free login for your users and all their devices.
 
 ### Two ways to integrate
-OwnId provides two distinct integration options:
+We provide two distinct integration options:
 1.  **Connectors** - Low-code/no-code integrations for specific <Tooltip tip="Synonymous with Id management systems, IdM.">IAM</Tooltip>s 
 2.  **API/SDK** - OwnId's embeddable endpoints and Web Sdk  
 
@@ -28,86 +22,25 @@ Connectors are prebuilt integrations to selected IAMs. The API provides an integ
 
 Explainer: Connectors vs. API
 
+## API integration tasks
 
-### Additional resources
-OwnId provides two integration options:
-
- lets you integrate your existing identity access management (IAM) system with our platform to provide an automated, password-free login process for your users and any of their devices.
-
-Integration resources include:
-- Low-code/no-code Connectors
-- Powerful API/SDK
-- Turnkey Localization with support for 65 international languages
-- Custom Look & feel
-- Security guide
-
-We provide password-free access with groundbreaking biometric authentication - and say goodbye to passwords forever.
-
-## Getting started with the API
-
-Integration process
-
+Below are the major steps required to integrate with the API.
 <Steps>
-  <Step title="Add end-points to your server">
-    Drop in endpoints in your server-side code. 
+  <Step title="PREPARATION">
+    **1. Setup your account** - Get your App Id and establish your base URL from the Console.
+
+    **2. Add a field to your users table** - OwndId data requires a varchar field in your database, with a minimum of 4000 characters.
   </Step>
-  <Step title="Call endpoints from your front end pages">
-    To provide user registration and login services, drop-in calls to endpoints from your front-end.
+  <Step title="DROP IN SERVER-SIDE END-POINTS">
+    **1. Install API Request Handlers** - Take our sample code for API request handlers and drop it into your web server.  
+    **2. Adjust handler parameters** - Adjust parameters for each request handler.  
   </Step>
-  <Step title="Add a field to your users table">
-    OwndId data requires a varchar field in your database, with a minimum of 4000 characters.
+  <Step title="INSERT API REQUESTS IN YOUR FRONT END">
+    **1. Build login workflow** - Drop in our HTML and JavaScript samples to build the login workflow.
+    **2. Build registration workflow** - Drop in our HTML and JavaScript samples to build the registration workflow.
+
   </Step>
+  
 </Steps>
 
 
-<CardGroup cols={2}>
-  <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
-    href="https://mintlify.com/docs/quickstart"
-  >
-    Get your docs set up locally for easy development
-  </Card>
-  <Card
-    title="Preview Changes"
-    icon="image"
-    href="https://mintlify.com/docs/development"
-  >
-    Preview your changes before you push to make sure they're perfect
-  </Card>
-</CardGroup>
-
-## Make it yours
-
-Update your docs to your brand and add valuable content for the best user conversion.
-
-<CardGroup cols={2}>
-  <Card
-    title="Customize Style"
-    icon="palette"
-    href="https://mintlify.com/docs/settings/global"
-  >
-    Customize your docs to your company's colors and brands
-  </Card>
-  <Card
-    title="Reference APIs"
-    icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
-  >
-    Automatically generate endpoints from an OpenAPI spec
-  </Card>
-  <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/components/accordion"
-  >
-    Build interactive features and designs to guide your users
-  </Card>
-  <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/customers"
-  >
-    Check out our showcase of our favorite documentation
-  </Card>
-</CardGroup>

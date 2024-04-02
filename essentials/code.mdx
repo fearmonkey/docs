@@ -8,7 +8,21 @@ icon: 'code'
 
 Often, consuming an API means that you're making RESTful requests to endpoints hosted by a public platform.
 
-Here, your existing web server is the host. Your front end makes HTTP requests to the web server using request handlers provided by OwnId. Those request handlers provide a gateway for exchanging keys and data between your front end and your identity management services throughout the authentication and enrollment processes.
+Here, your existing web server is the host. Your front end makes standard HTTP requests to the web server,  which processes them using request handlers provided by OwnId. 
+
+It's those request handlers that provide the gateway for exchanging keys and data between your front end and your identity management services. 
+
+Three endpoints support all the login and registration scenarios:
+
+Login
+
+register
+
+forgotPassword
+
+
+
+ throughout the authentication and enrollment processes.
 
 ### Inline Code
 

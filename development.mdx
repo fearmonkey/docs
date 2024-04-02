@@ -3,6 +3,31 @@ title: 'Server-side integration'
 description: 'Learn how to preview changes locally'
 ---
 
+## The basics
+
+Often, consuming an API means that you're making RESTful requests to endpoints hosted by a public platform.
+
+Here, your existing web server is the host. Your front end makes standard HTTP requests to the web server,  which processes them using request handlers provided by OwnId. 
+
+It's those request handlers that provide the gateway for exchanging keys and data between your front end and your identity management services. 
+
+Three endpoints support all the login and registration scenarios:
+
+- Login
+
+- register
+
+- forgotPassword
+
+<RequestExample>
+Some of the examples translate to other frameworks.
+
+```bash Request
+  curl --request POST \
+    --url https://dog-api.kinduff.com/api/facts
+```
+
+
 ## Integration overview
 
 Below are the major steps required to integrate with the API.
@@ -26,11 +51,6 @@ Below are the major steps required to integrate with the API.
 
 # Handler Reference
 
-
-
-
-
-
 ### IWidgetConfig
 
 <ParamField query="type" type="WidgetType" default="none" required>
@@ -49,18 +69,16 @@ Defines login type. Changes flow.
 
 
 <ParamField query="promptType" type="promptTypes" default="returning-user">
-Defines widget type. Determinate flow type.
+Used only for prompt widget. Defines prompt type
+</ParamField>
+
+<ParamField query="element" type="HTMLElement" default="returning-user">
+Used only for prompt widget. Defines prompt type
 </ParamField>
 
 
-promptType
-PromptTypes
-+
-returning-user
-Used only for prompt widget. Defines prompt type
 
-element
-HTMLElement
+
 +
 -
 Sets a host element where the widget will be inserted. This will be ignored,  if a targetField is provided.
@@ -85,115 +103,3 @@ IPartialConfig
  
 
  
-
-
-
-<ParamField path="param" type="string">
-  An example of a parameter field
-</ParamField>
-
-
-<RequestExample>
-
-```bash Request
-  curl --request POST \
-    --url https://dog-api.kinduff.com/api/facts
-```
-
-</RequestExample>
-
-
-
-<Info>
-  **Prerequisite** You should have installed Node.js (version 18.10.0 or
-  higher).
-</Info>
-
-Step 1. Install Mintlify on your OS:
-
-<CodeGroup>
-
-```bash npm
-npm i -g mintlify
-```
-
-```bash yarn
-yarn global add mintlify
-```
-
-</CodeGroup>
-
-Step 2. Go to the docs are located (where you can find `mint.json`) and run the following command:
-
-```bash
-mintlify dev
-```
-
-The documentation website is now available at `http://localhost:3000`.
-
-### Custom Ports
-
-Mintlify uses port 3000 by default. You can use the `--port` flag to customize the port Mintlify runs on. For example, use this command to run in port 3333:
-
-```bash
-mintlify dev --port 3333
-```
-
-You will see an error like this if you try to run Mintlify in a port that's already taken:
-
-```md
-Error: listen EADDRINUSE: address already in use :::3000
-```
-
-## Mintlify Versions
-
-Each CLI is linked to a specific version of Mintlify. Please update the CLI if your local website looks different than production.
-
-<CodeGroup>
-
-```bash npm
-npm i -g mintlify@latest
-```
-
-```bash yarn
-yarn global upgrade mintlify
-```
-
-</CodeGroup>
-
-## Deployment
-
-<Tip>
-  Unlimited editors available under the [Startup
-  Plan](https://mintlify.com/pricing)
-</Tip>
-
-You should see the following if the deploy successfully went through:
-
-<Frame>
-  <img src="/images/checks-passed.png" style={{ borderRadius: '0.5rem' }} />
-</Frame>
-
-## Troubleshooting
-
-Here's how to solve some common problems when working with the CLI.
-
-<AccordionGroup>
-  <Accordion title="Mintlify is not loading">
-    Update to Node v18. Run `mintlify install` and try again.
-  </Accordion>
-  <Accordion title="No such file or directory on Windows">
-Go to the `C:/Users/Username/.mintlify/` directory and remove the `mint`
-folder. Then Open the Git Bash in this location and run `git clone
-https://github.com/mintlify/mint.git`.
-
-Repeat step 3.
-
-  </Accordion>
-  <Accordion title="Getting an unknown error">
-    Try navigating to the root of your device and delete the ~/.mintlify folder.
-    Then run `mintlify dev` again.
-  </Accordion>
-</AccordionGroup>
-
-Curious about what changed in a CLI version? [Check out the CLI changelog.](/changelog/command-line)

@@ -63,54 +63,7 @@ Below are the major steps required to integrate with the API.
   
 </Steps>
 
-# Handler Reference
 
-### IWidgetConfig
-
-<ParamField query="type" type="WidgetType" default="none" required>
-Defines widget type. Determinate flow type.
-</ParamField>
-
-<ParamField query="loginType" type="loginType" default="standard" >
-Defines login type. Changes flow.
-
-</ParamField>
-
-
-<ParamField query="promptType" type="promptTypes" default="returning-user">
-Used only for prompt widget. Defines prompt type
-</ParamField>
-
-<ParamField query="element" type="HTMLElement" default="returning-user">
-Used only for prompt widget. Defines prompt type
-</ParamField>
-
-
-
-● linkSocialAccount - is used ONLY for gigyas link-accounts screenset & integration
-
-● [reauth not tested for the widget]
-
-+
--
-Sets a host element where the widget will be inserted. This will be ignored,  if a targetField is provided.
-
-Id (widgetId)
-string
-+
-Defines automatically according to type
-Widget Id. Used for accessing to widgets entities via owned sdk.
-● For gigya integrations, the default widget id also consists of the screenset’s id
-
-
-injectedLoginId
-string
-+
--
-Predefined loginId. Currently used for internal needs [e.g. RUP]
-IPartialConfig
- 
- 
  
  
 

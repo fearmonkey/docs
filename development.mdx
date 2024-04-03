@@ -73,8 +73,18 @@ As part of `/setOwnIDDataByLoginId` endpoint implementation
 Establishing the session on `onLogin`
 Direct:
 
+{ onLogin({ token }) { document.cookie = `sessionId=${token}`; } }
 
+Exchange: [when session is an `http-only` cookie]
+{ onLogin({ token }) { fetch(`/auth/exchange?token=${token}`); } }
 
+Setting a global login handler:
+
+ownid('init', { 
+    onLogin: ({token}) => {}
+})
+
+Good
 
 
 

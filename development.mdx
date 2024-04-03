@@ -52,7 +52,7 @@ Login
 ●Handling password-toggle or password-label elements
 ●Showing errors in your login form
 
-ownid('login', {
+ownid('login', {
           loginIdField: document.getElementById('username'),
           passwordField: document.getElementById('password'),
      passwordToggle:'.show-password-input',
@@ -61,25 +61,24 @@ Login
           onLogin({ token }) { /*see below*/ }
 });
 
-
+
 ●Auto-registration when the account doesn’t exist
 ○As part of `/setOwnIDDataByLoginId` endpoint implementation
 
 ●Establishing the session on `onLogin`
 ○Direct:
 
-{ onLogin({ token }) { document.cookie = `sessionId=${token}`; } }
-
-○Exchange: [when session is an `http-only` cookie]
+{ onLogin({ token }) { document.cookie = `sessionId=${token}`; } }
 
-{ onLogin({ token }) { fetch(`/auth/exchange?token=${token}`); } }
-
+○Exchange: [when session is an `http-only` cookie]
+{ onLogin({ token }) { fetch(`/auth/exchange?token=${token}`); } }
+
 ●Setting a global login handler:
 
-ownid('init', { 
+ownid('init', { 
     onLogin: ({token}) => {}
 })
-
+
 
 
 

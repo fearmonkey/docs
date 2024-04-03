@@ -45,6 +45,46 @@ Below are the major steps required to integrate with the API.
   
 </Steps>
 
+
+Login
+●Referencing the loginId input
+●Placing the widget next to the password field (side-by-side)
+●Handling password-toggle or password-label elements
+●Showing errors in your login form
+
+ownid('login', {
+          loginIdField: document.getElementById('username'),
+          passwordField: document.getElementById('password'),
+     passwordToggle:'.show-password-input',
+          language:'en',
+          onError: (error) => console.log(error),
+          onLogin({ token }) { /*see below*/ }
+});
+
+
+●Auto-registration when the account doesn’t exist
+○As part of `/setOwnIDDataByLoginId` endpoint implementation
+
+●Establishing the session on `onLogin`
+○Direct:
+
+{ onLogin({ token }) { document.cookie = `sessionId=${token}`; } }
+
+○Exchange: [when session is an `http-only` cookie]
+
+{ onLogin({ token }) { fetch(`/auth/exchange?token=${token}`); } }
+
+●Setting a global login handler:
+
+ownid('init', { 
+    onLogin: ({token}) => {}
+})
+
+
+
+
+
+
 # Handler Reference
 
 ### IWidgetConfig
@@ -65,6 +105,11 @@ Used only for prompt widget. Defines prompt type
 <ParamField query="element" type="HTMLElement" default="returning-user">
 Used only for prompt widget. Defines prompt type
 </ParamField>
+
+
+
+
+
 
 
 

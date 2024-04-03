@@ -47,9 +47,26 @@ Below are the major steps required to integrate with the API.
 
 
 Login
+
 Referencing the loginId input
+
 Placing the widget next to the password field 
 
+(side-by-side)
+Handling password-toggle or password-label elements
+Showing errors in your login form
+
+``` javascript
+ownid('login', {
+          loginIdField: document.getElementById('username'),
+          passwordField: document.getElementById('password'),
+     passwordToggle:'.show-password-input',
+          language:'en',
+          onError: (error) => console.log(error),
+          onLogin({ token }) { /*see below*/ }
+});
+
+```
 
 
 # Handler Reference

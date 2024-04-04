@@ -7,7 +7,7 @@ description: 'Learn how to set up endpoints and request handlers'
 
 Typically consuming an API means making RESTful requests to endpoints hosted by a public platform.
 
-Here, your existing web server is the host. When a user logs in, your frontend generates a login event and the OwnID server makes the appropriate HTTP requests to _your web server_, invoking request handlers provided by OwnID. 
+Here, your existing web server hosts the endpoints. When a user logs in, your frontend generates a login event and the OwnID server makes the appropriate HTTP requests to _your web server_, invoking request handlers provided by OwnID. 
 
 It's those request handlers that provide the gateway for exchanging keys and data between your frontend and your identity management services. 
 
@@ -43,92 +43,36 @@ Below are the major steps required to implement the login workflow and integrate
   
 </Steps>
 
+# Integration steps
+
+The full integration process is detailed below.
+
 ## 1 Preparation
 
-First create your account in the developer portal.
+Before starting, create your account in the developer  console.
 
 1. **Set up your account** by logging into or signing up to the developer console and following the instructions. The console guides you through the process step by step.
 2. As part of the sign up process, you'll establish the parameters you need for integration:
-
+<Info>
 - Your **account id** - _Use this in data objects where specified_
 - Your **application id** - _Use this also in data objects where specified_
 - Your **base URL** - _You'll establish this as part of creating your account in the console. OwnID uses this to call endpoints on your backend_
-
+</Info>
 3. **Create a VARCHAR field** in your user database and call it `ownIdData`. We'll use this field to store OwnID authentication data. 
 
 <Info>
-Be sure the field meets the following requirements:
+Be sure the `ownIdData` field meets the following requirements:
 
 - A character datatype e.g., **VARCHAR**
 - A minimum length of **5000 chars**
 </Info>
 
-## 2 Drop in server-side end-points
+## 2 Drop in end-point request handlers
 
 We provide templates for the event handler you use for your server-side endpoints. These endpoints are called by the OwnID server when it receives login events from your login page. 
 
-Select your server-side language tab in the examples below. The following data elements are used to build login worflows:
+Select your server-side language tab in the examples below. 
 
-- App id, your unique app identifier.
-- token
-- Add a character field for Own id data.
-
-register	1.config : IWidgetConfig	Renders a widget with register type
-login	1.config : IWidgetConfig	Renders a widget with login type
-recover	1.config : IWidgetConfig	Renders a widget with recover type
-
-## Login workflow
-
-Referencing the `loginId` input
-
-Placing the widget next to the password field 
-
-<img
-  src="/images/oi_widget.png"
-  alt="Widget"
-/>
-<sup>Figure 1. Login widget</sup>
-
-(side-by-side)
-Handling password-toggle or password-label elements
-Showing errors in your login form
-
-``` javascript
-ownid('login', {
-          loginIdField: 
-          document.getElementById('username'),
-          passwordField: 
-          document.getElementById('password'),
-     passwordToggle:'.show-password-input',
-          language:'en',
-          onError: (error) => console.log(error),
-          onLogin({ token }) { /*see below*/ }
-});
-```
-You don't have to implement an explicit registration workflow because login handles unregistered users. Auto-registration when the account doesn't exist
-As part of `/setOwnIDDataByLoginId` endpoint implementation
-
-Establishing the session on `onLogin`
-
-Direct:
-
-```javascript
-{ onLogin({ token }) 
-  { document.cookie = 
-  `sessionId=${token}`; 
-  } 
-}
-
-Exchange: [when session is an `http-only` cookie]
-{ onLogin({ token }) 
-  { fetch(`/auth/exchange?token=${token}`); } }
-```
-Setting a global login handler:
-```javascript
-ownid('init', { 
-    onLogin: ({token}) => {}
-})
-```
 
 <img
   src="/images/login-diagram.png"
@@ -377,17 +321,17 @@ ownid('init', {
 
 **Install OwnID SDK**
 
-Use the CLI to run:
+If you're using React or Angular frameworks, install the OwnID SDK from the CLI.
 
-<CodeGroup>
+1. To install the React-based SDK:
 ```javascript reactjs
 npm install @ownid/react
 ```
-
+2. To install the Angular-based SDK:
 ```javascript angular
 npm install @ownid/angular
 ```
-</CodeGroup>
+
 
 **Initialize OwnID SDK**
 

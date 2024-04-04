@@ -7,9 +7,11 @@ description: 'Learn how to set up endpoints and request handlers'
 
 Typically consuming an API means making RESTful requests to endpoints hosted by a public platform.
 
-Here, your existing web server hosts the endpoints. When a user logs in, your frontend generates a login event and the OwnID server makes the appropriate HTTP requests to _your web server_, invoking request handlers provided by OwnID. 
+Here, your existing web server hosts the endpoints. We provide code templates for each related event handler.
 
-It's those request handlers that provide the gateway for exchanging keys and data between your frontend and your identity management services. 
+When a user logs in, your frontend generates a login event and the OwnID server makes the appropriate HTTP requests to _your_ web server, invoking request handlers provided by OwnID. 
+
+Those request handlers provide the gateway for exchanging keys and data between your frontend and your identity management services. 
 
 ## Integration overview
 
@@ -38,6 +40,7 @@ The interprocess communication looks like this:
   src="/images/login-diagram.png"
   alt="Widget"
 />
+<sup>Figure 1. Requests, responses, and events.</sup>
 
 # Integration steps
 
@@ -62,12 +65,6 @@ Be sure the `ownIdData` field meets the following requirements:
 - A character datatype e.g., **VARCHAR**
 - A minimum length of **5000 chars**
 </Info>
-
-## 2 Drop in end-point request handlers
-
-We provide templates for the event handler you use for your server-side endpoints. These endpoints are called by the OwnID server when it receives login events from your login page. 
-
-Select your server-side language tab in the examples below. 
 
 ## 1. Preparation
 
@@ -151,6 +148,8 @@ def set_ownid_data_by_login_id():
 
 ## Endpoint 2 - Get OwnID data by login id
 
+Handle a request to fetch an OwnIdData record for a given user's email address.
+
 <CodeGroup>
 
 ```javascript Node.js
@@ -201,6 +200,7 @@ def get_ownid_data_by_login_id():
 
 ## Endpoint 3 - Get session by login id
 
+Handle a request to fetch the web token for the current session by user's email address.
 <CodeGroup>
 
 ```javascript Node.js
@@ -265,7 +265,7 @@ Placing the widget next to the password field
   src="/images/oi_widget.png"
   alt="Widget"
 />
-<sup>Figure 1. Login widget</sup>
+<sup>Figure 2. Login widget</sup>
 
 (side-by-side)
 Handling password-toggle or password-label elements

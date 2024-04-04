@@ -5,7 +5,7 @@ description: 'Learn how to set up endpoints and request handlers'
 
 ## The basics
 
-Typically when you consume an API, it means that you're making RESTful requests to endpoints hosted by a public platform.
+Typically consuming an API means making RESTful requests to endpoints hosted by a public platform.
 
 Here, your existing web server is the host. When a user logs in, your frontend generates a login event and the OwnID server makes the appropriate HTTP requests to _your web server_, invoking request handlers provided by OwnID. 
 
@@ -105,7 +105,7 @@ ownid('login', {
           onLogin({ token }) { /*see below*/ }
 });
 ```
-You don't have to implement an explicit registration workflow becuase login handles unregistered users. Auto-registration when the account doesn't exist
+You don't have to implement an explicit registration workflow because login handles unregistered users. Auto-registration when the account doesn't exist
 As part of `/setOwnIDDataByLoginId` endpoint implementation
 
 Establishing the session on `onLogin`
@@ -113,7 +113,8 @@ Establishing the session on `onLogin`
 Direct:
 
 ```javascript
-{ onLogin({ token }) { document.cookie = 
+{ onLogin({ token }) 
+  { document.cookie = 
   `sessionId=${token}`; 
   } 
 }

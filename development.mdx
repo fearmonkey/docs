@@ -92,11 +92,13 @@ Be sure the `ownIdData` field meets the following requirements:
 
 ## 2. Drop in server-side end-points
 
-Below are code templates for the three event handlers needed to implement your server-side endpoints. The OwnID server receives login events from your frontend  then makes HTTP requests to these endpoints. All CRUD-type operations between OwnID and your server use the login id (typically the user email) as the unique identifier.
+Below are code templates for the three event handlers needed to implement your server-side endpoints. The OwnID server receives login events from your frontend  then makes HTTP requests to these endpoints. All CRUD-type operations between OwnID and your server use the login id (typically the user email) as the unique identifier for data objects.
 
 Select the tab matching your server-side language in the examples below. 
 
 ### Endpoint 1 - setOwnIDDataByLoginId
+
+Handle a request to save an OwnIdData record for a given email address.
 
 <CodeGroup>
 

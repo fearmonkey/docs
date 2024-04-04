@@ -46,25 +46,6 @@ The interprocess communication looks like this:
 
 The full integration process is detailed below.
 
-## 1 Preparation
-
-Before starting, create your account in the developer  console.
-
-1. **Set up your account** by logging into or signing up to the developer console and following the instructions. The console guides you through the process step by step.
-2. As part of the sign up process, you'll establish the parameters you need for integration:
-<Info>
-- Your **account id** - _Use this in data objects where specified_
-- Your **application id** - _Use this also in data objects where specified_
-- Your **base URL** - _You'll establish this as part of creating your account in the console. OwnID uses this to call endpoints on your backend_
-</Info>
-3. **Create a VARCHAR field** in your user database and call it `ownIdData`. We'll use this field to store OwnID authentication data. 
-
-<Info>
-Be sure the `ownIdData` field meets the following requirements:
-
-- A character datatype e.g., **VARCHAR**
-- A minimum length of **5000 chars**
-</Info>
 
 ## 1. Preparation
 
@@ -87,7 +68,7 @@ Be sure the `ownIdData` field meets the following requirements:
 - A minimum length of **5000 chars**
 </Info>
 
-## 2. Drop in server-side end-points
+## 2. Drop in web server end-points
 
 Below are code templates for the three event handlers needed to implement your server-side endpoints. The OwnID server receives login events from your frontend  then makes HTTP requests to these endpoints. All CRUD-type operations between OwnID and your server use the login id (typically the user email) as the unique identifier for data objects.
 

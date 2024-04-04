@@ -139,7 +139,8 @@ ownid('init', {
 
 First create your account in the developer portal.
 
-1. **Set up your account** by logging into or signing up to the developer console and following the instructions. The console guides you through the process step by step.
+1. **Set up your account** by logging into the developer console and following the instructions. The console guides you through the process step by step.
+
 2. As part of the sign up process, you'll establish the parameters you need for integration:
 
 - Your **account id** - _Use this in data objects where specified_
@@ -157,23 +158,15 @@ Be sure the `ownIdData` field meets the following requirements:
 
 ## 2. Drop in server-side end-points
 
-We provide templates for the event handler you use for your server-side endpoints. These endpoints are called by the OwnID server when it receives login events from your login page. 
+We provide code templates for the event handlers needed by your server-side endpoints. Login events in your frontend trigger the OwnID server to make HTTP requests to these. 
 
-Select your server-side language tab in the examples below. The following data elements are used to build login worflows:
+Select your server-side language tab in the examples below. 
 
-- App id, your unique app identifier.
-- token
-- Add a character field for Own id data.
-
-register	1.config : IWidgetConfig	Renders a widget with register type
-login	1.config : IWidgetConfig	Renders a widget with login type
-recover	1.config : IWidgetConfig	Renders a widget with recover type
-
-## Endpoint 1
+### Endpoint 1 - setOwnIDDataByLoginId
 
 <CodeGroup>
 
-```javascript nodejs
+```javascript Node.js
 router.post('/setOwnIDDataByLoginId', async (req, res) => {
     const email = req.body.loginId; //The unique id of a user in your database, usually email or phone
     const ownIdData = req.body.ownIdData; //OwnID authentication information as string
@@ -219,7 +212,7 @@ def set_ownid_data_by_login_id():
 </CodeGroup>
 <sup>Drop-in request handler for `setOwnIDDataByLoginId` </sup>
 
-## Endpoint 2
+## Endpoint 2 - Get OwnID data by login id
 
 <CodeGroup>
 
@@ -256,9 +249,6 @@ public async Task<ActionResult<Object>> GetOwnIDDataByLoginId(string loginId)
     return Ok(new { OwnIdData = user.OwnIdData });
 }
 ```
-
-
-
 ```python Python
 @app.route('/getOwnIDDataByLoginId', methods=['POST'])
 def get_ownid_data_by_login_id():
@@ -270,9 +260,9 @@ def get_ownid_data_by_login_id():
     return jsonify({'ownidData': user.ownid_data})
 ```
 </CodeGroup>
-<sup> Drop-in code for setOwnIDDataByLoginId endpoint</sup>
+<sup> Drop-in code for getOwnIDDataByLoginId endpoint</sup>
 
-## Endpoint 3
+## Endpoint 3 - Get session by login id
 
 <CodeGroup>
 
@@ -403,26 +393,26 @@ npm install @ownid/angular
 
 <CodeGroup>
 
-```jsx reactjs
+```javascript JavaScript
+<script>
+    ((o,w,n,i,d)=>{o[i]=o[i]||(async(...a)=>((o[i].q=o[i].q||[]).push(a),{error:null,data:null})),
+    (d=w.createElement("script")).src='https://cdn.ownid.com/sdk/'+n,d.async=1,w.head.appendChild(d)})  
+    (window,document,'<appID>','ownid');
+</script>
+```
+
+```jsx React
 import { OwnIDInit } from '@ownid/react';
 <OwnIDInit config={{appId:'9s8d7f9s87g98s7dgMyAppID'}}/>
 ```
 
-```javascript angular
+```javascript Angular
 import { OwnidAngularModule } from '@ownid/angular';
 
 @NgModule({
   imports: [
     OwnidAngularModule.forRoot({appId:'s9d8f7s98f79s87dfMyAppID'}),
   ]})
-```
-
-```javascript javascript
-<script>
-    ((o,w,n,i,d)=>{o[i]=o[i]||(async(...a)=>((o[i].q=o[i].q||[]).push(a),{error:null,data:null})),
-    (d=w.createElement("script")).src='https://cdn.ownid.com/sdk/'+n,d.async=1,w.head.appendChild(d)})  
-    (window,document,'<appID>','ownid');
-</script>
 ```
 
 </CodeGroup>
@@ -432,6 +422,29 @@ import { OwnidAngularModule } from '@ownid/angular';
 Add the following code to render the login widget:
 
 <CodeGroup>
+
+```javascript javascript
+<body>
+    <form name="myForm">
+        <input id="email" type="text" name="email">
+        <input id="password" type="text" name="password">
+        <input type="submit" value="Submit">
+    </form>
+    <script>
+        ownid("login", {
+            loginIdField: document.getElementById("email"),
+            passwordField: document.getElementById("password"),
+            onError: (error) => console.log(error),
+            onLogin: function (data) {
+                 //1. set user session using data.token (usually a jwt or session token), generated in your backend and sent through the OwnID server
+                localStorage.setItem('sessionID', JSON.stringify({ token: data.token }));
+                //2. redirect the user (this is just an example)
+                window.location.href = '/account';
+            }
+        });
+    </script>
+</body>
+```
 
 ```jsx reactjs
 function LoginComponent() {
@@ -479,28 +492,7 @@ onLogin(data) {
 }
 ```
 
-```javascript javascript
-<body>
-    <form name="myForm">
-        <input id="email" type="text" name="email">
-        <input id="password" type="text" name="password">
-        <input type="submit" value="Submit">
-    </form>
-    <script>
-        ownid("login", {
-            loginIdField: document.getElementById("email"),
-            passwordField: document.getElementById("password"),
-            onError: (error) => console.log(error),
-            onLogin: function (data) {
-                 //1. set user session using data.token (usually a jwt or session token), generated in your backend and sent through the OwnID server
-                localStorage.setItem('sessionID', JSON.stringify({ token: data.token }));
-                //2. redirect the user (this is just an example)
-                window.location.href = '/account';
-            }
-        });
-    </script>
-</body>
-```
+
 </CodeGroup>
 
 Good
@@ -527,16 +519,6 @@ Used only for prompt widget. Defines prompt type
 <ParamField query="element" type="HTMLElement" default="returning-user">
 Used only for prompt widget. Defines prompt type
 </ParamField>
-
-
-
-
-
-
-
-
-● linkSocialAccount - is used ONLY for gigyas link-accounts screenset & integration
-
 
 
 

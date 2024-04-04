@@ -32,11 +32,6 @@ Below are the major steps required to implement the login workflow and integrate
   </Step>
   
 </Steps>
-<img
-  src="/images/login-diagram.png"
-  alt="Widget"
-/>
-
 
 # Integration steps
 
@@ -57,13 +52,47 @@ Before starting, create your account in the developer  console.
 
 <Info>
 Be sure the `ownIdData` field meets the following requirements:
+
 - A character datatype e.g., **VARCHAR**
 - A minimum length of **5000 chars**
 </Info>
 
-## 2. Drop in end-point request handlers
+## 2 Drop in end-point request handlers
 
-Below are code templates for the three event handlers needed to implement your server-side endpoints. The OwnID server receives login events from your frontend, then makes the appropriate HTTP requests to these endpoints. 
+We provide templates for the event handler you use for your server-side endpoints. These endpoints are called by the OwnID server when it receives login events from your login page. 
+
+Select your server-side language tab in the examples below. 
+
+
+<img
+  src="/images/login-diagram.png"
+  alt="Widget"
+/>
+
+## 1. Preparation
+
+First create your account in the developer portal.
+
+1. **Set up your account** by logging into the developer console and following the instructions. The console guides you through the process step by step.
+
+2. As part of the sign up process, you'll establish the parameters you need for integration:
+
+- Your **account id** - _Use this in data objects where specified_
+- Your **application id** - _Use this also in data objects where specified_
+- Your **base URL** - _You'll establish this as part of creating your account in the console. OwnID uses this to call endpoints on your backend_
+
+3. **Create a VARCHAR field** in your user database and call it `ownIdData`. We'll use this field to store OwnID authentication data. 
+
+<Info>
+Be sure the `ownIdData` field meets the following requirements:
+
+- A character datatype e.g., **VARCHAR**
+- A minimum length of **5000 chars**
+</Info>
+
+## 2. Drop in server-side end-points
+
+Below are code templates for the three event handlers needed to implement your server-side endpoints. Login events in your frontend trigger the OwnID server to make HTTP requests to these. 
 
 Select the tab matching your server-side language in the examples below. 
 
@@ -115,7 +144,7 @@ def set_ownid_data_by_login_id():
     return ('', 204)
 ```
 </CodeGroup>
-<sup>The drop-in request handler for initializing the OwnIDData record by login id. (`setOwnIDDataByLoginId`) </sup>
+<sup>Drop-in request handler for `setOwnIDDataByLoginId` </sup>
 
 ## Endpoint 2 - Get OwnID data by login id
 
@@ -165,7 +194,7 @@ def get_ownid_data_by_login_id():
     return jsonify({'ownidData': user.ownid_data})
 ```
 </CodeGroup>
-<sup>The drop-in request handler for retrieving the OwnIDData record by login id. (`getOwnIDDataByLoginId`) </sup>
+<sup> Drop-in code for getOwnIDDataByLoginId endpoint</sup>
 
 ## Endpoint 3 - Get session by login id
 
@@ -193,7 +222,7 @@ public ResponseEntity<OwnIDSessionResponse> getSessionByLoginId(@RequestBody Own
     return ResponseEntity.status(HttpStatus.OK).body(new OwnIDSessionResponse(token));
 }
 ```
-```csharp C#
+```csharp csharp
 [HttpPost("getSessionByLoginId")]
 public async Task<ActionResult<OwnIDSessionResponse>> GetSessionByLoginId(string loginId)
 {
@@ -218,8 +247,10 @@ def get_session_by_login_id():
         "HS256")
     return jsonify({'token': token})
 ```
+
 </CodeGroup>
-<sup>The drop-in request handler for retrieving the OwnIDData record by login id. (`getOwnIDDataByLoginId`) </sup>
+<sup> Drop-in code for getOwnIDDataByLoginId endpoint</sup>
+
 
 ## Login workflow
 

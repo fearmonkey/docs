@@ -92,7 +92,7 @@ Be sure the `ownIdData` field meets the following requirements:
 
 ## 2. Drop in server-side end-points
 
-Below are code templates for the three event handlers needed to implement your server-side endpoints. Login events in your frontend trigger the OwnID server to make HTTP requests to these. 
+Below are code templates for the three event handlers needed to implement your server-side endpoints. The OwnID server receives login events from your frontend  then makes HTTP requests to these endpoints. All CRUD-type operations between OwnID and your server use the login id (typically the user email) as the unique identifier.
 
 Select the tab matching your server-side language in the examples below. 
 
@@ -102,7 +102,8 @@ Select the tab matching your server-side language in the examples below.
 
 ```javascript Node.js
 router.post('/setOwnIDDataByLoginId', async (req, res) => {
-    const email = req.body.loginId; //The unique id of a user in your database, usually email or phone
+    const email = req.body.loginId; //The unique id of 
+    a user in your database, usually email or phone
     const ownIdData = req.body.ownIdData; //OwnID authentication information as string
     const user = await User.findOne({ email: email }).exec();
     user.ownIdData = ownIdData;
@@ -144,7 +145,7 @@ def set_ownid_data_by_login_id():
     return ('', 204)
 ```
 </CodeGroup>
-<sup>Drop-in request handler for `setOwnIDDataByLoginId` </sup>
+<sup>Drop-in request handler for setting an OwnIDData record by user login id. (`setOwnIDDataByLoginId`) </sup>
 
 ## Endpoint 2 - Get OwnID data by login id
 

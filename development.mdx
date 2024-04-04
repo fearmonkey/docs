@@ -158,9 +158,9 @@ Be sure the `ownIdData` field meets the following requirements:
 
 ## 2. Drop in server-side end-points
 
-We provide code templates for the event handlers needed by your server-side endpoints. Login events in your frontend trigger the OwnID server to make HTTP requests to these. 
+Below are code templates for the three event handlers needed by your server-side endpoints. Login events in your frontend trigger the OwnID server to make HTTP requests to these. 
 
-Select your server-side language tab in the examples below. 
+Select the tab matching your server-side language in the examples below. 
 
 ### Endpoint 1 - setOwnIDDataByLoginId
 
@@ -176,7 +176,7 @@ router.post('/setOwnIDDataByLoginId', async (req, res) => {
     return res.sendStatus(204);
 });
 ```
-```java java
+```java Java
 @PostMapping("/setOwnIDDataByLoginId")
 public ResponseEntity <Object> setOwnIdDataByLoginId(@RequestBody OwnIDData req) {
     User user = userRepository.findByLoginId(req.getLoginId());
@@ -186,7 +186,7 @@ public ResponseEntity <Object> setOwnIdDataByLoginId(@RequestBody OwnIDData req)
     return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 }
 ```
-```csharp csharp
+```csharp C#
 [HttpPost("setOwnIDDataByLoginId")]
 public async Task<ActionResult<Object>> SetOwnIdDataByLoginId(string loginId, string ownIdData)
 {
@@ -198,7 +198,7 @@ public async Task<ActionResult<Object>> SetOwnIdDataByLoginId(string loginId, st
 }
 ```
 
-```python python
+```python Python
 @app.route('/setOwnIDDataByLoginId', methods=['POST'])
 def set_ownid_data_by_login_id():
     data = request.get_json()

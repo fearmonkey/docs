@@ -135,6 +135,373 @@ ownid('init', {
   alt="Widget"
 />
 
+## 1. Preparation
+
+First create your account in the developer portal.
+
+1. **Set up your account** by logging into or signing up to the developer console and following the instructions. The console guides you through the process step by step.
+2. As part of the sign up process, you'll establish the parameters you need for integration:
+
+- Your **account id** - _Use this in data objects where specified_
+- Your **application id** - _Use this also in data objects where specified_
+- Your **base URL** - _You'll establish this as part of creating your account in the console. OwnID uses this to call endpoints on your backend_
+
+3. **Create a VARCHAR field** in your user database and call it `ownIdData`. We'll use this field to store OwnID authentication data. 
+
+<Info>
+Be sure the `ownIdData` field meets the following requirements:
+
+- A character datatype e.g., **VARCHAR**
+- A minimum length of **5000 chars**
+</Info>
+
+## 2. Drop in server-side end-points
+
+We provide templates for the event handler you use for your server-side endpoints. These endpoints are called by the OwnID server when it receives login events from your login page. 
+
+Select your server-side language tab in the examples below. The following data elements are used to build login worflows:
+
+- App id, your unique app identifier.
+- token
+- Add a character field for Own id data.
+
+register	1.config : IWidgetConfig	Renders a widget with register type
+login	1.config : IWidgetConfig	Renders a widget with login type
+recover	1.config : IWidgetConfig	Renders a widget with recover type
+
+## Endpoint 1
+
+<CodeGroup>
+
+```javascript nodejs
+router.post('/setOwnIDDataByLoginId', async (req, res) => {
+    const email = req.body.loginId; //The unique id of a user in your database, usually email or phone
+    const ownIdData = req.body.ownIdData; //OwnID authentication information as string
+    const user = await User.findOne({ email: email }).exec();
+    user.ownIdData = ownIdData;
+    await user.save();
+    return res.sendStatus(204);
+});
+```
+```java java
+@PostMapping("/setOwnIDDataByLoginId")
+public ResponseEntity <Object> setOwnIdDataByLoginId(@RequestBody OwnIDData req) {
+    User user = userRepository.findByLoginId(req.getLoginId());
+    user.setOwnIdData(data);
+    userRepository.save(user);
+
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+}
+```
+```csharp csharp
+[HttpPost("setOwnIDDataByLoginId")]
+public async Task<ActionResult<Object>> SetOwnIdDataByLoginId(string loginId, string ownIdData)
+{
+    var user = _userRepository.Instance.Get(loginId);
+    user.ownIdData = ownIdData;
+    _userRepository.Instance.Update(user);
+
+    return NoContent();
+}
+```
+
+```python python
+@app.route('/setOwnIDDataByLoginId', methods=['POST'])
+def set_ownid_data_by_login_id():
+    data = request.get_json()
+    login_id = data['loginId']
+    ownid_data = data['ownIdData']
+    user = db.session.query(Users).filter(Users.email == login_id).first()
+    user.ownid_data = ownid_data
+    user.save()
+    return ('', 204)
+```
+</CodeGroup>
+<sup>Drop-in request handler for `setOwnIDDataByLoginId` </sup>
+
+## Endpoint 2
+
+<CodeGroup>
+
+```javascript Node.js
+router.post('/getOwnIDDataByLoginId', async (req, res) => {
+    const email = req.body.loginId; //The unique id of a user in your database, usually email or phone
+    const user = await User.findOne({ email: email }).exec();
+    if (!user) { return res.json({ errorCode: 404 }) } //Error code when user doesn't exist
+    res.json({ ownIdData: user.ownIdData }) //OwnID authentication information as string
+});
+```
+```java Java
+@PostMapping("/getOwnIDDataByLoginId")
+public ResponseEntity<Object> getOwnIdDataByLoginId(@RequestBody OwnIDSearchRequest req) {
+    User user = userRepository.findByLoginId(req.getLoginId());
+
+    if (user == null) {
+        return ResponseEntity.status(HttpStatus.OK).
+            body(new OwnIdErrorResponse(HttpStatus.NOT_FOUND, "User not found"));
+    }
+
+    return ResponseEntity.status(HttpStatus.OK).body(new OwnIDDataResponse(user.getOwnIdData()));
+}
+```
+```csharp Csharp
+[HttpPost("getOwnIDDataByLoginId")]
+public async Task<ActionResult<Object>> GetOwnIDDataByLoginId(string loginId)
+{
+    var user = _userRepository.Instance.Get(loginId);
+
+    if (user == null)
+        return Ok(new { ErrorCode = HttpStatusCode.NotFound, ErrorMessage = "User not found" });
+
+    return Ok(new { OwnIdData = user.OwnIdData });
+}
+```
+
+
+
+```python Python
+@app.route('/getOwnIDDataByLoginId', methods=['POST'])
+def get_ownid_data_by_login_id():
+    data = request.get_json()
+    login_id = data['loginId']
+    user = db.session.query(Users).filter(Users.email == login_id).first()
+    if not user:
+        return jsonify({'errorCode': 404})
+    return jsonify({'ownidData': user.ownid_data})
+```
+</CodeGroup>
+<sup> Drop-in code for setOwnIDDataByLoginId endpoint</sup>
+
+## Endpoint 3
+
+<CodeGroup>
+
+```javascript nodejs
+router.post('/getSessionByLoginId', async (req, res) => {
+    const sign = require('jwt-encode');
+    const email = req.body.loginId; //The unique id of a user in your database, usually email or phone
+    const user = await User.findOne({ email: email }).exec();
+    const jwt = sign({ email: user.email }, 'secret');
+    return res.json({ token: jwt });
+});
+```
+
+```java Java
+@PostMapping("/getSessionByLoginId")
+public ResponseEntity<OwnIDSessionResponse> getSessionByLoginId(@RequestBody OwnIDSearchRequest req) {
+    User user = userRepository.findByLoginId(req.getLoginId());
+    Algorithm alg = Algorithm.HMAC256("secret");
+    String token = JWT.create().
+        withClaim("loginId", req.getLoginId()).
+        sign(alg);
+
+    return ResponseEntity.status(HttpStatus.OK).body(new OwnIDSessionResponse(token));
+}
+```
+```csharp csharp
+[HttpPost("getSessionByLoginId")]
+public async Task<ActionResult<OwnIDSessionResponse>> GetSessionByLoginId(string loginId)
+{
+    var user = _userRepository.Instance.Get(loginId);
+    var hashObject = new HMACSHA256(Encoding.UTF8.GetBytes("secret"));
+    var signature = hashObject.ComputeHash(Encoding.UTF8.GetBytes(user.LoginId));
+    var encodedSignature = Convert.ToBase64String(signature);
+
+    return Ok(new OwnIDSessionResponse() { Token = encodedSignature });
+}
+```
+
+```python Python
+@app.route('/ownid/getSessionByLoginId', methods=['POST'])
+def get_session_by_login_id():
+    data = request.get_json()
+    login_id = data['loginId']
+    user = db.session.query(Users).filter(Users.email == login_id).first()
+    token = jwt.encode({
+        'userId': str(user.email), 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=3)},
+        app.config['SECRET_KEY'],
+        "HS256")
+    return jsonify({'token': token})
+```
+
+</CodeGroup>
+
+
+## Login workflow
+
+Referencing the `loginId` input
+
+Placing the widget next to the password field 
+
+<img
+  src="/images/oi_widget.png"
+  alt="Widget"
+/>
+<sup>Figure 1. Login widget</sup>
+
+(side-by-side)
+Handling password-toggle or password-label elements
+Showing errors in your login form
+
+``` javascript
+ownid('login', {
+          loginIdField: 
+          document.getElementById('username'),
+          passwordField: 
+          document.getElementById('password'),
+     passwordToggle:'.show-password-input',
+          language:'en',
+          onError: (error) => console.log(error),
+          onLogin({ token }) { /*see below*/ }
+});
+```
+You don't have to implement an explicit registration workflow because login handles unregistered users. Auto-registration when the account doesn't exist
+As part of `/setOwnIDDataByLoginId` endpoint implementation
+
+Establishing the session on `onLogin`
+
+Direct:
+
+```javascript
+{ onLogin({ token }) 
+  { document.cookie = 
+  `sessionId=${token}`; 
+  } 
+}
+
+Exchange: [when session is an `http-only` cookie]
+{ onLogin({ token }) 
+  { fetch(`/auth/exchange?token=${token}`); } }
+```
+Setting a global login handler:
+```javascript
+ownid('init', { 
+    onLogin: ({token}) => {}
+})
+```
+
+<img
+  src="/images/login-diagram.png"
+  alt="Widget"
+/>
+
+**Install OwnID SDK**
+
+Use the CLI to run:
+
+<CodeGroup>
+```javascript reactjs
+npm install @ownid/react
+```
+
+```javascript angular
+npm install @ownid/angular
+```
+</CodeGroup>
+
+**Initialize OwnID SDK**
+
+<CodeGroup>
+
+```jsx reactjs
+import { OwnIDInit } from '@ownid/react';
+<OwnIDInit config={{appId:'9s8d7f9s87g98s7dgMyAppID'}}/>
+```
+
+```javascript angular
+import { OwnidAngularModule } from '@ownid/angular';
+
+@NgModule({
+  imports: [
+    OwnidAngularModule.forRoot({appId:'s9d8f7s98f79s87dfMyAppID'}),
+  ]})
+```
+
+```javascript javascript
+<script>
+    ((o,w,n,i,d)=>{o[i]=o[i]||(async(...a)=>((o[i].q=o[i].q||[]).push(a),{error:null,data:null})),
+    (d=w.createElement("script")).src='https://cdn.ownid.com/sdk/'+n,d.async=1,w.head.appendChild(d)})  
+    (window,document,'<appID>','ownid');
+</script>
+```
+
+</CodeGroup>
+
+**Add OwnID button to your login form**
+
+Add the following code to render the login widget:
+
+<CodeGroup>
+
+```jsx reactjs
+function LoginComponent() {
+    const emailField = useRef(null);
+    const passwordField = useRef(null);
+    
+    function onLogin(data) {
+        //1. set user session using data.token (usually a jwt or session token), generated in your backend and sent through the OwnID server
+        localStorage.setItem('sessionID', JSON.stringify({ token: data.token }));
+        //2. redirect the user (this is just an example)
+        window.location.href = '/account';
+    }
+    return (
+        <form>
+            <input ref={emailField} type="email" name="email" />
+            <input ref={passwordField} type="password" name="password" />
+            <button type="submit">Log In</button>
+            <OwnID type='login'
+                passwordField={passwordField}
+                loginIdField={emailField}
+                onError={(error) => console.error(error)}
+                onLogin={onLogin} />
+        </form>
+    );
+}
+```
+
+```javascript angular
+<form #myForm="ngForm" (ngSubmit)="onSubmit()">
+  <input #emailField type="email">
+  <input #passwordField type="password">
+  <ownid type="login"
+       [loginIdField]="emailField"
+       [passwordField]="passwordField"
+       (onLogin)="onLogin($event)">
+  </ownid>
+  <button type="submit">Log In</button>
+</form>
+
+onLogin(data) {
+   //1. set user session using data.token (usually a jwt or session token), generated in your backend and sent through the OwnID server
+  this.authService.setAuth({ token: data.token });
+  //2. redirect the user (this is just an example)
+  this.router.navigateByUrl('/account');
+}
+```
+
+```javascript javascript
+<body>
+    <form name="myForm">
+        <input id="email" type="text" name="email">
+        <input id="password" type="text" name="password">
+        <input type="submit" value="Submit">
+    </form>
+    <script>
+        ownid("login", {
+            loginIdField: document.getElementById("email"),
+            passwordField: document.getElementById("password"),
+            onError: (error) => console.log(error),
+            onLogin: function (data) {
+                 //1. set user session using data.token (usually a jwt or session token), generated in your backend and sent through the OwnID server
+                localStorage.setItem('sessionID', JSON.stringify({ token: data.token }));
+                //2. redirect the user (this is just an example)
+                window.location.href = '/account';
+            }
+        });
+    </script>
+</body>
+```
+</CodeGroup>
 
 Good
 

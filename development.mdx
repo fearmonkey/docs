@@ -11,16 +11,6 @@ Here, your existing web server hosts the endpoints. When a user logs in, your fr
 
 It's those request handlers that provide the gateway for exchanging keys and data between your frontend and your identity management services. 
 
-## Supported authentication workflow
-
-Three endpoints support all the login and registration scenarios:
-
-- Login
-
-- register
-
-- forgotPassword
-
 ## Integration overview
 
 Below are the major steps required to implement the login workflow and integrate with the OwnID API. 
@@ -42,6 +32,11 @@ Below are the major steps required to implement the login workflow and integrate
   </Step>
   
 </Steps>
+<img
+  src="/images/login-diagram.png"
+  alt="Widget"
+/>
+
 
 # Integration steps
 
@@ -62,47 +57,13 @@ Before starting, create your account in the developer  console.
 
 <Info>
 Be sure the `ownIdData` field meets the following requirements:
-
 - A character datatype e.g., **VARCHAR**
 - A minimum length of **5000 chars**
 </Info>
 
-## 2 Drop in end-point request handlers
+## 2. Drop in end-point request handlers
 
-We provide templates for the event handler you use for your server-side endpoints. These endpoints are called by the OwnID server when it receives login events from your login page. 
-
-Select your server-side language tab in the examples below. 
-
-
-<img
-  src="/images/login-diagram.png"
-  alt="Widget"
-/>
-
-## 1. Preparation
-
-First create your account in the developer portal.
-
-1. **Set up your account** by logging into the developer console and following the instructions. The console guides you through the process step by step.
-
-2. As part of the sign up process, you'll establish the parameters you need for integration:
-
-- Your **account id** - _Use this in data objects where specified_
-- Your **application id** - _Use this also in data objects where specified_
-- Your **base URL** - _You'll establish this as part of creating your account in the console. OwnID uses this to call endpoints on your backend_
-
-3. **Create a VARCHAR field** in your user database and call it `ownIdData`. We'll use this field to store OwnID authentication data. 
-
-<Info>
-Be sure the `ownIdData` field meets the following requirements:
-
-- A character datatype e.g., **VARCHAR**
-- A minimum length of **5000 chars**
-</Info>
-
-## 2. Drop in server-side end-points
-
-Below are code templates for the three event handlers needed to implement your server-side endpoints. Login events in your frontend trigger the OwnID server to make HTTP requests to these. 
+Below are code templates for the three event handlers needed to implement your server-side endpoints. The OwnID server receives login events from your frontend, then makes the appropriate HTTP requests to these endpoints. 
 
 Select the tab matching your server-side language in the examples below. 
 
@@ -154,7 +115,7 @@ def set_ownid_data_by_login_id():
     return ('', 204)
 ```
 </CodeGroup>
-<sup>Drop-in request handler for `setOwnIDDataByLoginId` </sup>
+<sup>The drop-in request handler for initializing the OwnIDData record by login id. (`setOwnIDDataByLoginId`) </sup>
 
 ## Endpoint 2 - Get OwnID data by login id
 
@@ -181,7 +142,7 @@ public ResponseEntity<Object> getOwnIdDataByLoginId(@RequestBody OwnIDSearchRequ
     return ResponseEntity.status(HttpStatus.OK).body(new OwnIDDataResponse(user.getOwnIdData()));
 }
 ```
-```csharp Csharp
+```csharp C#
 [HttpPost("getOwnIDDataByLoginId")]
 public async Task<ActionResult<Object>> GetOwnIDDataByLoginId(string loginId)
 {
@@ -204,13 +165,13 @@ def get_ownid_data_by_login_id():
     return jsonify({'ownidData': user.ownid_data})
 ```
 </CodeGroup>
-<sup> Drop-in code for getOwnIDDataByLoginId endpoint</sup>
+<sup>The drop-in request handler for retrieving the OwnIDData record by login id. (`getOwnIDDataByLoginId`) </sup>
 
 ## Endpoint 3 - Get session by login id
 
 <CodeGroup>
 
-```javascript nodejs
+```javascript Node.js
 router.post('/getSessionByLoginId', async (req, res) => {
     const sign = require('jwt-encode');
     const email = req.body.loginId; //The unique id of a user in your database, usually email or phone
@@ -232,7 +193,7 @@ public ResponseEntity<OwnIDSessionResponse> getSessionByLoginId(@RequestBody Own
     return ResponseEntity.status(HttpStatus.OK).body(new OwnIDSessionResponse(token));
 }
 ```
-```csharp csharp
+```csharp C#
 [HttpPost("getSessionByLoginId")]
 public async Task<ActionResult<OwnIDSessionResponse>> GetSessionByLoginId(string loginId)
 {
@@ -257,9 +218,8 @@ def get_session_by_login_id():
         "HS256")
     return jsonify({'token': token})
 ```
-
 </CodeGroup>
-
+<sup>The drop-in request handler for retrieving the OwnIDData record by login id. (`getOwnIDDataByLoginId`) </sup>
 
 ## Login workflow
 
@@ -465,7 +425,15 @@ Used only for prompt widget. Defines prompt type
 </ParamField>
 
 
+## Supported authentication workflow
 
+Three endpoints support all the login and registration scenarios:
+
+- Login
+
+- register
+
+- forgotPassword
 
 
 

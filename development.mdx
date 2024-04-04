@@ -222,7 +222,7 @@ public ResponseEntity<OwnIDSessionResponse> getSessionByLoginId(@RequestBody Own
     return ResponseEntity.status(HttpStatus.OK).body(new OwnIDSessionResponse(token));
 }
 ```
-```csharp csharp
+```csharp C#
 [HttpPost("getSessionByLoginId")]
 public async Task<ActionResult<OwnIDSessionResponse>> GetSessionByLoginId(string loginId)
 {

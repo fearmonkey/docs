@@ -1,13 +1,13 @@
 ---
 title: 'Server-side integration'
-description: 'Learn how to set up endpoints and request handlers'
+description: 'Learn how to set up endpoints, request handlers, and the frontend login widget'
 ---
 
-## The basics
+## Integration basics
 
 Typically consuming an API means making RESTful requests to endpoints hosted by a public platform.
 
-Here, your existing web server hosts the endpoints. We provide code templates for each related event handler.
+Here, your existing web server hosts the endpoints. We provide code templates for each related event handler (see below).
 
 When a user logs in, your frontend generates a login event and the OwnID server makes the appropriate HTTP requests to _your_ web server, invoking request handlers provided by OwnID. 
 
@@ -19,18 +19,14 @@ Below are the major steps required to implement the login workflow and integrate
 
 <Steps>
   <Step title="PREPARATION">
-    **1. Setup your account** - Get your App Id and establish your base URL from the [OwnID Console](https://console.ownid.com/login).   
-    **2. Add a field for OwnID data to your users table** - OwndId data requires a varchar field in your database, with a minimum of 4000 characters.
+  _Set up your account, get your application id, and add a field to your user table to store OwnID data._
   </Step>
-  <Step title="DROP IN SERVER-SIDE END-POINTS">
-  _These end-points are called by the OwnID server when it receives login events from your frontend._  
-    **1. Install API Request Handlers** - Take our sample code for API request handlers and drop it into your web server.  
-    **2. Adjust handler parameters** - Adjust parameters for each request handler.  
+  <Step title="DROP IN WEB SERVER REQUEST HANDLERS">
+  _These three event handlers manage requests to each of three end-points made by the OwnID server when it receives login events from your frontend._    
   </Step>
-  <Step title="INSERT WEBSDK CALLS INTO YOUR LOGIN PAGE">
-    **1. Build login workflow** - Drop in our HTML and JavaScript samples to build the login workflow.  
-    **2. Build registration workflow** - Drop in our HTML and JavaScript samples to build the registration workflow.
-
+  <Step title="FRONTEND WORKFLOW">
+  _Drop in our HTML and JavaScript templates to build the login workflow and install the widget._  
+    
   </Step>
   
 </Steps>
@@ -44,7 +40,7 @@ The interprocess communication looks like this:
 
 # Integration steps
 
-The full integration process is detailed below.
+The full three step integration process is detailed below.
 
 
 ## 1. Preparation
@@ -76,7 +72,7 @@ Select the tab matching your server-side language in the examples below.
 
 ### Endpoint 1 - setOwnIDDataByLoginId
 
-Handle a request to save an OwnIdData record for a given email address.
+This endpoint handles a request to save an OwnIdData record for a given email address.
 
 <CodeGroup>
 
@@ -89,6 +85,41 @@ router.post('/setOwnIDDataByLoginId', async (req, res) => {
     user.ownIdData = ownIdData;
     await user.save();
     return res.sendStatus(204);
+//---------------------------------
+// these defs can be assumed
+const express = require('express'); // If not already imported
+const router = express.Router(); // If not already defined
+
+router.post('/setOwnIDDataByLoginId', async (req, res) => {
+    try {
+        const { loginId, ownIdData } = req.body; // Destructuring for clarity
+        
+        // Input validation
+        if (!loginId || typeof loginId !== 'string' || !ownIdData || typeof ownIdData !== 'string') {
+            return res.status(400).json({ error: 'Invalid input data' });
+        }
+        
+        // Find the user by email (assuming loginId is the email)
+        const user = await User.findOne({ email: loginId }).exec();
+        if (!user) {
+            // No user found
+            return res.status(404).json({ error: 'User not found' });
+        }
+        
+        // Update the user's ownIdData
+        user.ownIdData = ownIdData;
+        await user.save();
+        
+        // Success response
+        res.sendStatus(204);
+    } catch (error) {
+        console.error(error); // Logging the error
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+module.exports = router; // Is this needed? Maybe too much
+
 });
 ```
 ```java Java
@@ -236,7 +267,7 @@ def get_session_by_login_id():
 <sup> Drop-in code for getOwnIDDataByLoginId endpoint</sup>
 
 
-## Login workflow
+## Frontend workflow
 
 Referencing the `loginId` input
 

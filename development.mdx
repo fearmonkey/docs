@@ -3,7 +3,7 @@ title: 'Build login workflow'
 description: 'Learn how to set up endpoints, request handlers, and the frontend login widget'
 ---
 
-_As a minimum integration you can implement login workflow, which will automatically redirect an unregistered user to the registration process without your having to explicitly deploy a separate registration page._
+_Your first workflow integration is typically 'Login', as described below. That both gives you 'go live' functionality and provides the code base you need to quickly implement 'Registration' and 'Password Recovery' workflows._
 
 ## Integration basics
 
@@ -17,7 +17,7 @@ Those request handlers provide the gateway for exchanging keys and data between 
 
 ## Integration overview
 
-Below are the major steps required to implement login workflow integrated with the OwnID API/SDK. 
+Below are the major steps required to implement end-to-end login workflow. 
 
 <Steps>
   <Step title="PREPARATION">
@@ -44,10 +44,9 @@ The interprocess communication looks like this:
 
 The full three step integration process is detailed below.
 
+## STEP 1. Preparation
 
-## 1. Preparation
-
-Before starting, create your account in the developer portal, register your base URL, and  get your application id.
+Before starting, create your account in the developer portal, register your base URL, and get your application id.
 
 1. **Set up your account** by logging into the developer console and following the instructions. The console guides you through the process step by step.
 
@@ -66,7 +65,7 @@ Be sure the `ownIdData` field meets the following requirements:
 - A minimum length of **5000 chars**
 </Info>
 
-## 2. Drop in web server end-points
+## STEP 2. Add web server end-points
 
 Below are code templates for the three event handlers needed to implement your server-side endpoints. The OwnID server receives login events from your frontend  then makes HTTP requests to these endpoints. 
 
@@ -270,10 +269,15 @@ def get_session_by_login_id():
 </CodeGroup>
 <sup> Drop-in code for getOwnIDDataByLoginId endpoint</sup>
 
+## Create frontend workflow
 
-## Create Frontend workflow
+Three tasks are required on the frontend:
 
-Referencing the `loginId` input
+1. If you're using Angular or React, install the OwnId Web SDK fro your framework.
+2. Reference the SDK on your login page.
+3. Add the OwnID password widget. 
+4. Instantiate the call to the Web SDK on the login event.
+
 
 Placing the widget next to the password field 
 

@@ -5,16 +5,6 @@ description: 'Learn how to set up endpoints, request handlers, and the frontend 
 
 _The initial workflow to build is typically 'Login', as described on this page. That gives you both 'go live' functionality and provides the code base you need to quickly implement 'Registration' and 'Password Recovery' workflows when you're ready._
 
-## Integration basics
-
-Typically, consuming an API means making RESTful requests to endpoints hosted by a public platform.
-
-Here, your existing web server hosts the endpoints. We provide code templates for each required event handler (see below).
-
-When a user logs in, your frontend generates a login event and upon receiving the event, the OwnID server makes the appropriate HTTP requests to _your_ web server, invoking request handlers provided by OwnID. 
-
-Those request handlers provide the gateway for exchanging keys and data between your frontend and your identity management services. 
-
 ## Integration overview
 
 Below are the major steps required to implement end-to-end login workflow. 

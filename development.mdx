@@ -3,19 +3,21 @@ title: 'Server-side integration'
 description: 'Learn how to set up endpoints, request handlers, and the frontend login widget'
 ---
 
+As a minimum integration you can implement login workflow, which will automatically redirect an unregistered user to the registration process without your having to explicitly deploy a separate registration page.
+
 ## Integration basics
 
-Typically consuming an API means making RESTful requests to endpoints hosted by a public platform.
+Typically, consuming an API means making RESTful requests to endpoints hosted by a public platform.
 
-Here, your existing web server hosts the endpoints. We provide code templates for each related event handler (see below).
+Here, your existing web server hosts the endpoints. We provide code templates for each required event handler (see below).
 
-When a user logs in, your frontend generates a login event and the OwnID server makes the appropriate HTTP requests to _your_ web server, invoking request handlers provided by OwnID. 
+When a user logs in, your frontend generates a login event and upon receiving the event, the OwnID server makes the appropriate HTTP requests to _your_ web server, invoking request handlers provided by OwnID. 
 
 Those request handlers provide the gateway for exchanging keys and data between your frontend and your identity management services. 
 
 ## Integration overview
 
-Below are the major steps required to implement the login workflow and integrate with the OwnID API. 
+Below are the major steps required to implement login workflow integrated with the OwnID API/SDK. 
 
 <Steps>
   <Step title="PREPARATION">
@@ -66,13 +68,13 @@ Be sure the `ownIdData` field meets the following requirements:
 
 ## 2. Drop in web server end-points
 
-Below are code templates for the three event handlers needed to implement your server-side endpoints. The OwnID server receives login events from your frontend  then makes HTTP requests to these endpoints. All CRUD-type operations between OwnID and your server use the login id (typically the user email) as the unique identifier for data objects.
+Below are code templates for the three event handlers needed to implement your server-side endpoints. The OwnID server receives login events from your frontend  then makes HTTP requests to these endpoints. All CRUD-type operations between the OwnID platform and your server use the login id (typically the user email) as the unique identifier in data objects.
 
 Select the tab matching your server-side language in the examples below. 
 
-### Endpoint 1 - setOwnIDDataByLoginId
+### Endpoint 1 - Saving a user's OwnIdData Record
 
-This endpoint handles a request to save an OwnIdData record for a given email address.
+This endpoint handles a request to save an OwnIdData record for a given login id, usually email address.
 
 <CodeGroup>
 
@@ -448,7 +450,7 @@ onLogin(data) {
 </CodeGroup>
 
 
-# Web SDK Reference
+# Handler Reference
 
 ### IWidgetConfig
 
@@ -476,34 +478,27 @@ Widget Id. Used for accessing to widgets entities via owned SDK.
 
 
 
-# CSS Variables
-
+CSS Variables
 https://github.com/OwnID/web-sdk/blob/develop/src/components/common/button/button.scss
-
-```css
 --ownid-button-height: 42px;
+  --ownid-button-width: 42px;
+  --ownid-button-widget-font-size: 14px;
+  --ownid-button-widget-color: #0070F2;
+  --ownid-button-widget-background: #FFFFFF;
+  --ownid-button-widget-border-color: #D0D0D0;
+  --ownid-button-widget-border-width: 1px;
+  --ownid-button-widget-box-shadow: none;
+  --ownid-button-widget-border-radius: 6px;
+  --ownid-button-widget-button-padding: 0 4px;
+  --ownid-qr-or-width: 4px
+Integration Preparation
 
---ownid-button-width: 42px;
 
---ownid-button-widget-font-size: 14px;
+# Code samples
 
---ownid-button-widget-color: #0070F2;
-
---ownid-button-widget-background: #FFFFFF;
-
---ownid-button-widget-border-color: #D0D0D0;
-
---ownid-button-widget-border-width: 1px;
-
---ownid-button-widget-box-shadow: none;
-
---ownid-button-widget-border-radius: 6px;
-
---ownid-button-widget-button-padding: 0 4px;
-
---ownid-qr-or-width: 4px
-```
-
+- email or login id?
+- Import and include libs should be specified?
+- Fill in demos with try catches and validation?
 
 
 
@@ -517,6 +512,8 @@ Three endpoints support all the login and registration scenarios:
 
 - forgotPassword
 
+- Error handling?
 
+- Security
 
 

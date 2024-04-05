@@ -5,7 +5,7 @@ description: 'Welcome to the OwnID Developer Portal'
 Integrating with the OwnID platform provides your web customers with frictionless access to your online products & services anywhere along their digital journey. 
 
 
-```xml
+
 <ParamField query="appConfig" type="IContextConfig" default="none" required>
 Defines app config.
 </ParamField>
@@ -230,6 +230,6 @@ Blocks execution js api call for non mobile users.
 <ParamField query="forceClientWebFlows" type="boolean" default="FALSE">
 Forces using webFlows on devices where it was denied by default. (e.q. for webviews)
 </ParamField>
-```
+
 
 

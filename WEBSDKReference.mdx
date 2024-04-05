@@ -134,12 +134,6 @@ Runs reauth flow
 - At the end of a backend reauth flow, the integration server calls the getSessionByLoginId with a parameter that tells the integration that this has been done as part of reauthentication - so a different proof can be returned (not necessarily a session token)
 </ParamField>
 
-#### setTranslations
-<ParamField query="languages" type="{ [langKey: string]: ITranslation }" default="none" required>
-Sets translations for translation service.
-For internal use.
-</ParamField>
-
 #### getURLParam
 <ParamField query="paramName" type="string" default="none" required>
 Helper function. Gets GET parameter from URL.

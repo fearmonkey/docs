@@ -56,6 +56,11 @@
         "quickstart",
         "development", 
         "FAQ",
+      ]
+    },
+    {
+      "group": "Reference",
+      "pages": [
         "WEBSDKReference"
       ]
     },

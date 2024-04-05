@@ -448,7 +448,7 @@ onLogin(data) {
 </CodeGroup>
 
 
-# Handler Reference
+# Web SDK Reference
 
 ### IWidgetConfig
 
@@ -468,6 +468,43 @@ Used only for prompt widget. Defines prompt type
 <ParamField query="element" type="HTMLElement" default="returning-user">
 Used only for prompt widget. Defines prompt type
 </ParamField>
+
+
+<ParamField query="Id" type="string" default="" required>
+Widget Id. Used for accessing to widgets entities via owned SDK.
+</ParamField>
+
+
+
+# CSS Variables
+
+https://github.com/OwnID/web-sdk/blob/develop/src/components/common/button/button.scss
+
+```css
+--ownid-button-height: 42px;
+
+--ownid-button-width: 42px;
+
+--ownid-button-widget-font-size: 14px;
+
+--ownid-button-widget-color: #0070F2;
+
+--ownid-button-widget-background: #FFFFFF;
+
+--ownid-button-widget-border-color: #D0D0D0;
+
+--ownid-button-widget-border-width: 1px;
+
+--ownid-button-widget-box-shadow: none;
+
+--ownid-button-widget-border-radius: 6px;
+
+--ownid-button-widget-button-padding: 0 4px;
+
+--ownid-qr-or-width: 4px
+```
+
+
 
 
 ## Supported authentication workflow

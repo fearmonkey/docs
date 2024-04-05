@@ -47,7 +47,7 @@ The full three step integration process is detailed below.
 
 ## 1. Preparation
 
-First create your account in the developer portal.
+Before starting, create your account in the developer portal, register your base URL, and  get your application id.
 
 1. **Set up your account** by logging into the developer console and following the instructions. The console guides you through the process step by step.
 
@@ -68,7 +68,9 @@ Be sure the `ownIdData` field meets the following requirements:
 
 ## 2. Drop in web server end-points
 
-Below are code templates for the three event handlers needed to implement your server-side endpoints. The OwnID server receives login events from your frontend  then makes HTTP requests to these endpoints. All CRUD-type operations between the OwnID platform and your server use the login id (typically the user email) as the unique identifier in data objects.
+Below are code templates for the three event handlers needed to implement your server-side endpoints. The OwnID server receives login events from your frontend  then makes HTTP requests to these endpoints. 
+
+The user Login id (typically the user email) is the unique identifier used to look up and save records in the OwnIdData field.
 
 Select the tab matching your server-side language in the examples below. 
 

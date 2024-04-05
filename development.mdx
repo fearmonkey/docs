@@ -703,6 +703,136 @@ Blocks execution js api call for non mobile users.
 Forces using webFlows on devices where it was denied by default. (e.q. for webviews)
 </ParamField>
 
+# Function reference
+
+init
+<ParamField query="config" type="IInitConfig" default="" required>
+● Sets configuration for an app. All widgets or auth calls will use this config if it will not be overridden.
+○ Every new call of init extends config with new properties.
+
+● If called when there’s a magic-link-token in the page’s query-string parameter
+○ Invoke a call to verify it and login
+</ParamField>
+
+render
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+● Renders a widget
+○ Shows RUP
+○ Subscribes to integrations sdk events according to app’s integration type (e.g., gigya-websdk’s onLogin)
+</ParamField>
+
+register
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+● Renders a widget with register type
+</ParamField>
+
+login
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+● Renders a widget with login type
+</ParamField>
+
+recover
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+● Renders a widget with recover type
+</ParamField>
+
+customButton
+<ParamField query="targetElement" type="HTMLElement" default="none" required>
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+● Renders a widget with “client-button” variant ONLY on mobile (on desktop, won’t be shown)
+○ Subscribes to the target element’s “onClick” and triggers an ownid login flow always on a web-app
+○ Materna uses it implicitly, by passing a targetElement
+</ParamField>
+
+showPrompt
+<ParamField query="promptType" type="PromptTypes | IWidgetConfig" default="PromptTypes.ReturningUser" required>
+<ParamField query="config" type="IWidgetConfig" default="none">
+● Renders a prompt widget (IC widget) according to one of the types (returning user or “immediate connect”)
+</ParamField>
+
+activateAlwaysConnected
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+● Renders a prompt widget with AlwaysConnected Type
+○ A prompt for connecting that can collect the loginId
+○ Expected to be shown ONLY if there’s no valid session (checking session via checkSession callback)
+</ParamField>
+
+activateReturningUsersPrompt
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+● Renders a prompt widget with ReturningUser type
+</ParamField>
+
+authButton
+<ParamField query="element" type="HTMLElement" default="none" required>
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+● Renders a widget inside the provided element
+○ type: “login”
+○ variant: 'ownid-auth-button'
+○ Doesn’t interact with the password field (so doesn’t require it)
+○ Doesn’t show the tooltip
+</ParamField>
+
+getOwnIDData
+<ParamField query="widgetId" type="string" default="none" required>
+● On register form, when in order to get the ownid data we need to open the webapp, then when clicking on the widget it’ll just get a green V, so opening the webapp will be deferred to when we submit the entire form. On this submission, we call this method that open the webapp and returns a promise that will be resolved once credentials are created; they will return as ownidData that can now be placed inside the registration payload.
+</ParamField>
+
+addOwnIDConnectionOnServer
+<ParamField query="widgetId" type="string" default="none" required>
+<ParamField query="payload" type="any" default="none" required>
+● Adds a connection (fido2/loginId) to the user at the end of the registration flow.
+○ Used for Firebase integration on registration - because you can only update that data AFTER the user has already been created in the database.
+○ Payload is { jwt } from Firebase API
+</ParamField>
+
+generateOwnIDPassword
+<ParamField query="length" type="number" default="none" required>
+<ParamField query="numberCapitalised" type="number" default="1" required>
+<ParamField query="numberNumbers" type="number" default="1" required>
+<ParamField query="numberSpecial" type="number" default="1" required>
+● Generates a random password with provided lens and number of characters of groups of chars
+</ParamField>
+
+reRender
+<ParamField query="widgetId" type="string" default="none" required>
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+● Destroys and renders a new widget by provided id. Config will be extended with current config of the widget.
+</ParamField>
+
+destroy
+<ParamField query="widgetId" type="string" default="none" required>
+● Destroys a widget by provided id
+○ Custom css rules are being removed
+○ Any custom attributes for the loginId/password fields are also removed
+○ Destroying all nested components (e.g., tooltip, QR code tooltip, etc.)
+○ Does NOT stop a flow
+</ParamField>
+
+auth
+<ParamField query="loginId" type="string | IPartialConfig" default="none" required>
+<ParamField query="config" type="IPartialConfig" default="none">
+● Runs the main auth flow
+</ParamField>
+
+reauth
+<ParamField query="loginId" type="string" default="none" required>
+<ParamField query="config" type="IPartialConfig" default="none">
+● Runs reauth flow
+○ No different frontend behavior
+○ At the end of a backend reauth flow, the integration server calls the getSessionByLoginId with a parameter that tells the integration that this has been done as part of reauthentication - so a different proof can be returned (not necessarily a session token)
+</ParamField>
+
+setTranslations
+<ParamField query="languages" type="{ [langKey: string]: ITranslation }" default="none" required>
+● Sets translations for translation service.
+○ For internal use.
+</ParamField>
+
+getURLParam
+<ParamField query="paramName" type="string" default="none" required>
+● Helper function. Gets GET parameter from URL.
+○ As I know it is not used in prod and can be removed.
+</ParamField>
 
 ## CSS Variables
 https://github.com/OwnID/web-sdk/blob/develop/src/components/common/button/button.scss

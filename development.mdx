@@ -35,7 +35,9 @@ The interprocess communication looks like this:
 
 Each step in the 'Login' integration process is detailed below.
 
-### STEP 1. Preparation
+---
+### STEP 1 
+### Preparation
 
 Before starting, create your account in the developer portal, register your base URL, and get your application id.
 
@@ -57,8 +59,9 @@ Be sure the `ownIdData` field meets the following requirements:
 - A character datatype e.g., **VARCHAR**
 - A minimum length of **5000 chars**
 </Info>
-
-### STEP 2 Add web server endpoints
+---
+### STEP 2 
+### Add web server endpoints
 
 Below are code templates for the three event handlers needed to implement your server-side endpoints. The OwnID server receives login events from your frontend  then makes HTTP requests to these endpoints. 
 
@@ -262,16 +265,17 @@ def get_session_by_login_id():
 </CodeGroup>
 <sup> Drop-in code for getOwnIDDataByLoginId endpoint</sup>
 
-## Step 3. Create frontend workflow
+---
+### Step 3 
+### Create frontend workflow
 
 Three tasks are required on the frontend:
 
-1. **Install and reference web sdk**. If you're using Angular or React, install the OwnID Web SDK for your framework. Reference the SDK on your login page.
-2. Add the OwnID password widget. 
-3. Instantiate the call to the Web SDK on the login event.
+1. **Install and reference the web sdk**. If you're using Angular or React, install the appropriate version of the OwnID Web SDK for your framework. Reference the SDK on your login page.
+2. **Add the widget**. Add the OwnID password widget. 
+3. **Use the appropriate web sdk method** Instantiate the call to the Web SDK on the login event.
 
 Placing the widget next to the password field.
- 
 
 <img
   src="/images/oi_widget.png"
@@ -325,23 +329,24 @@ ownid('init', {
   alt="Widget"
 />
 
-**Install OwnID SDK**
+### Install OwnID Web SDK
 
-The OwnID Web SDK provides communication between your frontend login page and the OwnID cloud server.
+The OwnID Web SDK provides communication between your frontend login page and the OwnID cloud server -- it calls the endpoints we installed above on your web server.
 
 If you're using React or Angular frameworks, install the OwnID SDK from the CLI.
 
-1. To install the React-based SDK:
-```javascript reactjs
+1. To install the React-based SDK use npm from the CLI:
+```javascript React
 npm install @ownid/react
 ```
-2. To install the Angular-based SDK:
-```javascript angular
+2. To install the Angular-based SDK use npm from the CLI:
+```javascript Angular
 npm install @ownid/angular
 ```
 
+#### Reference the OwnID SDK
 
-**Initialize OwnID SDK**
+Reference the SDK at the top of your login page.
 
 <CodeGroup>
 
@@ -369,13 +374,13 @@ import { OwnidAngularModule } from '@ownid/angular';
 
 </CodeGroup>
 
-**Add OwnID button to your login form**
+### Add the widget to your login form
 
 Add the following code to render the login widget:
 
 <CodeGroup>
 
-```javascript javascript
+```javascript Javascript
 <body>
     <form name="myForm">
         <input id="email" type="text" name="email">
@@ -390,15 +395,15 @@ Add the following code to render the login widget:
             onLogin: function (data) {
                  //1. set user session using data.token (usually a jwt or session token), generated in your backend and sent through the OwnID server
                 localStorage.setItem('sessionID', JSON.stringify({ token: data.token }));
-                //2. redirect the user (this is just an example)
-                window.location.href = '/account';
+                //2. redirect the user to your entry point 
+                window.location.href = '/landingpage';
             }
         });
     </script>
 </body>
 ```
 
-```jsx reactjs
+```jsx React
 function LoginComponent() {
     const emailField = useRef(null);
     const passwordField = useRef(null);
@@ -424,7 +429,7 @@ function LoginComponent() {
 }
 ```
 
-```javascript angular
+```javascript Angular
 <form #myForm="ngForm" (ngSubmit)="onSubmit()">
   <input #emailField type="email">
   <input #passwordField type="password">

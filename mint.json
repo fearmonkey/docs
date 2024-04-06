@@ -54,15 +54,20 @@
       "pages": [
         "introduction",
         "quickstart",
-        "development", 
-        "apivconnector", 
-        "FAQ"
+        "development"
       ]
     },
     {
       "group": "Reference",
       "pages": [
         "WEBSDKReference"
+      ]
+    },
+    {
+      "group": "Learning Center",
+      "pages": [
+        "FAQ",
+        "apivconnector"
       ]
     },
     {

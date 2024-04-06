@@ -5,7 +5,6 @@ description: 'Learn how to set up endpoints, request handlers, and the frontend 
 
 _We recommend you build the 'Login' workflow first, as described on this page. That gives you sufficient functionality to 'go live' and provides the code base you need to quickly implement 'Registration' and 'Password Recovery' workflows when you're ready._
 
-
 ## Integration overview
 
 Below is an outline of the three major steps required to implement end-to-end login workflow. 
@@ -24,7 +23,7 @@ Below is an outline of the three major steps required to implement end-to-end lo
   
 </Steps>
 
-The interprocess communication looks like this:
+The interprocess communication after integration looks like this:
 <img
   src="/images/login-diagram.png"
   alt="Widget"
@@ -63,11 +62,13 @@ Be sure the `ownIdData` field meets the following requirements:
 ### STEP 2 
 ### Add web server endpoints
 
-Below are code templates for the three event handlers needed to implement your server-side endpoints. The OwnID server receives login events from your frontend  then makes HTTP requests to these endpoints. 
+Below are code templates for each of the three event handlers needed to implement your server-side endpoints. 
 
-The user Login id (typically the user email address) is the unique identifier used to look up and save records in the OwnIdData field.
+When the OwnID server receives login events from your frontend, it then makes HTTP requests to these endpoints. 
 
-Select the tab matching your server-side language in the examples below. 
+The user's login id (typically the user's email address) is the unique identifier used to look up and save records in the OwnIdData field.
+
+Select the tab matching your server-side language in the example templates below. 
 
 #### Endpoint 1 - Saving a user's OwnIdData Record
 
@@ -159,7 +160,7 @@ def set_ownid_data_by_login_id():
 
 #### Endpoint 2 - Get OwnID data by login id
 
-Handle a request to fetch an OwnIdData record for a given user's email address.
+Handle a request to fetch an OwnIdData record for a given user's login id.
 
 <CodeGroup>
 
@@ -269,7 +270,7 @@ def get_session_by_login_id():
 ### Step 3 
 ### Create frontend workflow
 
-Three tasks are required on the frontend:
+Three tasks are required to create login workflow on the frontend:
 
 1. **Install and reference the web sdk**. If you're using Angular or React, install the appropriate version of the OwnID Web SDK for your framework. Reference the SDK on your login page.
 2. **Add the widget**. Add the OwnID password widget. 

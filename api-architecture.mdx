@@ -10,4 +10,15 @@ Typically, consuming an API means making RESTful requests to endpoints hosted by
 Here, your existing web server hosts the endpoints. We provide code templates for each required event handler.
 When a user logs in, your frontend generates a login event and upon receiving the event, the OwnID server makes the appropriate HTTP requests to _your_ web server, invoking request handlers provided by OwnID. 
 
+<img
+  src="/images/howto.png"
+  alt="Widget"
+/>
+<sup>Logical sequence  during Login</sup>
+
 Those request handlers provide the gateway for exchanging keys and data between your frontend and your identity management services. 
+<img
+  src="/images/login-diagram.png"
+  alt="Widget"
+/>
+<sup>Login workflow</sup>

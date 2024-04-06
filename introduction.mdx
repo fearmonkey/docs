@@ -12,7 +12,7 @@ Integrating with the OwnID platform provides your web customers with frictionles
 
 ## How does it work?
 
-OwnID provides frontend and backend components that allow you to integrate our services with your existing  <Tooltip tip="Synonymous with Id management systems, IdM, and identity and access management (IAM)."> identity platform</Tooltip> to provide automated, password-free login for your users and all the devices they use to access your site.
+OwnID provides frontend and backend components that allow you to integrate our services with your existing  <Tooltip tip="Synonymous with Id management systems, IdM, and identity and access management (IAM)."> identity platform</Tooltip> to enable automated, password-free login for your users and all the devices they use to access your site.
 <img
   src="/images/oi_simplearch.png"
 />
@@ -28,13 +28,6 @@ Our connectors are prebuilt, low-code integrations to selected identity provider
 If a connector isn't available for your specific identity provoder, the API/SDK provides an integration path with even more flexibility, customization, and control.
 
 Ready to get started with either option? Head over to the [Quickstart](/quickstart) page.
-
-### How the API/SDK works
-
-Typically, consuming an API means making RESTful requests to endpoints hosted by a public platform.
-Here, your existing web server hosts the endpoints. We provide code templates for each required event handler (see below).
-When a user logs in, your frontend generates a login event and upon receiving the event, the OwnID server makes the appropriate HTTP requests to _your_ web server, invoking request handlers provided by OwnID. 
-Those request handlers provide the gateway for exchanging keys and data between your frontend and your identity management services. 
 
 ## Learn more
 

@@ -60,7 +60,8 @@
     {
       "group": "Learning Center",
       "pages": [
-        "apivconnector", 
+        "apivconnector",
+        "api-architecture", 
         "FAQ"
       ]
     },    {

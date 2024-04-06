@@ -54,15 +54,14 @@
       "pages": [
         "introduction",
         "quickstart",
-        "development", 
-        "apivconnector", 
-        "FAQ"
+        "development"
       ]
     },
     {
       "group": "Learning Center",
       "pages": [
-        "apivconnector"
+        "apivconnector", 
+        "FAQ"
       ]
     },    {
       "group": "Reference",

@@ -29,6 +29,13 @@ If a connector isn't available for your specific identity provoder, the API/SDK 
 
 Ready to get started with either option? Head over to the [Quickstart](/quickstart) page.
 
+### How the API/SDK works
+
+Typically, consuming an API means making RESTful requests to endpoints hosted by a public platform.
+Here, your existing web server hosts the endpoints. We provide code templates for each required event handler (see below).
+When a user logs in, your frontend generates a login event and upon receiving the event, the OwnID server makes the appropriate HTTP requests to _your_ web server, invoking request handlers provided by OwnID. 
+Those request handlers provide the gateway for exchanging keys and data between your frontend and your identity management services. 
+
 ## Learn more
 
 To learn more, see our explainers and other resources:

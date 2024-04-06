@@ -30,13 +30,15 @@ The interprocess communication looks like this:
 />
 <sup>Figure 1. Requests, responses, and events.</sup>
 
-# Integration steps
+## Integration steps
 
 The full three step integration process is detailed below.
 
-## STEP 1. Preparation
+### STEP 1. Preparation
 
 Before starting, create your account in the developer portal, register your base URL, and get your application id.
+
+<Note>Skip to [Step 2](#step-2.-add-web-server-end-points) if you already have the items below. </Note>
 
 1. **Set up your account** by logging into the developer console and following the instructions. The console guides you through the process step by step.
 
@@ -55,7 +57,7 @@ Be sure the `ownIdData` field meets the following requirements:
 - A minimum length of **5000 chars**
 </Info>
 
-## STEP 2. Add web server end-points
+### STEP 2. Add web server end-points
 
 Below are code templates for the three event handlers needed to implement your server-side endpoints. The OwnID server receives login events from your frontend  then makes HTTP requests to these endpoints. 
 
@@ -63,7 +65,7 @@ The user Login id (typically the user email) is the unique identifier used to lo
 
 Select the tab matching your server-side language in the examples below. 
 
-### Endpoint 1 - Saving a user's OwnIdData Record
+#### Endpoint 1 - Saving a user's OwnIdData Record
 
 This endpoint handles a request to save an OwnIdData record for a given login id, usually email address.
 
@@ -151,7 +153,7 @@ def set_ownid_data_by_login_id():
 </CodeGroup>
 <sup>Drop-in request handler for setting an OwnIDData record by user login id. (`setOwnIDDataByLoginId`) </sup>
 
-### Endpoint 2 - Get OwnID data by login id
+#### Endpoint 2 - Get OwnID data by login id
 
 Handle a request to fetch an OwnIdData record for a given user's email address.
 
@@ -203,7 +205,7 @@ def get_ownid_data_by_login_id():
 </CodeGroup>
 <sup> Drop-in code for getOwnIDDataByLoginId endpoint</sup>
 
-### Endpoint 3 - Get session by login id
+#### Endpoint 3 - Get session by login id
 
 Handle a request to fetch the web token for the current session by user's email address.
 <CodeGroup>

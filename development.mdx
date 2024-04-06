@@ -8,7 +8,7 @@ _We recommend you build the 'Login' workflow first, as described on this page. T
 
 ## Integration overview
 
-Below are the major steps required to implement end-to-end login workflow. 
+Below is an outline of the three major steps required to implement end-to-end login workflow. 
 
 <Steps>
   <Step title="Preparation">
@@ -41,7 +41,7 @@ Each step in the 'Login' integration process is detailed below.
 
 Before starting, create your account in the developer portal, register your base URL, and get your application id.
 
-<Note>Skip to [Step 2](#step-2-add-web-server-endpoints) if you already have the items below. </Note>
+<Note>Skip to [Step 2](#add-web-server-endpoints) if you already have the items below. </Note>
 
 1. **Set up your account** by logging into the developer console and following the instructions. The console guides you through the process step by step.
 
@@ -65,13 +65,13 @@ Be sure the `ownIdData` field meets the following requirements:
 
 Below are code templates for the three event handlers needed to implement your server-side endpoints. The OwnID server receives login events from your frontend  then makes HTTP requests to these endpoints. 
 
-The user Login id (typically the user email) is the unique identifier used to look up and save records in the OwnIdData field.
+The user Login id (typically the user email address) is the unique identifier used to look up and save records in the OwnIdData field.
 
 Select the tab matching your server-side language in the examples below. 
 
 #### Endpoint 1 - Saving a user's OwnIdData Record
 
-This endpoint handles a request to save an OwnIdData record for a given login id, usually email address.
+This endpoint handles a request to save an OwnIdData record for a given login id.
 
 <CodeGroup>
 
@@ -273,9 +273,7 @@ Three tasks are required on the frontend:
 
 1. **Install and reference the web sdk**. If you're using Angular or React, install the appropriate version of the OwnID Web SDK for your framework. Reference the SDK on your login page.
 2. **Add the widget**. Add the OwnID password widget. 
-3. **Use the appropriate web sdk method** Instantiate the call to the Web SDK on the login event.
-
-Placing the widget next to the password field.
+3. **Set up the login form and event vector**. Use the appropriate web sdk method to instantiate the call to the Web SDK on the login event.
 
 <img
   src="/images/oi_widget.png"
@@ -324,11 +322,6 @@ ownid('init', {
 })
 ```
 
-<img
-  src="/images/login-diagram.png"
-  alt="Widget"
-/>
-
 ### Install OwnID Web SDK
 
 The OwnID Web SDK provides communication between your frontend login page and the OwnID cloud server -- it calls the endpoints we installed above on your web server.
@@ -376,7 +369,8 @@ import { OwnidAngularModule } from '@ownid/angular';
 
 ### Add the widget to your login form
 
-Add the following code to render the login widget:
+Placing the widget next to the password field by
+inserting the following script:
 
 <CodeGroup>
 
@@ -448,8 +442,6 @@ onLogin(data) {
   this.router.navigateByUrl('/account');
 }
 ```
-
-
 </CodeGroup>
 
 ## From protoype to production
@@ -459,18 +451,7 @@ For clarity, the integration process described above skipped some tedious detail
 1. White listing 
 2. Signature verification
 
-
-
-
-# Code samples
-
-- email or login id?
-- Import and include libs should be specified?
-- Fill in demos with try catches and validation?
-
-
-
-## Supported authentication workflow
+## What's next? 
 
 Three endpoints support all the login and registration scenarios:
 
@@ -479,6 +460,13 @@ Three endpoints support all the login and registration scenarios:
 - register
 
 - forgotPassword
+
+
+# Code samples
+
+- email or login id?
+- Import and include libs should be specified?
+- Fill in demos with try catches and validation?
 
 - Error handling?
 

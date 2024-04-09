@@ -3,11 +3,11 @@ title: 'Login'
 description: 'Learn how to set up request handlers for endpoints, and install the script for the frontend login widget'
 ---
 
-_We recommend you build the user 'Login' journey first, as described on this page. That gives you sufficient functionality to 'go live' and provides the code base you need to quickly implement 'Registration' and 'Password Recovery' when you're ready._
+_We recommend you build the user 'Login' journey first, as described on this page. That enables sufficient functionality to 'go live' and provides the code base you need to quickly implement 'Registration' and 'Password Recovery' when you're ready._
 
 ## Integration Overview
 
-Below is an outline of the three major steps required to implement login workflow end-to-end. 
+Below are the three major steps required to implement login workflow end-to-end. 
 
 <Steps>
   <Step title="Preparation">
@@ -109,7 +109,14 @@ def set_ownid_data_by_login_id():
 </CodeGroup>
 <sup>Drop-in request handler for setting an OwnIDData record by user login id. (`setOwnIDDataByLoginId`) </sup>
 
-##### Returns
+##### Response
+Implement these responses for setOwnIDDataByLoginId:
+
+| When... | errorCode | errorMessage |
+|---------|---------  |---------|
+| ...user data saved  | 204 | "Success!"|
+| ...user doesn't exist | 404 | "User not found"|
+
 
 
 #### Endpoint 2 - Get OwnID Data by Login Id
@@ -163,6 +170,15 @@ def get_ownid_data_by_login_id():
 ```
 </CodeGroup>
 <sup> Drop-in code for getOwnIDDataByLoginId endpoint</sup>
+
+##### Response
+Implement these responses for `getOwnIDDataByLoginId`:
+
+| When... | errorCode | errorMessage |
+|---------|---------  |---------|
+| ...user data saved  | 204 | "Success!"|
+| ...user doesn't exist | 404 | "User not found"|
+
 
 #### Endpoint 3 - Get Session by Login Id
 
@@ -218,7 +234,17 @@ def get_session_by_login_id():
 ```
 
 </CodeGroup>
-<sup> Drop-in code for getOwnIDDataByLoginId endpoint</sup>
+<sup> Drop-in code for getSessionByLoginId endpoint</sup>
+
+##### Response
+Implement these responses for `getSessionByLoginId`:
+
+| When... | errorCode | errorMessage |
+|---------|---------  |---------|
+| ...user data saved  | 204 | "Success!"|
+| ...user doesn't exist | 404 | "User not found"|
+
+
 
 ---
 ### Step 3 - Create Frontend Flow

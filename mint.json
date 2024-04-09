@@ -65,11 +65,6 @@
         "api-architecture", 
         "FAQ"
       ]
-    },    {
-      "group": "Reference",
-      "pages": [
-        "WEBSDKReference"
-      ]
     },
     {
       "group": "API Documentation",

@@ -53,14 +53,18 @@
       "group": "Get Started",
       "pages": [
         "introduction",
-        "quickstart",
-        "build-integration",
-        "development",
-        "connectors"
+        "quickstart"
         
       ]
     },
-    {
+   {
+      "group": "Building Blocks",
+      "pages": [
+        "build-integration",
+        "development",
+        "connectors"     
+      ]
+    },    {
       "group": "Platform Overview",
       "pages": [
         "apivconnector",

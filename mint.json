@@ -55,7 +55,8 @@
         "introduction",
         "quickstart",
         "build-integration",
-        "development"
+        "development",
+        "connectors"
         
       ]
     },

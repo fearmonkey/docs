@@ -64,8 +64,7 @@
         {
           "group": "something",
           "pages":["development"]
-        },        
-        "connectors"     
+        }     
       ]
     },    {
       "group": "Platform Overview",

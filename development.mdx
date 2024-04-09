@@ -35,8 +35,7 @@ The interprocess communication after integration looks like this:
 Each step in the 'Login' integration process is detailed below.
 
 ---
-### STEP 1 
-### Preparation
+### STEP 1 - Preparation
 
 Before starting, create your account in the [developer console](https://console.ownid.com/login), register your base URL, and get your application id.
 
@@ -59,8 +58,7 @@ Be sure the `ownIdData` field meets the following requirements:
 - A minimum length of **5000 chars**
 </Info>
 ---
-### STEP 2 
-### Add web server endpoints
+### STEP 2 - Add web server endpoints
 
 Below are code templates for each of the three event handlers needed to implement your server-side endpoints. 
 
@@ -70,7 +68,7 @@ The user's login id (typically the user's email address) is the unique identifie
 
 Select the tab matching your server-side language in the example templates below. 
 
-#### Endpoint 1 - Saving a user's OwnIdData Record
+#### Endpoint 1 - Saving a user to an OwnIdData Record
 
 This endpoint handles a request to save an OwnIdData record for a given login id.
 
@@ -85,42 +83,7 @@ router.post('/setOwnIDDataByLoginId', async (req, res) => {
     user.ownIdData = ownIdData;
     await user.save();
     return res.sendStatus(204);
-//---------------------------------
-// these defs can be assumed
-const express = require('express'); // If not already imported
-const router = express.Router(); // If not already defined
 
-router.post('/setOwnIDDataByLoginId', async (req, res) => {
-    try {
-        const { loginId, ownIdData } = req.body; // Destructuring for clarity
-        
-        // Input validation
-        if (!loginId || typeof loginId !== 'string' || !ownIdData || typeof ownIdData !== 'string') {
-            return res.status(400).json({ error: 'Invalid input data' });
-        }
-        
-        // Find the user by email (assuming loginId is the email)
-        const user = await User.findOne({ email: loginId }).exec();
-        if (!user) {
-            // No user found
-            return res.status(404).json({ error: 'User not found' });
-        }
-        
-        // Update the user's ownIdData
-        user.ownIdData = ownIdData;
-        await user.save();
-        
-        // Success response
-        res.sendStatus(204);
-    } catch (error) {
-        console.error(error); // Logging the error
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
-
-module.exports = router; // Is this needed? Maybe too much
-
-});
 ```
 ```java Java
 @PostMapping("/setOwnIDDataByLoginId")

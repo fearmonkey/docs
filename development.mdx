@@ -5,49 +5,37 @@ description: 'Learn how to set up endpoints, request handlers, and the frontend 
 
 _We recommend you build the 'Login' workflow first, as described on this page. That gives you sufficient functionality to 'go live' and provides the code base you need to quickly implement 'Registration' and 'Password Recovery' workflows when you're ready._
 
-## Integration overview
+## Integration Overview
 
 Below is an outline of the three major steps required to implement login workflow end-to-end. 
 
 <Steps>
   <Step title="Preparation">
-  _[Set up your account](https://console.ownid.com/login), get your application id, and add a field to your user table to store OwnID data._ [Preparation details>>](#preparation)
+  _[Set up your account](https://console.ownid.com/login), get your application id, and add a field to your user table to store OwnID data._ [Preparation details>>](#step-1-preparation)
   </Step>
-  <Step title="Add request handlers to web server">
-  _These three event handlers manage requests to each of three end-points made by the OwnID server when it receives login events from your frontend._ [Request handler details>>](#add-web-server-endpoints)   
+  <Step title="Add Request Handlers to Web Server">
+  _These three event handlers manage requests to each of three end-points made by the OwnID server when it receives login events from your frontend._ [Request handler details>>](#step-2-add-web-server-endpoints)   
   </Step>
-  <Step title="Create frontend workflow">
+  <Step title="Create Frontend Flow">
   _Drop in our HTML and JavaScript templates to build the login workflow and install the widget._ [Frontend workflow details>>](#create-frontend-workflow) 
-    
-  </Step>
-  
+  </Step> 
 </Steps>
 
-The interprocess communication after integration looks like this:
-<img
-  src="/images/login-diagram.png"
-  alt="Widget"
-/>
-<sup>Figure 1. Requests, responses, and events.</sup>
+## Integration Steps
 
-## Integration steps
-
-Each step in the 'Login' integration process is detailed below.
-
----
+Each step in the 'Login' integration process is explained in detail below.
 ### STEP 1 - Preparation
 
 Before starting, create your account in the [developer console](https://console.ownid.com/login), register your base URL, and get your application id.
 
 <Note>Skip to [Step 2](#add-web-server-endpoints) if you already have the account related information listed below. </Note>
 
-1. **Set up your account** by logging into the developer console and following the instructions. The console guides you through the process step by step.
+1. **Create your App** Login to the developer console and follow the instructions to create an app. You will also be asked to create the base URL that OwnID will use to make requests to your web server.  The console guides you through this process step by step.
 
-2. As part of the account sign up process, you'll establish the parameters needed for integration:
+2. On your app page in the console, copy the following  parameters needed for integration:
 <Info>
-- Your **shared secret** - _Use this to verify the signature in OwnId requests to your web server._
 - Your **application id** - _Use this also in data objects where specified by the_ `appId` _field._
-- Your **base URL** - _You'll establish this as part of creating your account in the console. The OwnID platform uses this to call endpoints on your backend web server._
+- Your **shared secret** - _Use this to verify the signature in OwnId requests to your web server._
 </Info>
 3. **Create a VARCHAR field** in your user database and call it `ownIdData`. We'll use this field to store OwnID authentication data. 
 
@@ -58,7 +46,7 @@ Be sure the `ownIdData` field meets the following requirements:
 - A minimum length of **5000 chars**
 </Info>
 ---
-### STEP 2 - Add web server endpoints
+### STEP 2 - Add Web Server Endpoints
 
 Below are code templates for each of the three event handlers needed to implement your server-side endpoints. 
 
@@ -68,7 +56,7 @@ The user's login id (typically the user's email address) is the unique identifie
 
 Select the tab matching your server-side language in the example templates below. 
 
-#### Endpoint 1 - Saving a user to an OwnIdData Record
+#### Endpoint 1 - Save User to an OwnIdData Record
 
 This endpoint handles a request to save an OwnIdData record for a given login id.
 
@@ -121,7 +109,10 @@ def set_ownid_data_by_login_id():
 </CodeGroup>
 <sup>Drop-in request handler for setting an OwnIDData record by user login id. (`setOwnIDDataByLoginId`) </sup>
 
-#### Endpoint 2 - Get OwnID data by login id
+##### Returns
+
+
+#### Endpoint 2 - Get OwnID Data by Login Id
 
 Handle a request to fetch an OwnIdData record for a given user's login id.
 
@@ -173,7 +164,7 @@ def get_ownid_data_by_login_id():
 </CodeGroup>
 <sup> Drop-in code for getOwnIDDataByLoginId endpoint</sup>
 
-#### Endpoint 3 - Get session by login id
+#### Endpoint 3 - Get Session by Login Id
 
 Handle a request to fetch the web token for the current session by user's email address.
 <CodeGroup>
@@ -230,8 +221,7 @@ def get_session_by_login_id():
 <sup> Drop-in code for getOwnIDDataByLoginId endpoint</sup>
 
 ---
-### Step 3 
-### Create frontend workflow
+### Step 3 - Create Frontend Flow
 
 Three tasks are required to create login workflow on the frontend:
 
@@ -243,13 +233,11 @@ Three tasks are required to create login workflow on the frontend:
   src="/images/oi_widget.png"
   alt="Widget"
 />
-<sup>Figure 2. Login widget</sup>
-
-
+<sup>Figure 1. Login widget</sup>
 
 ### Install OwnID Web SDK
 
-The OwnID Web SDK provides communication between your frontend login page and the OwnID cloud server -- it calls the endpoints we installed above on your web server.
+The OwnID Web SDK provides communication between your frontend login page and the OwnID cloud server.
 
 If you're using React or Angular frameworks, install the OwnID SDK from the CLI.
 
@@ -380,9 +368,11 @@ NOT READY FOR REVIEW
 
 ---
 
-## From protoype to production
+## Implementing Best Practices for Security
 
-For clarity, the integration process described above skipped some tedious details of configuration required prior to production.
+After confirming your integration is functioning correctly, it's important to secure the endpoints on your web server by validating the OwnId signature in requests. 
+
+This process and some best-practice recommendations are covered in our Security guide.
 
 1. White listing 
 2. Signature verification

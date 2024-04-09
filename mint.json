@@ -58,7 +58,7 @@
       ]
     },
    {
-      "group": "Build User Journeys",
+      "group": "Building Blocks",
       "pages": [
         "build-integration",
         "development"

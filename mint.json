@@ -61,7 +61,10 @@
       "group": "Building Blocks",
       "pages": [
         "build-integration",
-        {"pages":["development"]},        
+        {
+          "group": "something",
+          "pages":["development"]
+        },        
         "connectors"     
       ]
     },    {

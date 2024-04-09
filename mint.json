@@ -60,9 +60,22 @@
    {
       "group": "Building Blocks",
       "pages": [
+        "build-integration",
         "development"
       ]
-    },    {
+    },    
+    {
+      "group": "Connectors",
+      "pages": 
+      ["integrations/salesforce-commerce-cloud",
+      "integrations/adobe-commerce-cloud",
+      "integrations/sap-customer-data-cloud","integrations/sap-commerce",
+      "integrations/woocommerce","integrations/wordpress",
+      "integrations/drupal",
+      "integrations/shopify"
+      ]
+    },  
+    {
       "group": "Platform Overview",
       "pages": [
         "apivconnector",

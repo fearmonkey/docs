@@ -56,13 +56,13 @@ Below are code templates for each of the three event handlers needed to implemen
 
 When the OwnID server receives a login event from your frontend, it then makes the appropriate HTTP requests to these endpoints. 
 
-The user's login id (typically the user's email address) is the unique identifier used to look up and save records in the OwnIdData field.
+The user's login id (typically the user's email address) is the unique identifier used to look up and save records in the `OwnIdData` field.
 
 Select the tab matching your server-side language in the example templates below. 
 
 #### Endpoint 1 - Save User to an OwnIdData Record
 
-This endpoint handles a request to save an OwnIdData record for a given login id.
+This endpoint handles a request to save an `OwnIdData` record for a given login id.
 
 <CodeGroup>
 
@@ -114,7 +114,7 @@ def set_ownid_data_by_login_id():
 <sup>Drop-in request handler for setting an OwnIDData record by user login id. (`setOwnIDDataByLoginId`) </sup>
 
 ##### Response
-Implement these responses for setOwnIDDataByLoginId:
+Implement these responses for `setOwnIDDataByLoginId`:
 
 | When... | errorCode | errorMessage |
 |---------|---------  |---------|
@@ -123,7 +123,7 @@ Implement these responses for setOwnIDDataByLoginId:
 
 #### Endpoint 2 - Get OwnID Data by Login Id
 
-Handle a request to fetch an OwnIdData record for a given user's login id.
+Handle a request to fetch an `OwnIdData` record for a given user's login id.
 
 <CodeGroup>
 
@@ -171,9 +171,15 @@ def get_ownid_data_by_login_id():
     return jsonify({'ownidData': user.ownid_data})
 ```
 </CodeGroup>
-<sup> Drop-in code for getOwnIDDataByLoginId endpoint</sup>
+<sup> Drop-in code for `getOwnIDDataByLoginId` endpoint</sup>
 
 ##### Response
+```json Return value
+{
+  "ownIdData": "<String>"
+}
+```
+
 Implement these responses for `getOwnIDDataByLoginId`:
 
 | When... | errorCode | errorMessage | returns |
@@ -182,9 +188,7 @@ Implement these responses for `getOwnIDDataByLoginId`:
  |
 | ...user data not found  | 204 | ""|  "ownIdData": "" |
 | ...user doesn't exist | 404 | "User not found"| |
-{
-  "ownIdData": "<String>"
-}
+
 
 #### Endpoint 3 - Get Session by Login Id
 

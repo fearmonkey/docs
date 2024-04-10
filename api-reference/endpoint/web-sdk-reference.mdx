@@ -1,0 +1,420 @@
+---
+title: 'Web SDK Reference'
+description: 'Web SDK functions and data objects'
+---
+
+## Function reference
+
+#### init
+<ParamField query="config" type="IInitConfig" default="" required>
+- Sets configuration for an app. All widgets or auth calls will use this config if it will not be overridden.
+- Every new call of init extends config with new properties.
+
+If called when there’s a magic-link-token in the page’s query-string parameter, invoke a call to verify it and login
+</ParamField>
+
+#### render
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+Renders a widget
+Shows RUP
+Subscribes to integrations sdk events according to app’s integration type (e.g., gigya-websdk’s onLogin)
+</ParamField>
+
+#### register
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+Renders a widget with register type
+</ParamField>
+
+#### login
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+Renders a widget with login type
+</ParamField>
+
+#### recover
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+Renders a widget with recover type
+</ParamField>
+
+#### customButton
+<ParamField query="targetElement" type="HTMLElement" default="none" required></ParamField>
+
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+- Renders a widget with “client-button” variant ONLY on mobile (on desktop, won’t be shown)
+
+- Subscribes to the target element’s “onClick” and triggers an ownid login flow always on a web-app
+
+- Materna uses it implicitly, by passing a targetElement
+</ParamField>
+
+#### showPrompt
+<ParamField query="promptType" type="PromptTypes | IWidgetConfig" default="PromptTypes.ReturningUser" required></ParamField>
+
+<ParamField query="config" type="IWidgetConfig" default="none">
+Renders a prompt widget (IC widget) according to one of the types (returning user or “immediate connect”)
+</ParamField>
+
+#### activateAlwaysConnected
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+Renders a prompt widget with AlwaysConnected Type
+A prompt for connecting that can collect the loginId
+Expected to be shown ONLY if there’s no valid session (checking session via checkSession callback)
+</ParamField>
+
+#### activateReturningUsersPrompt
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+Renders a prompt widget with ReturningUser type
+</ParamField>
+
+#### authButton
+<ParamField query="element" type="HTMLElement" default="none" required></ParamField>
+
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+Renders a widget inside the provided element
+type: “login”
+variant: 'ownid-auth-button'
+Doesn’t interact with the password field (so doesn’t require it)
+Doesn’t show the tooltip
+</ParamField>
+
+#### getOwnIDData
+<ParamField query="widgetId" type="string" default="none" required>
+On register form, when in order to get the ownid data we need to open the webapp, then when clicking on the widget it’ll just get a green V, so opening the webapp will be deferred to when we submit the entire form. On this submission, we call this method that open the webapp and returns a promise that will be resolved once credentials are created; they will return as ownidData that can now be placed inside the registration payload.
+</ParamField>
+
+#### addOwnIDConnectionOnServer
+<ParamField query="widgetId" type="string" default="none" required></ParamField>
+
+<ParamField query="payload" type="any" default="none" required>
+Adds a connection (fido2/loginId) to the user at the end of the registration flow.
+- Used for Firebase integration on registration - because you can only update that data AFTER the user has already been created in the database.
+- Payload is  jwt  from Firebase API
+</ParamField>
+
+#### generateOwnIDPassword
+<ParamField query="length" type="number" default="none" required></ParamField>
+
+<ParamField query="numberCapitalised" type="number" default="1" required></ParamField>
+
+<ParamField query="numberNumbers" type="number" default="1" required></ParamField>
+
+<ParamField query="numberSpecial" type="number" default="1" required>
+Generates a random password with provided lens and number of characters of groups of chars
+</ParamField>
+
+#### reRender
+<ParamField query="widgetId" type="string" default="none" required></ParamField>
+
+<ParamField query="config" type="IWidgetConfig" default="none" required>
+Destroys and renders a new widget by provided id. Config will be extended with current config of the widget.
+</ParamField>
+
+#### destroy
+<ParamField query="widgetId" type="string" default="none" required>
+Destroys a widget by provided id
+- Custom css rules are being removed
+- Any custom attributes for the loginId/password fields are also removed
+- Destroying all nested components (e.g., tooltip, QR code tooltip, etc.)
+- Does NOT stop a flow
+</ParamField>
+
+#### auth
+<ParamField query="loginId" type="string | IPartialConfig" default="none" required></ParamField>
+
+<ParamField query="config" type="IPartialConfig" default="none">
+Runs the main auth flow
+</ParamField>
+
+#### reauth
+<ParamField query="loginId" type="string" default="none" required></ParamField>
+
+<ParamField query="config" type="IPartialConfig" default="none">
+Runs reauth flow
+- No different frontend behavior
+- At the end of a backend reauth flow, the integration server calls the getSessionByLoginId with a parameter that tells the integration that this has been done as part of reauthentication - so a different proof can be returned (not necessarily a session token)
+</ParamField>
+
+#### getURLParam
+<ParamField query="paramName" type="string" default="none" required>
+Helper function. Gets GET parameter from URL.
+As I know it is not used in prod and can be removed.
+</ParamField>
+
+## Data object reference
+
+### IWidgetConfig
+
+<ParamField query="type" type="WidgetType" default="none" required>
+Defines widget type. Determinate flow type.
+</ParamField>
+
+<ParamField query="loginType" type="loginType" default="standard" >
+Defines login type. Changes flow.
+</ParamField>
+
+<ParamField query="promptType" type="promptTypes" default="returning-user">
+Used only for prompt widget. Defines prompt type
+</ParamField>
+
+<ParamField query="element" type="HTMLElement" default="returning-user">
+Used only for prompt widget. Defines prompt type
+</ParamField>
+
+
+<ParamField query="Id" type="string" default="" required>
+Widget Id. Used for accessing to widgets entities via owned SDK.
+</ParamField>
+
+
+### IpartialConfig
+
+<ParamField query="appConfig" type="IContextConfig" default="none" required>
+Defines app config.
+</ParamField>
+
+<ParamField query="language" type="string" default="en">
+Defines app’s language. Supported languages list can be checked here: https://github.com/OwnID/localization/blob/develop/translations/langs.json
+</ParamField>
+
+<ParamField query="asyncMobileRegistration" type="boolean" default="FALSE">
+If set to true, only on mobile, this suppresses the opening of the web-app when clicking on the widget; it is expected to use ownid['getOwnIdData'] on form submission to complete the actual authentication.
+[this isn’t relevant to desktop, because we expect the QR to be shown there in the relevant scenario]
+</ParamField>
+
+<ParamField query="appId" type="string" default="none">
+Application id
+</ParamField>
+
+<ParamField query="env" type="string" default="Prod">
+Sets sdk’s environment - used to generate the server url.
+</ParamField>
+
+<ParamField query="addOrStatement" type="boolean" default="TRUE">
+Defines to show “or” statement for the button widget with the targetField.
+</ParamField>
+
+<ParamField query="forceRender" type="boolean" default="FALSE">
+Can be deprecated and removed. Not used with baking. Defines if widget will be rendered without waiting for its app configuration.
+</ParamField>
+
+<ParamField query="ssoUrl" type="string" default="undefined">
+ONLY on desktop, If the value is not empty, forces loading the widget in iframe mode, its value as the iframe’s src. This should point to a trusted domain and a path that can serve the relevant page for the “iframe” logic.
+</ParamField>
+
+<ParamField query="infoTooltip" type="boolean" default="TRUE">
+Defines if info tooltip will be shown or not.
+</ParamField>
+
+<ParamField query="infoTooltipPosition" type="Position" default="top">
+Sets infoTooltip position relative to the widget
+</ParamField>
+
+<ParamField query="mobileInfoTooltipPosition" type="Position" default="top">
+Sets infoTooltip position for mobile devices. Overrides infoTooltipPosition value for mobile devices
+</ParamField>
+
+<ParamField query="loginIdPattern" type="string" default="none">
+When listening to value types into loginIdField, if it matches this pattern then show the info tooltip of the widget.
+</ParamField>
+
+<ParamField query="passwordField" type="HTMLInputElement" default="Null">
+This field is set as the targetField if it was not set. If the widget is in register type, then onRegister, disable this field. If (passwordFieldBinding) set auto-gen pw as value.
+</ParamField>
+
+<ParamField query="loginIdField" type="HTMLInputElement" default="Null">
+Sets a field where widget will grab a login id.
+</ParamField>
+
+<ParamField query="loginIdPrefixField" type="HTMLInputElement | HTMLSelectElement" default="Null">
+Sets a field to get the prefix that will be prepended to the loginId (used for phone numbers, as the country prefix).
+</ParamField>
+
+<ParamField query="passwordToggle" type="string" default="undefined">
+Css selector for view password toggle button. (For eye buttons) So it can move together with the password field [via setting the element margin].
+</ParamField>
+
+<ParamField query="confirmPasswordContainer" type="HTMLElement[] | HTMLElement" default="Null">
+Sets the element(s) we’ll hide after the register-widget is done - e.g., where the “confirm password” field is.
+</ParamField>
+
+<ParamField query="offset" type="[number, number]" default="[0, 0]">
+Defines number of pixel to move widget horizontally and vertically.
+</ParamField>
+
+<ParamField query="serverUrl" type="string" default="none">
+Sets server’s url. [takes priority over provided appId & env]
+</ParamField>
+
+<ParamField query="mobileTitle" type="string" default="none">
+ONLY for widget-qr variant, it sets the text on mobile. (Widget from very first implementation. Still supported) [not localizable]
+</ParamField>
+
+<ParamField query="title" type="string" default="none">
+Sets the button’s text for the widget-button-variants that have one: button, ownid-auth-button, Ownid-auth-button-faceid. [not localizable]
+</ParamField>
+
+<ParamField query="desktopTitle" type="string" default="none">
+Sets title text for: Widget-qr variant, Widget-button’s QR bubble.
+</ParamField>
+
+<ParamField query="desktopSubtitle" type="string" default="none">
+Sets title text for: Widget-qr variant. [currently not for the QR bubble]
+</ParamField>
+
+<ParamField query="statusInterval"
+
+ type="number" default="500">
+Sets interval between status requests when showing the QR. [no min value]
+</ParamField>
+
+<ParamField query="variant" type="WidgetVariants" default="button-fingerprint">
+Defines widget variant.
+</ParamField>
+
+<ParamField query="widgetPosition" type="WidgetPosition" default="start">
+Defines widget position according to target field and “direction” style.
+</ParamField>
+
+<ParamField query="backgroundColor" type="string" default="none">
+Sets background color of the button widgets.
+</ParamField>
+
+<ParamField query="textColor" type="string" default="none">
+Sets text color of the button widgets. Affects the icon as well.
+</ParamField>
+
+<ParamField query="borderColor" type="string" default="none">
+Sets border color of the button widgets.
+</ParamField>
+
+<ParamField query="boxShadow" type="string" default="none">
+Sets shadow of the button widgets with all available properties.
+</ParamField>
+
+<ParamField query="redirectUrl" type="string" default="none">
+Usually used in the following flow: Native-mobile-app open a webview with our websdk. The widget is being rendered with this param. Usually provided as part of initializing the ownid websdk in gigya’s websdk global conf. When clicking the widget, when the websdk tries to open the web-app, it passes this param value forward to it [ONLY if device param is set to “mobile”]. After a successful authentication, the web-app will redirect to this url. This returns the native-mobile-app back to focus, with the open webview. At this point, the websdk inside the webview will query the context in order to get the session info.
+</ParamField>
+
+<ParamField query="redirectUrlOverride" type="object" default="none">
+Used for mobile integration to be able to redirect back from browser to mobile app. Overrides redirectUrl according to device.
+</ParamField>
+
+<ParamField query="device" type="string" default="none">
+If this param holds the “mobile” value, then the redirectUrl is passed to the web-app [see above]. Today, this is only being set in the websdk by the gigya screenset integration.
+</ParamField>
+
+<ParamField query="onMagicLink" type="Callback" default="none">
+Will be called after a successful magic link authentication - with the session info. [for gigya integration, we hook it ourselves to its onLogin event]
+</ParamField>
+
+<ParamField query="onMagicLinkError" type="Callback" default="none">
+Will be called after an error when trying to use the magic link, e.g., token expired, wrong browser-instance [missing the server-cookie identifier for the browser initiating the flow]
+</ParamField>
+
+<ParamField query="onBeforeLogin" type="async Callback" default="none">
+This callback will be called just before onLogin and it will wait for its completion. E.g., if there’s an active gigya integration, it will hook to the onLogin event and set the session on page - so this hook allows you [as a client] to provide a handler that will be called before that.
+</ParamField>
+
+<ParamField query="onBeforeRegister" type="async Callback" default="none">
+This callback will be called just before onRegister and it will wait for its completion.
+</ParamField>
+
+<ParamField query="onBeforeReauth" type="async Callback" default="none">
+This callback will be called just before onReauth and it will wait for its completion.
+</ParamField>
+
+<ParamField query="onLogin" type="Callback" default="none">
+Will be called on ownid successful authentication. If there’s an integration in place, it will first handle the onLogin event in order to establish a frontend session, and only then this callback will be called.
+</ParamField>
+
+<ParamField query="onRegister" type="Callback" default="none">
+Will be called on ownid success.
+</ParamField>
+
+<ParamField query="onReauth" type="Callback" default="none">
+Will be called on ownid success.
+</ParamField>
+
+<ParamField query="onError" type="Callback" default="none">
+Will be called on ownid error - returned from the backend flows.
+</ParamField>
+
+<ParamField query="notifyLoginParams" type="Key-value list" default="none">
+List of elements will be added to notifyLogin call. Used only for native mobile integration.
+</ParamField>
+
+<ParamField query="getAccountInfoParams" type="Key-value list" default="none">
+List of elements will be added to getAccountInfo call. Used only for web.
+</ParamField>
+
+<ParamField query="firebaseAuth" type="firebaseAuth" default="none">
+Sets firebaseAuth for firebase integration [firebase sdk instance].
+</ParamField>
+
+<ParamField query="template" type
+
+="string [html]" default="none">
+[not in use] Used to set own template for fingerprint button.
+</ParamField>
+
+<ParamField query="targetElement" type="HTMLElement" default="none">
+Can be deprecated and removed. As we have owned.auth Subscribing to this element “onclick” in order to initiate authentication (used by ownid['customButton'] ) This property takes affect ONLY if the widget variant is “client-button”.
+</ParamField>
+
+<ParamField query="targetField" type="HTMLInputElement" default="none">
+Sets a field to which widget will be placed next to [according to widgetPosition].
+</ParamField>
+
+<ParamField query="promptType" type="PromptTypes" default="returning-user">
+Used only for prompt widget. Defines prompt type.
+</ParamField>
+
+<ParamField query="checkSession" type="() => boolean | Promise<boolean>" default="none">
+Callback for session checker - for IC widget (prompt/modal) Receives default value from gigya & firebase integrations.
+</ParamField>
+
+<ParamField query="encrypt" type="(data: string | object) => Promise<string>" default="none">
+Encrypt function for secure login id from network transferring.
+</ParamField>
+
+<ParamField query="skipFallback" type="boolean" default="FALSE">
+If set - skips fallback from primary auth method. By default: Blocks otp if Fido call was unsuccessful.
+</ParamField>
+
+<ParamField query="onlyReturningUsers" type="boolean" default="FALSE">
+Blocks execution js api call for non returning users.
+</ParamField>
+
+<ParamField query="onlyMobile" type="boolean" default="FALSE">
+Blocks execution js api call for non mobile users.
+</ParamField>
+
+<ParamField query="forceClientWebFlows" type="boolean" default="FALSE">
+Forces using webFlows on devices where it was denied by default. (e.q. for webviews)
+</ParamField>
+
+
+## CSS Variables
+https://github.com/OwnID/web-sdk/blob/develop/src/components/common/button/button.scss
+```css
+--ownid-button-height: 42px;
+  
+--ownid-button-width: 42px;
+
+--ownid-button-widget-font-size: 14px;
+
+--ownid-button-widget-color: #0070F2
+
+--ownid-button-widget-background: #FFFFFF;
+
+--ownid-button-widget-border-color: #D0D0D0;
+
+--ownid-button-widget-border-width: 1px;
+
+--ownid-button-widget-box-shadow: none;
+
+--ownid-button-widget-border-radius: 6px;
+
+--ownid-button-widget-button-padding: 0 4px;
+
+--ownid-qr-or-width: 4px
+```

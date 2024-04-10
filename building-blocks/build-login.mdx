@@ -11,13 +11,14 @@ Three major steps are required to implement the user login journey end-to-end.
 
 <Steps>
   <Step title="Preparation">
-  _[Set up your account](https://console.ownid.com/login), get your application id, and add a field to your user table to store OwnID data._ [Preparation details>>](#step-1-preparation)
+  _[Set up your account](https://console.ownid.com/login), get your application id, and add a field to your user table to store OwnID data._      [Details>>](#step-1-preparation)
   </Step>
   <Step title="Add Request Handlers to Web Server">
-  _These three event handlers manage requests to each of three end-points made by the OwnID server when it receives login events from your frontend._ [Request handler details>>](#step-2-add-web-server-endpoints)   
+  _These three event handlers manage requests to each of three end-points made by the OwnID server when it receives login events from your frontend._    [Details>>](#step-2-add-web-server-endpoints)   
   </Step>
   <Step title="Create Frontend Flow">
-  _Drop in our HTML and JavaScript templates to build the login workflow and install the widget._ [Frontend workflow details>>](#create-frontend-workflow) 
+  _Drop in our HTML and JavaScript templates to build the login workflow and install the widget._    
+    [Details>>](#create-frontend-workflow) 
   </Step> 
 </Steps>
 
@@ -30,14 +31,19 @@ Before starting, create your account in the [developer console](https://console.
 
 <Note>Skip to [Step 2](#add-web-server-endpoints) if you already have the integration-related information listed below. </Note>
 
-1. **Create your App** Login to the developer console and follow the instructions to create an app. You will also be asked to create the base URL that OwnID will use to make requests to your web server.  The console guides you through this process step by step.
+1. **Create your App**    
+Login to the developer console and follow the instructions to create an app. You will also be asked to create the base URL that OwnID will use to make requests to your web server.  The console guides you through this process step by step.
 
-2. On your app page in the console, copy the following  parameters needed for integration:
+2. **Get App Data**    
+On your app page in the console, copy the following  parameters needed for integration:
+
 <Info>
 - Your **application id** - _Use this also in data objects where specified by the_ `appId` _field._
+
 - Your **shared secret** - _Use this to verify the signature in OwnId requests to your web server._
 </Info>
-3. **Create a VARCHAR field** in your user database and call it `ownIdData`. We'll use this field to store OwnID authentication data. 
+3. **Create a VARCHAR field**    
+Create a new field called `ownIdData` in your user database. We'll use this field to store OwnID authentication data for registered users. 
 
 <Info>
 Be sure the `ownIdData` field meets the following requirements:
@@ -60,9 +66,9 @@ When the OwnID server receives a login event from your frontend, it then makes t
 
 The user's login id (typically the user's email address) is the unique identifier used to look up and save records in the `OwnIdData` field.
 
-Select the tab matching your server-side language in the example templates below. 
+Select the tab matching your server-side language in the sample templates below. 
 
-#### Endpoint 1 - Save User to an OwnIdData Record
+#### Endpoint 1 - Save OwnIdData to a User Record
 
 This endpoint handles a request to save an `OwnIdData` record for a given login id.
 
@@ -77,7 +83,7 @@ router.post('/setOwnIDDataByLoginId', async (req, res) => {
     user.ownIdData = ownIdData;
     await user.save();
     return res.sendStatus(204);
-
+}
 ```
 ```java Java
 @PostMapping("/setOwnIDDataByLoginId")
@@ -113,14 +119,17 @@ def set_ownid_data_by_login_id():
     return ('', 204)
 ```
 </CodeGroup>
-<sup>Drop-in request handler for setting an OwnIDData record by user login id. (`setOwnIDDataByLoginId`) </sup>
+<sup> Request handler for setting an OwnIDData record by user login id. (`setOwnIDDataByLoginId`) </sup>
 
-##### Response
+
+**Response**  
 Implement these responses for `setOwnIDDataByLoginId`:
 
-| When... | errorCode | errorMessage |
+| Response code | errorCode | errorMessage |
 |---------|---------  |---------|
-| ...user doesn't exist | 404 | "User not found"|
+| `200` |  |Success  |
+| `400` |  |Success  |
+| `404` |  | "User not found" ...user doesn't exist|
 
 #### Endpoint 2 - Get OwnID Data by Login Id
 

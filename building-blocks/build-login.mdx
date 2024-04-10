@@ -118,7 +118,6 @@ Implement these responses for `setOwnIDDataByLoginId`:
 
 | When... | errorCode | errorMessage |
 |---------|---------  |---------|
-| ...user data saved  | 204 | "Success!"|
 | ...user doesn't exist | 404 | "User not found"|
 
 #### Endpoint 2 - Get OwnID Data by Login Id
@@ -184,7 +183,6 @@ Implement these responses for `getOwnIDDataByLoginId`:
 
 | When... | errorCode | errorMessage | returns |
 |---------|---------  |---------|---------|
-| ...user data returned  | 204 | ""|  "ownIdData": "<String> |
 | ...user data not found  | 204 | ""|  "ownIdData": "" |
 | ...user doesn't exist | 404 | "User not found"| |
 
@@ -280,10 +278,12 @@ The OwnID Web SDK provides communication between your frontend login page and th
 If you're using React or Angular frameworks, install the OwnID SDK from the CLI.
 
 1. To install the React-based SDK use npm from the CLI:
+
 ```javascript React
 npm install @ownid/react
 ```
 2. To install the Angular-based SDK use npm from the CLI:
+
 ```javascript Angular
 npm install @ownid/angular
 ```
@@ -467,7 +467,7 @@ ownid('init', {
 ```
 
 
-```
+```html
 <head>
     <link rel="stylesheet" href="stylesheets/style.css">
     <script src="js/client.js"></script>

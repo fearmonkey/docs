@@ -51,7 +51,9 @@ Be sure the `ownIdData` field meets the following requirements:
 Below are code templates for each of the three event handlers needed to implement your server-side endpoints:
 
 - `setOwnIDDataByLoginId`
+
 - `getOwnIDDataByLoginId`
+
 - `getSessionByLoginId`
 
 When the OwnID server receives a login event from your frontend, it then makes the appropriate HTTP requests to these endpoints. 
@@ -183,7 +185,6 @@ Implement these responses for `getOwnIDDataByLoginId`:
 
 | When... | errorCode | errorMessage | returns |
 |---------|---------  |---------|---------|
-| ...user data not found  | 204 | ""|  "ownIdData": "" |
 | ...user doesn't exist | 404 | "User not found"| |
 
 
@@ -244,6 +245,9 @@ def get_session_by_login_id():
 <sup> Drop-in code for getSessionByLoginId endpoint</sup>
 
 ##### Response
+
+204 | "Success!"
+
 ```json
 {
 "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
@@ -253,7 +257,6 @@ Implement these responses for `getSessionByLoginId`:
 
 | When... | errorCode | errorMessage |
 |---------|---------  |---------|
-| ...user data saved  | 204 | "Success!"|
 | ...user doesn't exist | 404 | "User not found"|
 
 ---
@@ -317,6 +320,31 @@ import { OwnidAngularModule } from '@ownid/angular';
 ```
 
 </CodeGroup>
+
+### Establish the Session
+
+Establishing the session on `onLogin`
+
+```javascript
+{ onLogin({ token }) 
+  { document.cookie = 
+  `sessionId=${token}`; 
+  } 
+}
+
+Exchange: [when session is an `http-only` cookie]
+{ onLogin({ token }) 
+  { fetch(`/auth/exchange?token=${token}`); } }
+```
+
+### Login Handler
+Setting a global login handler:
+```javascript
+ownid('init', { 
+    onLogin: ({token}) => {}
+})
+```
+
 
 ### Add the widget to your login form
 
@@ -395,129 +423,11 @@ onLogin(data) {
 ```
 </CodeGroup>
 
+That's it! Before going live make sure you checkout our security guidance.
+
 ## Implementing Security
 
 After confirming your integration is functioning correctly, it's important to secure the endpoints on your web server by validating the OwnId signature in requests. 
 
 Find this process and some best-practice recommendations in our [Security guide](/explore/security).
-
-1. White listing 
-2. Signature verification
-
-
-
-
-
----
-
----
-
-**UNDER CONSTRUCTION BELOW THIS LINE**
-NOT READY FOR REVIEW
-
----
-
----
-
-## What's next? 
-
-- register
-
-- forgotPassword
-
-(side-by-side)
-Handling password-toggle or password-label elements
-Showing errors in your login form
-
-``` javascript
-ownid('login', {
-          loginIdField: 
-          document.getElementById('username'),
-          passwordField: 
-          document.getElementById('password'),
-     passwordToggle:'.show-password-input',
-          language:'en',
-          onError: (error) => console.log(error),
-          onLogin({ token }) { /*see below*/ }
-});
-```
-You don't have to implement an explicit registration workflow because login handles unregistered users. Auto-registration when the account doesn't exist
-As part of `/setOwnIDDataByLoginId` endpoint implementation
-
-Establishing the session on `onLogin`
-
-Direct:
-
-```javascript
-{ onLogin({ token }) 
-  { document.cookie = 
-  `sessionId=${token}`; 
-  } 
-}
-
-Exchange: [when session is an `http-only` cookie]
-{ onLogin({ token }) 
-  { fetch(`/auth/exchange?token=${token}`); } }
-```
-Setting a global login handler:
-```javascript
-ownid('init', { 
-    onLogin: ({token}) => {}
-})
-```
-
-
-```html
-<head>
-    <link rel="stylesheet" href="stylesheets/style.css">
-    <script src="js/client.js"></script>
-
-    <script>
-        function loginClick() {
-            login(document.querySelector('#email').value, document.querySelector('#pass').value)
-        }
-    </script>
-
-    <script>
-        ((o, w, n, i, d) => {
-            o[i] = o[i] || (async (...a) => ((o[i].q = o[i].q || []).push(a), { error: null, data: null })),
-            (d = w.createElement("script")).src = 'https://cdn.ownid.com/sdk/' + n, d.async = 1, w.head.appendChild(d)
-        }) (window, document, 'jgve5iino43hzw', 'ownid');
-    </script>
-</head>
-
-<body>
-    <div class="box">
-        <div class="title">Chat App</div>
-        <div><input placeholder="Email" id="email" type="text"></div>
-        <div><input placeholder="Password" id="pass" type="password"></div>
-
-        <button id="submit" onclick="loginClick()">Login</button>
-        <div class="footer">No account? <a href="register.html">register</a>
-        </div>
-        <div id="err"></div>
-    </div>
-
-    <script>
-        ownid('login', {
-            loginIdField: document.getElementById('email'),
-            passwordField: document.getElementById("pass"),
-            onLogin: function (dataObj) {
-                // Set the session in the frontend with dataObj, which was sent to OwnID server from the backend
-                let res = fetch('/app/loginWithJwt/', {
-                    method: 'post',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(dataObj)
-                }).then(() => {
-                    document.location.href = '/';
-                })
-            }
-        });
-    </script>
-</body>
-```
-
-
-
-
 

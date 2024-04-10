@@ -66,8 +66,8 @@
     },    
     {
       "group": "Connectors",
-      "pages": 
-      ["integrations/salesforce-commerce-cloud",
+      "pages": [
+      "integrations/salesforce-commerce-cloud",
       "integrations/adobe-commerce-cloud",
       "integrations/sap-customer-data-cloud","integrations/sap-commerce",
       "integrations/woocommerce","integrations/wordpress",

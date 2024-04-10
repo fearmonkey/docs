@@ -48,7 +48,11 @@ Be sure the `ownIdData` field meets the following requirements:
 ---
 ### Step 2 - Add Web Server Endpoints
 
-Below are code templates for each of the three event handlers needed to implement your server-side endpoints. 
+Below are code templates for each of the three event handlers needed to implement your server-side endpoints:
+
+- `setOwnIDDataByLoginId`
+- `getOwnIDDataByLoginId`
+- `getSessionByLoginId`
 
 When the OwnID server receives a login event from your frontend, it then makes the appropriate HTTP requests to these endpoints. 
 
@@ -117,8 +121,6 @@ Implement these responses for setOwnIDDataByLoginId:
 | ...user data saved  | 204 | "Success!"|
 | ...user doesn't exist | 404 | "User not found"|
 
-
-
 #### Endpoint 2 - Get OwnID Data by Login Id
 
 Handle a request to fetch an OwnIdData record for a given user's login id.
@@ -174,11 +176,15 @@ def get_ownid_data_by_login_id():
 ##### Response
 Implement these responses for `getOwnIDDataByLoginId`:
 
-| When... | errorCode | errorMessage |
-|---------|---------  |---------|
-| ...user data saved  | 204 | "Success!"|
-| ...user doesn't exist | 404 | "User not found"|
-
+| When... | errorCode | errorMessage | returns |
+|---------|---------  |---------|---------|
+| ...user data returned  | 204 | ""|  "ownIdData": "<String> 
+ |
+| ...user data not found  | 204 | ""|  "ownIdData": "" |
+| ...user doesn't exist | 404 | "User not found"| |
+{
+  "ownIdData": "<String>"
+}
 
 #### Endpoint 3 - Get Session by Login Id
 
@@ -237,6 +243,11 @@ def get_session_by_login_id():
 <sup> Drop-in code for getSessionByLoginId endpoint</sup>
 
 ##### Response
+```
+{
+"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+}
+```
 Implement these responses for `getSessionByLoginId`:
 
 | When... | errorCode | errorMessage |

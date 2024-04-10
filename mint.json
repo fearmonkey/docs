@@ -60,7 +60,7 @@
    {
       "group": "Building Blocks",
       "pages": [
-        "building-blocks/build-integration",
+        "building-blocks/buildintegration",
         "building-blocks/build-login"
       ]
     },    

@@ -3,7 +3,7 @@ title: 'Login'
 description: 'Learn how to set up request handlers for endpoints, and install the script for the frontend login widget'
 ---
 
-_We recommend you build the user 'Login' journey first, as described on this page. That enables sufficient functionality to 'go live' and provides the code base you need to quickly implement 'Registration' and 'Password Recovery' when you're ready._
+_We recommend you build the user 'Login' journey first, as described below. That enables sufficient functionality to 'go live' and provides the code base you need to quickly implement 'Registration' and 'Password Recovery' when you're ready._
 
 ## Integration Overview
 
@@ -276,7 +276,7 @@ npm install @ownid/react
 npm install @ownid/angular
 ```
 
-#### Reference the OwnID SDK
+### Reference the OwnID SDK
 
 Reference the SDK at the top of your login page.
 
@@ -383,6 +383,19 @@ onLogin(data) {
 ```
 </CodeGroup>
 
+## Implementing Security
+
+After confirming your integration is functioning correctly, it's important to secure the endpoints on your web server by validating the OwnId signature in requests. 
+
+Find this process and some best-practice recommendations in our [Security guide](/explore/security).
+
+1. White listing 
+2. Signature verification
+
+
+
+
+
 ---
 
 ---
@@ -393,15 +406,6 @@ NOT READY FOR REVIEW
 ---
 
 ---
-
-## Implementing Best Practices for Security
-
-After confirming your integration is functioning correctly, it's important to secure the endpoints on your web server by validating the OwnId signature in requests. 
-
-This process and some best-practice recommendations are covered in our Security guide.
-
-1. White listing 
-2. Signature verification
 
 ## What's next? 
 
@@ -450,14 +454,58 @@ ownid('init', {
 })
 ```
 
-# Code samples
 
-- email or login id?
-- Import and include libs should be specified?
-- Fill in demos with try catches and validation?
 
-- Error handling?
+<head>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <script src="js/client.js"></script>
 
-- Security
+    <script>
+        function loginClick() {
+            login(document.querySelector('#email').value, document.querySelector('#pass').value)
+        }
+    </script>
+
+    <script>
+        ((o, w, n, i, d) => {
+            o[i] = o[i] || (async (...a) => ((o[i].q = o[i].q || []).push(a), { error: null, data: null })),
+            (d = w.createElement("script")).src = 'https://cdn.ownid.com/sdk/' + n, d.async = 1, w.head.appendChild(d)
+        }) (window, document, 'jgve5iino43hzw', 'ownid');
+    </script>
+</head>
+
+<body>
+    <div class="box">
+        <div class="title">Chat App</div>
+        <div><input placeholder="Email" id="email" type="text"></div>
+        <div><input placeholder="Password" id="pass" type="password"></div>
+
+        <button id="submit" onclick="loginClick()">Login</button>
+        <div class="footer">No account? <a href="register.html">register</a>
+        </div>
+        <div id="err"></div>
+    </div>
+
+    <script>
+        ownid('login', {
+            loginIdField: document.getElementById('email'),
+            passwordField: document.getElementById("pass"),
+            onLogin: function (dataObj) {
+                // Set the session in the frontend with dataObj, which was sent to OwnID server from the backend
+                let res = fetch('/app/loginWithJwt/', {
+                    method: 'post',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dataObj)
+                }).then(() => {
+                    document.location.href = '/';
+                })
+            }
+        });
+    </script>
+</body>
+
+
+
+
 
 

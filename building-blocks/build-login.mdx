@@ -184,8 +184,7 @@ Implement these responses for `getOwnIDDataByLoginId`:
 
 | When... | errorCode | errorMessage | returns |
 |---------|---------  |---------|---------|
-| ...user data returned  | 204 | ""|  "ownIdData": "<String> 
- |
+| ...user data returned  | 204 | ""|  "ownIdData": "<String> |
 | ...user data not found  | 204 | ""|  "ownIdData": "" |
 | ...user doesn't exist | 404 | "User not found"| |
 
@@ -247,7 +246,7 @@ def get_session_by_login_id():
 <sup> Drop-in code for getSessionByLoginId endpoint</sup>
 
 ##### Response
-```
+```json
 {
 "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 }
@@ -258,8 +257,6 @@ Implement these responses for `getSessionByLoginId`:
 |---------|---------  |---------|
 | ...user data saved  | 204 | "Success!"|
 | ...user doesn't exist | 404 | "User not found"|
-
-
 
 ---
 ### Step 3 - Create Frontend Flow
@@ -470,7 +467,7 @@ ownid('init', {
 ```
 
 
-
+```
 <head>
     <link rel="stylesheet" href="stylesheets/style.css">
     <script src="js/client.js"></script>
@@ -518,7 +515,7 @@ ownid('init', {
         });
     </script>
 </body>
-
+```
 
 
 

@@ -79,7 +79,7 @@
       "group": "Platform Overview",
       "pages": [
         "platform-overview/sdkvconnector",
-        "api-architecture", 
+        "platform-overview/architecture", 
         "platform-overview/FAQ"
       ]
     },

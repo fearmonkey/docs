@@ -11,20 +11,23 @@ Three major steps are required to implement the user login journey end-to-end.
 
 <Steps>
   <Step title="Preparation">
-  _[Set up your account](https://console.ownid.com/login), get your application id, and add a field to your user table to store OwnID data._      [Details>>](#step-1-preparation)
+  _[Set up your account](https://console.ownid.com/login), get your application id, and add a field to your user table to store OwnID data._      
+  [_Details>>_](#step-1-preparation)
   </Step>
   <Step title="Add Request Handlers to Web Server">
-  _These three event handlers manage requests to each of three end-points made by the OwnID server when it receives login events from your frontend._    [Details>>](#step-2-add-web-server-endpoints)   
+  _These three event handlers manage requests to each of three end-points made by the OwnID server when it receives login events from your frontend._   
+  [_Details>>_](#step-2-add-web-server-endpoints)   
   </Step>
   <Step title="Create Frontend Flow">
   _Drop in our HTML and JavaScript templates to build the login workflow and install the widget._    
-    [Details>>](#create-frontend-workflow) 
+    [_Details>>_](#create-frontend-workflow) 
   </Step> 
 </Steps>
 
 ## Integration Steps
 
 Each step of 'Login' integration is explained in detail below.
+
 ### Step 1 - Preparation
 
 Before starting, create your account in the [developer console](https://console.ownid.com/login), register your base URL, and get your application id.
@@ -125,11 +128,13 @@ def set_ownid_data_by_login_id():
 **Response**  
 Implement these responses for `setOwnIDDataByLoginId`:
 
-| Response code | errorCode | errorMessage |
+| Response code | Meaning | errorMessage |
 |---------|---------  |---------|
-| `200` |  |Success  |
-| `400` |  |Success  |
-| `404` |  | "User not found" ...user doesn't exist|
+| `200` | Success |  |
+| `400` | Success  |  |
+| `404` | user doesn't exist | "User not found" |
+
+---
 
 #### Endpoint 2 - Get OwnID Data by Login Id
 
@@ -184,23 +189,27 @@ def get_ownid_data_by_login_id():
 <sup> Drop-in code for `getOwnIDDataByLoginId` endpoint</sup>
 
 ##### Response
-```json
+```json Sample Response
 {
   "ownIdData": "<String>"
 }
 ```
-
+**Response**
+ 
 Implement these responses for `getOwnIDDataByLoginId`:
 
-| When... | errorCode | errorMessage | returns |
-|---------|---------  |---------|---------|
-| ...no data for user  |  | | `"ownIdData": ""` |
-| ...user doesn't exist | 404 | "User not found"| |
+| Response code | Meaning | errorMessage |
+|---------|---------  |---------|
+| `200` | Success |  |
+| `400` | Success  |  |
+| `404` | user doesn't exist | "User not found" |
 
 
 #### Endpoint 3 - Get Session by Login Id
 
-Handle a request to fetch the web token for the current session by user's email address.
+Handle a request to fetch a web token for the current session by user's email address.
+
+Note that `jwt` is an arbitrary token that you generate.
 <CodeGroup>
 
 ```javascript Node.js
@@ -252,23 +261,23 @@ def get_session_by_login_id():
 ```
 
 </CodeGroup>
-<sup> Drop-in code for getSessionByLoginId endpoint</sup>
+<sup> Sample code for getSessionByLoginId endpoint</sup>
 
-##### Response
+**Response**
+ 
+Implement these responses for `getSessionByLoginId`:
 
-204 | "Success!"
+| Response code | Meaning | errorMessage |
+|---------|---------  |---------|
+| `200` | Success |  |
+| `400` | Success  |  |
+| `404` | user doesn't exist | "User not found" |
 
 ```json
 {
 "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 }
 ```
-Implement these responses for `getSessionByLoginId`:
-
-| When... | errorCode | errorMessage |
-|---------|---------  |---------|
-| ...user doesn't exist | 404 | "User not found"|
-
 ---
 ### Step 3 - Create Frontend Flow
 

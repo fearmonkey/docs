@@ -78,7 +78,7 @@
     {
       "group": "Platform Overview",
       "pages": [
-        "apivconnector",
+        "platform-overview/sdkvconnector",
         "api-architecture", 
         "platform-overview/FAQ"
       ]

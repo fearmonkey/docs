@@ -1,13 +1,22 @@
 ---
-title: 'API/SDK Architecture'
-description: 'Learn more about API/SDK logical flow, components, and conncectivity'
+title: 'SDK Architecture'
+description: 'Learn more about SDK architecture, its logical flow, components, and conncectivity'
 ---
 
-### How the API/SDK Works
+### How the SDK Works
+
+The OwnID Web SDK provides components for implementiing the frontend of each user journey -- login, registration, and password recovery.
+
+### SDK Versions
+
+We offer SDK versions for plain JavaScript, React, and Angular. You can use the SDK on any page in your site, just be referencing it properly at the top of the page. The Building Integrations page shows you how.
+
+### The API Consumed by OwnID
 
 Typically, consuming an API means making RESTful requests to endpoints hosted by a public platform.
 
-Here, your existing web server hosts the endpoints. We provide code templates for each required event handler.
+Here, your existing web server hosts the endpoints that the OwnID platform calls. We provide code templates for each required event handler.
+
 When a user logs in, your frontend generates a login event and upon receiving the event, the OwnID server makes the appropriate HTTP requests to _your_ web server, invoking request handlers provided by OwnID. 
 
 <img
@@ -22,6 +31,9 @@ Those request handlers provide the gateway for exchanging keys and data between 
   alt="Widget"
 />
 <sup>Login workflow</sup>
+
+
+
 
 
 

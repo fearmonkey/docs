@@ -122,7 +122,7 @@ def set_ownid_data_by_login_id():
     return ('', 204)
 ```
 </CodeGroup>
-<sup> Request handler for setting an OwnIDData record by user login id. (`setOwnIDDataByLoginId`) </sup>
+<sup>Sample request handler for setting an OwnIDData record by user login id. (`setOwnIDDataByLoginId`) </sup>
 
 
 **Response**  
@@ -186,7 +186,7 @@ def get_ownid_data_by_login_id():
     return jsonify({'ownidData': user.ownid_data})
 ```
 </CodeGroup>
-<sup> Drop-in code for `getOwnIDDataByLoginId` endpoint</sup>
+<sup> Sample request handler for `getOwnIDDataByLoginId` endpoint</sup>
 
 ##### Response
 ```json Sample Response
@@ -261,17 +261,19 @@ def get_session_by_login_id():
 ```
 
 </CodeGroup>
-<sup> Sample code for getSessionByLoginId endpoint</sup>
+<sup> SSample request handler for `getSessionByLoginId` endpoint.</sup>
 
 **Response**
  
 Implement these responses for `getSessionByLoginId`:
 
-| Response code | Meaning | errorMessage |
+| Response code | Meaning | Implementation |
 |---------|---------  |---------|
-| `200` | Success |  |
-| `400` | Success  |  |
-| `404` | user doesn't exist | "User not found" |
+| `200` | OK | Request successful, and data returned |
+| `204` | No content | Request successful, no data returned  |
+| `400` | Bad request  | Malformed or incorrect request data |
+| `404` | Not found | "User not found" |
+| `500` | Internal server error |  |
 
 ```json
 {

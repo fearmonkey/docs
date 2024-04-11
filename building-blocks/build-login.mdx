@@ -14,12 +14,12 @@ Three major steps are required to implement the user login journey end-to-end.
   _[Set up your account](https://console.ownid.com/login), get your application id, and add a field to your user table to store OwnID data._      
   [_Details>>_](#step-1-preparation)
   </Step>
-  <Step title="Add Request Handlers to Web Server">
-  _These three event handlers manage requests to each of three end-points made by the OwnID server when it receives login events from your frontend._   
+  <Step title="Add Web Server Endpoints">
+  _Add the three event handlers that manage requests to each of three end-points made by the OwnID server when it receives login events from your frontend._   
   [_Details>>_](#step-2-add-web-server-endpoints)   
   </Step>
   <Step title="Create Frontend Flow">
-  _Drop in our HTML and JavaScript templates to build the login workflow and install the widget._    
+  Add our HTML and JavaScript templates to build the login workflow and install the OwnID Password widget._    
     [_Details>>_](#create-frontend-workflow) 
   </Step> 
 </Steps>
@@ -46,7 +46,7 @@ On your app page in the console, copy the following  parameters needed for integ
 - Your **shared secret** - _Use this to verify the signature in OwnId requests to your web server._
 </Info>
 3. **Create a VARCHAR field**    
-Create a new field called `ownIdData` in your user database. We'll use this field to store OwnID authentication data for registered users. 
+Create a new character field called `ownIdData` in your user database. We'll use this field to store OwnID authentication data for registered users. 
 
 <Info>
 Be sure the `ownIdData` field meets the following requirements:
@@ -300,20 +300,25 @@ The OwnID Web SDK provides communication between your frontend login page and th
 
 If you're using React or Angular frameworks, install the OwnID SDK from the CLI.
 
-1. To install the React-based SDK use npm from the CLI:
+1. To install the React-based or the Angular-based SDK use npm from the CLI:
 
+<CodeGroup>
 ```javascript React
-npm install @ownid/react
+<script>
+    npm install @ownid/react
+</script>
 ```
-2. To install the Angular-based SDK use npm from the CLI:
 
 ```javascript Angular
-npm install @ownid/angular
+<script>
+    npm install @ownid/angular
+</script>
 ```
+</CodeGroup>
 
 ### Reference the OwnID SDK
 
-Reference the SDK at the top of your login page.
+Reference the SDK at the top of your web pages.
 
 <CodeGroup>
 

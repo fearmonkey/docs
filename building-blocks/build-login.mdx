@@ -7,20 +7,20 @@ _We recommend you build the user 'Login' journey first, as described below. That
 
 ## Integration Overview
 
-Three major steps are required to implement the user login journey end-to-end. 
+Three primary steps are required to implement the user login journey end-to-end. 
 
 <Steps>
   <Step title="Preparation">
   _[Set up your account](https://console.ownid.com/login), get your application id, and add a field to your user table to store OwnID data._      
-  [_Details>>_](#step-1-preparation)
+  [_details>>_](#step-1-preparation)
   </Step>
   <Step title="Add Web Server Endpoints">
   _Add the three event handlers that manage requests to each of three end-points made by the OwnID server when it receives login events from your frontend._   
-  [_Details>>_](#step-2-add-web-server-endpoints)   
+  [_details>>_](#step-2-add-web-server-endpoints)   
   </Step>
   <Step title="Create Frontend Flow">
   Add our HTML and JavaScript templates to build the login workflow and install the OwnID Password widget._    
-    [_Details>>_](#create-frontend-workflow) 
+    [_details>>_](#create-frontend-workflow) 
   </Step> 
 </Steps>
 
@@ -128,11 +128,14 @@ def set_ownid_data_by_login_id():
 **Response**  
 Implement these responses for `setOwnIDDataByLoginId`:
 
-| Response code | Meaning | errorMessage |
+| Response code | Meaning | Implementation |
 |---------|---------  |---------|
-| `200` | Success |  |
-| `400` | Success  |  |
-| `404` | user doesn't exist | "User not found" |
+| `200` | OK | Request successful, and data returned |
+| `204` | No content | Request successful, no data returned  |
+| `400` | Bad request  | Malformed or incorrect request data |
+| `404` | Not found | "User not found" |
+| `500` | Internal server error |  |
+
 
 ---
 
@@ -198,11 +201,13 @@ def get_ownid_data_by_login_id():
  
 Implement these responses for `getOwnIDDataByLoginId`:
 
-| Response code | Meaning | errorMessage |
+| Response code | Meaning | Implementation |
 |---------|---------  |---------|
-| `200` | Success |  |
-| `400` | Success  |  |
-| `404` | user doesn't exist | "User not found" |
+| `200` | OK | Request successful, and data returned |
+| `204` | No content | Request successful, no data returned  |
+| `400` | Bad request  | Malformed or incorrect request data |
+| `404` | Not found | "User not found" |
+| `500` | Internal server error |  |
 
 
 #### Endpoint 3 - Get Session by Login Id
@@ -280,6 +285,15 @@ Implement these responses for `getSessionByLoginId`:
 "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 }
 ```
+<Tip>
+You might notice that the request headers from OwnID to your endpoints contain two values:
+ - `ownid-signature`  
+ - `ownid-timestamp`
+
+These are part of securing your integration before going live. 
+We'll adddress these parameters separately on the [security page](/explore/security) after you integration is complete.
+</Tip>
+
 ---
 ### Step 3 - Create Frontend Flow
 
@@ -345,33 +359,12 @@ import { OwnidAngularModule } from '@ownid/angular';
     OwnidAngularModule.forRoot({appId:'s9d8f7s98f79s87dfMyAppID'}),
   ]})
 ```
-
 </CodeGroup>
+<Note>
+**Maximize OwnID Benefits**
 
-### Establish the Session
-
-Establishing the session on `onLogin`
-
-```javascript
-{ onLogin({ token }) 
-  { document.cookie = 
-  `sessionId=${token}`; 
-  } 
-}
-
-Exchange: [when session is an `http-only` cookie]
-{ onLogin({ token }) 
-  { fetch(`/auth/exchange?token=${token}`); } }
-```
-
-### Login Handler
-Setting a global login handler:
-```javascript
-ownid('init', { 
-    onLogin: ({token}) => {}
-})
-```
-
+We recommend including the SDK on all pages, even those without user-facing authentication elements. Doing so will enable the full user tracking and notification benefits offered by OwnID.
+</Note>
 
 ### Add the widget to your login form
 
@@ -450,11 +443,21 @@ onLogin(data) {
 ```
 </CodeGroup>
 
-That's it! Before going live make sure you checkout our security guidance.
+<Check>
+**That's it!** 
+
+Before going live make sure you check out the following security recommendations.
+</Check>
 
 ## Implementing Security
 
-After confirming your integration is functioning correctly, it's important to secure the endpoints on your web server by validating the OwnId signature in requests. 
+<Warning>
+**Don't miss our secirty recommendations!** 
 
-Find this process and some best-practice recommendations in our [Security guide](/explore/security).
+Be sure to read the security guide thoroughly and follow its recommendations. See your OwnId representative for additional assistance.
+</Warning>
+ 
+After completing your integration, it's important to secure the endpoints on your web server by validating the OwnId signature in the request header, and white-listing our IP addresses.
+
+Find out more about this process, along with some best-practice recommendations in our [Security guide](/explore/security).
 

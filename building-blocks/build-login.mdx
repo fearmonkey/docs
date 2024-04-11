@@ -43,7 +43,7 @@ On your app page in the console, copy the following  parameters needed for integ
 <Info>
 - Your **application id** - _Use this also in data objects where specified by the_ `appId` _field._
 
-- Your **shared secret** - _Use this to verify the signature in OwnId requests to your web server._
+- Your **shared secret** - _Use this to verify the signature in OwnID requests to your web server._
 </Info>
 3. **Create a VARCHAR field**    
 Create a new character field called `ownIdData` in your user database. We'll use this field to store OwnID authentication data for registered users. 
@@ -286,7 +286,8 @@ Implement these responses for `getSessionByLoginId`:
 }
 ```
 <Tip>
-You might notice that the request headers from OwnID to your endpoints contain two values:
+**Request headers**     
+You might notice two values in request headers from OwnID:
  - `ownid-signature`  
  - `ownid-timestamp`
 
@@ -366,7 +367,7 @@ import { OwnidAngularModule } from '@ownid/angular';
 We recommend including the SDK on all pages, even those without user-facing authentication elements. Doing so will enable the full user tracking and notification benefits offered by OwnID.
 </Note>
 
-### Add the widget to your login form
+### Add the Widget to your Login Form
 
 Place the widget next to the password field by
 inserting the script below.
@@ -456,10 +457,10 @@ Before going live make sure you check out the following security recommendations
 <Warning>
 **Don't miss our security recommendations!** 
 
-Be sure to read the security guide thoroughly and follow its recommendations. See your OwnId representative for additional assistance.
+Be sure to read the security guide thoroughly and follow its recommendations. See your OwnID representative for additional assistance.
 </Warning>
  
-After completing your integration, it's important to secure the endpoints on your web server by validating the OwnId signature in the request header, and white-listing our IP addresses.
+After completing your integration, it's important to secure the endpoints on your web server by validating the OwnID signature in the request header, and white-listing our IP addresses.
 
 Find out more about this process, along with some best-practice recommendations in our [Security guide](/explore/security).
 

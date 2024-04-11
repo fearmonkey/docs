@@ -191,12 +191,7 @@ def get_ownid_data_by_login_id():
 </CodeGroup>
 <sup> Sample request handler for `getOwnIDDataByLoginId` endpoint</sup>
 
-##### Response
-```json Sample Response
-{
-  "ownIdData": "<String>"
-}
-```
+
 **Response**
  
 Implement these responses for `getOwnIDDataByLoginId`:
@@ -209,6 +204,18 @@ Implement these responses for `getOwnIDDataByLoginId`:
 | `404` | Not found | "User not found" |
 | `500` | Internal server error |  |
 
+<CodeGroup>
+```json Response Schema
+{
+  "ownIdData": "<String>"
+}
+```
+```json Sample Response
+{
+  "ownIdData": "pp9fyq0trjksdlfksdtoiwp9qur"
+}
+```
+</CodeGroup>
 
 #### Endpoint 3 - Get Session by Login Id
 
@@ -280,11 +287,18 @@ Implement these responses for `getSessionByLoginId`:
 | `404` | Not found | "User not found" |
 | `500` | Internal server error |  |
 
-```json Sample Response
+<CodeGroup>
+```json Response Schema
 {
-"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+  "token": "<String>"
 }
 ```
+```json Sample Response
+{
+  "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+}
+```
+</CodeGroup>
 <Tip>
 **Request headers**     
 You might notice two values in request headers from OwnID:

@@ -2,3 +2,35 @@
 title: 'Build Registration'
 description: 'Learn how to set up endpoints, request handlers, and the frontend registration widget'
 ---
+    <div class="box">
+        <div class="title">Chat App</div>
+        <div><input placeholder="Email" id="email" type="text"></div>
+        <div><input placeholder="First Name" id="firstName" type="text"></div>
+        <div><input placeholder="Last Name" id="lastName" type="text"></div>
+        <div><input placeholder="Password" id="pass" type="password"></div>
+        <button id="submit" onclick="regClick();">Register</button>
+        <div class="footer">
+            Got an account? <a href="login.html">login</a>
+        </div>
+        <div id="err"></div>
+    </div>
+
+    <script>
+        var ownIdDataObject = undefined;
+
+        ownid("register", {
+            passwordField: document.getElementById("pass"),
+            loginIdField: document.getElementById("email"),
+            onError: (error) => console.log(error),
+            onRegister: (ownIdData) => ownIdDataObject = ownIdData
+        });
+
+        function regClick() {
+            register(document.querySelector('#email').value, {
+                firstName: document.querySelector('#firstName').value,
+                lastName: document.querySelector('#lastName').value,
+            }, document.querySelector('#pass').value,ownIdDataObject)
+        }
+    </script>
+
+

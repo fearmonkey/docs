@@ -15,9 +15,9 @@ If you're using React or Angular frameworks, and you haven't yet installed the O
 
 Otherwise, continue to Step 2.
 
-<Accordion title="Install the Own SDK">
+<Accordion title="Install the OwnID SDK">
 
-To install the React-based or the Angular-based SDK use npm from the CLI:
+To install the React-based or the Angular-based SDK, use npm from the CLI:
 
 <CodeGroup>
 ```javascript React
@@ -59,6 +59,7 @@ import { OwnidAngularModule } from '@ownid/angular';
 ```
 </CodeGroup>
 <Note>
+
 **Maximize OwnID Benefits**
 
 We recommend including the SDK on all pages, even those without user-facing authentication elements. Doing so will enable additional functionality.
@@ -71,11 +72,13 @@ Implement the registration form, event handler, and OwnID `register` integration
 ### Build the Registration Form
 
 1. Copy or build the HTML  _registration_ form shown below and include these fields:
+<Card>
 - Email
 - First Name
 - Last Name
 - Password
-Note: the <div> class names are arbitrary. (???)
+</Card>
+
 
 2. The submit button in the form triggers the `regClick()` function defined below. 
 
@@ -89,6 +92,7 @@ Note: the <div> class names are arbitrary. (???)
 
 3. Copy the onRegister() function to your page.  
 
+Note: The `<div>` class names in the examples below are arbitrary. (???)
 
 <CodeGroup>
 

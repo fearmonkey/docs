@@ -1,14 +1,99 @@
 ---
-title: 'Build Registration'
-description: 'Learn how to set up endpoints, request handlers, and the frontend registration widget'
+title: 'Registration'
+description: 'Learn how to set up the registration form, submit handler, and the OwnId integration'
 ---
-import MySnippet from '/snippets/domain-notice.mdx';
+_We recommend you build the user 'Login' journey first, as described [here](/building-blocks/build-login). That enables sufficient functionality to 'go live' and provides the code base you need to quickly implement 'Registration' and 'Password Recovery' when you're ready._  
 
-<MySnippet/>
+## Prerequisites
+To get the most out of this guide, you should first [build server endpoints](/building-blocks/build-server-endpoints).
 
-Registration
+## Step 1 - Install the OwnID Web SDK
 
+The OwnID Web SDK provides communication between your frontend login page and the OwnID cloud server.
+
+If you're using React or Angular frameworks, and you haven't yet installed the OwnID SDK on your local system, you should do that now before continuing.
+
+Otherwise, continue to Step 2.
+
+<Accordion title="Install the Own SDK">
+
+To install the React-based or the Angular-based SDK use npm from the CLI:
+
+<CodeGroup>
+```javascript React
+npm install @ownid/react
 ```
+
+```javascript Angular
+npm install @ownid/angular
+```
+</CodeGroup>
+</Accordion>
+
+## Step 2 - Reference the OwnID SDK
+
+Reference the appropriate version of the OwnID SDK at the top of your web pages.
+
+<CodeGroup>
+
+```javascript JavaScript
+<script>
+    ((o,w,n,i,d)=>{o[i]=o[i]||(async(...a)=>((o[i].q=o[i].q||[]).push(a),{error:null,data:null})),
+    (d=w.createElement("script")).src='https://cdn.ownid.com/sdk/'+n,d.async=1,w.head.appendChild(d)})  
+    (window,document,'<appID>','ownid');
+</script>
+```
+
+```jsx React
+import { OwnIDInit } from '@ownid/react';
+<OwnIDInit config={{appId:'9s8d7f9s87g98s7dgMyAppID'}}/>
+```
+
+```javascript Angular
+import { OwnidAngularModule } from '@ownid/angular';
+
+@NgModule({
+  imports: [
+    OwnidAngularModule.forRoot({appId:'s9d8f7s98f79s87dfMyAppID'}),
+  ]})
+```
+</CodeGroup>
+<Note>
+**Maximize OwnID Benefits**
+
+We recommend including the SDK on all pages, even those without user-facing authentication elements. Doing so will enable additional functionality.
+</Note>
+
+## Step 3 - Implement Registration UX
+
+Implement the registration form, event handler, and OwnID `register` integration on the desired page.
+
+### Build the Registration Form
+
+1. Copy or build the HTML  _registration_ form shown below and include these fields:
+- Email
+- First Name
+- Last Name
+- Password
+Note: the <div> class names are arbitrary. (???)
+
+2. The submit button in the form triggers the `regClick()` function defined below. 
+
+3. We recommend including a link to the login page and a container to display errors below the form.
+
+### Configure and call the SDK 'register' function
+
+1. Configure OwnID authentication with the user's password and email fields.
+
+2. Save registration data in `ownIdDataObject`.
+
+3. Copy the onRegister() function to your page.  
+
+
+<CodeGroup>
+
+```javascript Sample registration front end
+<body>
     <div class="box">
         <div class="title">Chat App</div>
         <div><input placeholder="Email" id="email" type="text"></div>
@@ -21,6 +106,7 @@ Registration
         </div>
         <div id="err"></div>
     </div>
+
 
     <script>
         var ownIdDataObject = undefined;
@@ -40,11 +126,75 @@ Registration
         }
     </script>
 
+</body>
 ```
-## Header
 
+```jsx React
+function LoginComponent() {
+    const emailField = useRef(null);
+    const passwordField = useRef(null);
+    
+    function onLogin(data) {
+        //1. set user session using data.token (usually a jwt or session token), generated in your backend and sent through the OwnID server
+        localStorage.setItem('sessionID', JSON.stringify({ token: data.token }));
+        //2. redirect the user (this is just an example)
+        window.location.href = '/account';
+    }
+    return (
+        <form>
+            <input ref={emailField} type="email" name="email" />
+            <input ref={passwordField} type="password" name="password" />
+            <button type="submit">Log In</button>
+            <OwnID type='login'
+                passwordField={passwordField}
+                loginIdField={emailField}
+                onError={(error) => console.error(error)}
+                onLogin={onLogin} />
+        </form>
+    );
+}
+```
 
+```javascript Angular
 
-<MySnippet/>
+<form [formGroup]="userForm" class="registration-form" (ngSubmit)="onSubmit()">
+  <input formControlName="email"  type="email" #email name="email" placeholder="Email" required/>
+  <input formControlName="password" type="password" #password name="password" placeholder="password" required/>
+  <button type="submit">Register</button>
+  <ownid [type]="register"
+         [options] = widgetOptions
+         (onRegister)="onRegister($event)"
+         [loginIdField]="email"
+         [passwordField]="password">
+  </ownid>
+</form>
+<div class="custom-link">
+<div class="link-text" routerLink="/login">Already have an account?</div>
+
+```
+</CodeGroup>
+
+<Check>
+**That's it!** 
+
+Your users can now register through OwnId services.
+
+Before going live make sure you check out the following the next steps.
+</Check>
+
+# Next Steps
+
+<Card title="Build Registration" href="/building-blocks/build-registration">
+Integrate the OwnID SDK in your registration pages.
+</Card>
+
+# Issues
+
+- Div classes are defined in CSS 
+   - box?
+   - footer
+
+- Start pointing out customizable elements  
+
 
 

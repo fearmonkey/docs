@@ -1,0 +1,105 @@
+---
+title: 'Account Recovery'
+description: 'Learn how to set up account recovery on the frontend'
+---
+
+_We recommend you build the user 'Login' journey first, as described [here](/building-blocks/build-login). That enables sufficient functionality to 'go live' and provides the code base you need to quickly implement 'Registration' and 'Password Recovery' when you're ready._  
+
+# Prerequisites
+To get the most out of this guide, you should first [Build Server Endpoints](/building-blocks/build-server-endpoints).
+
+## Step 1 - Install OwnID Web SDK
+
+The OwnID Web SDK provides communication between your frontend login page and the OwnID cloud server.
+
+If you're using React or Angular frameworks, and you haven't yet installed the OwnID SDK on your local system, you should do that now before continuing.
+
+Otherwise, continue to Step 2.
+
+<Accordion title="Install the Own SDK">
+
+To install the React-based or the Angular-based SDK use npm from the CLI:
+
+<CodeGroup>
+```javascript React
+npm install @ownid/react
+```
+
+```javascript Angular
+npm install @ownid/angular
+```
+</CodeGroup>
+</Accordion>
+
+
+## Step 2 - Reference the OwnID SDK
+
+Reference the appropriate version of the OwnID SDK at the top of your web pages.
+
+<CodeGroup>
+
+```javascript JavaScript
+<script>
+    ((o,w,n,i,d)=>{o[i]=o[i]||(async(...a)=>((o[i].q=o[i].q||[]).push(a),{error:null,data:null})),
+    (d=w.createElement("script")).src='https://cdn.ownid.com/sdk/'+n,d.async=1,w.head.appendChild(d)})  
+    (window,document,'<appID>','ownid');
+</script>
+```
+
+```jsx React
+import { OwnIDInit } from '@ownid/react';
+<OwnIDInit config={{appId:'9s8d7f9s87g98s7dgMyAppID'}}/>
+```
+
+```javascript Angular
+import { OwnidAngularModule } from '@ownid/angular';
+
+@NgModule({
+  imports: [
+    OwnidAngularModule.forRoot({appId:'s9d8f7s98f79s87dfMyAppID'}),
+  ]})
+```
+</CodeGroup>
+<Note>
+**Maximize OwnID Benefits**
+
+We recommend including the SDK on all pages, even those without user-facing authentication elements. Doing so will enable additional functionality.
+</Note>
+
+## Step 3 - Implement Account Recovery UX
+
+Place the widget next to the password field by
+inserting the script below.
+
+
+<CodeGroup>
+
+```javascript Javascript
+
+</body>
+```
+
+```jsx React
+
+
+```
+
+```javascript Angular
+
+```
+</CodeGroup>
+
+<Check>
+**That's it!** 
+
+You've implemented the frontend functionality required for the user to recover their accounts.
+
+Before going live make sure you check out the following the next steps!
+
+</Check>
+
+# Next Steps
+
+<Card title="Build Registration" href="/building-blocks/build-registration">
+Integrate the OwnID SDK in your registration pages.
+</Card>

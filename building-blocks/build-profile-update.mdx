@@ -1,0 +1,36 @@
+---
+title: 'Build Profile Update'
+description: 'Description of your new file.'
+---
+
+You can offer users the option to update their profile after authentication.
+
+```javascript
+<body>
+    <div class="box">
+        <div class="title">Complete your profile</div>
+        <div><input placeholder="First Name" id="firstName" type="text"></div>
+        <div><input placeholder="Last Name" id="lastName" type="text"></div>
+        <button id="submit" onclick="profileUpdateClick();">Submit</button>
+        <div id="err"></div>
+    </div>
+
+    <script>
+        function profileUpdateClick() {
+            profileUpdate({
+                firstName: document.querySelector('#firstName').value,
+                lastName: document.querySelector('#lastName').value,
+            })
+        }
+    </script>
+</body>
+```
+
+<Card>
+Ready to Deploy?
+
+Go through the deployment checklist
+
+
+</Card>
+

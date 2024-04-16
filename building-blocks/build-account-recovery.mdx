@@ -2,11 +2,14 @@
 title: 'Account Recovery'
 description: 'Learn how to set up account recovery on the frontend'
 ---
+Account Recovery automates the process of re-authenticating users who perhaps had an issue with their existing device.
 
-_We recommend you build the user 'Login' journey first, as described [here](/building-blocks/build-login). Building login enables sufficient functionality to 'go live' and provides the code base you need to quickly implement 'Registration' and 'Password Recovery' when you're ready._  
+<Note>
+_If you haven't already, we recommend you build the user 'Login' journey first, as described [here](/building-blocks/build-login). Building login enables sufficient functionality to 'go live' and provides the code base you need to quickly implement 'Registration' and 'Password Recovery' when you're ready._  
 
+</Note>
 # Prerequisites
-To get the most out of this guide, you should first [Build Server Endpoints](/building-blocks/build-server-endpoints).
+To get the most out of this guide, you should first add the three required event handlers on your web server as described in [Build Server Endpoints](/building-blocks/build-server-endpoints).
 
 ## Step 1 - Install OwnID Web SDK
 
@@ -101,5 +104,157 @@ Before going live make sure you check out the following the next steps!
 # Next Steps
 
 <Card title="Build Registration" href="/building-blocks/build-registration">
+
+
+
+
+
+OwnID-React SDK
+
+A library for integrating OwnID into a React application.
+Table of Contents
+
+    Installation
+    Getting Started
+    Alternative Integration Strategies
+    What is OwnID?
+    License
+
+```
+Installation
+
+Use the npm CLI to run:
+
+npm install @ownid/react
+
+Getting Started
+
+    Initialize OwnID
+    Add Register with OwnID to Your Application
+    Add OwnID Login to Your Application
+
+Initialize OwnID
+
+Import OwnIDInit component to your App component and configure it with the appId of the website's OwnID application. To obtain the OwnID application's id, open the application in the OwnID Console.
+
+...
+import { OwnIDInit } from '@ownid/react';
+
+...
+
+  <OwnIDInit config={{ appId: '<your application id>' }}/>
+
+Add Register with OwnID to Your Application
+
+Add references to required elements
+
+  const email = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement>(null);
+  const passwordConfirm = useRef<HTMLInputElement>(null);
+
+<input ref={email} type="email" name="email"/>
+<input ref={password} type="password" name="password"/>
+<input ref={passwordConfirm} type="password" name="password"/>
+
+Add the OwnID component to the registration page.
+
+<OwnID type={WidgetType.Register}
+  loginIdField={email}
+  passwordField={password}
+  confirmPasswordContainer={passwordConfirm}
+  onError={setError}
+  onRegister={onRegister}
+/>
+
+Then add onRegister callback. Store ownIdData in your app storage. (global variable at window object just an example. It's not recommended using it in that way)
+
+onRegister(ownIdData) {
+  window.ownIdData = ownIdData;
+}
+
+To add OwnID to your application using a service instead of the HTML template, see Inject Service into Registration Component.
+Modify Existing Registration Method
+
+Now, wrap your existing registration logic within the getOwnIDData function. This function adds the OwnID payload to the form data before calling your existing registraion method.
+
+onSubmit(formData) {
+  if (window.ownIdData) {
+    formData.ownIdData = btoa(JSON.stringify([window.ownIdData]));
+  }
+  
+  //Call your existing registration logic in the backend
+  return register(formData);
+}
+
+Add OwnID Login to Your Application
+
+Add references to elements
+
+  const email = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement>(null);
+
+    <input ref={email} type="email" name="email"/>
+    <input ref={password} type="password" name="password"/>
+
+Add the OwnID component to the login page.
+
+    <OwnID type={WidgetType.Login}
+      passwordField={password}
+      loginIdField={email}
+      onError={setError}
+      onLogin={onLogin}
+    />
+
+To add OwnID to your application using a service instead of the HTML template, see Inject Service into Login Component.
+Define onLogin Function
+
+Now, define the onLogin function that is executed when the user logs in with OwnID. This function must set the user session and execute post-login actions like triggering an event or navigating to an authorized page. For example, the onLogin method might look like:
+
+function onLogin(data: any) {
+    //setting user session
+    authService.setAuth({ token: data.token });
+    
+    //redirecting user to the account page
+    navigateTo('/account');
+  }
+
+Alternative Integration Strategies
+
+    Inject Service into Registration Component
+    Inject Service into Login Component
+
+Inject Service into Registration Component
+
+As an alternative to incorporating the OwnID component into an HTML template, use the ownidReactService service at the registration page:
+
+const email = useRef<HTMLInputElement>(null);
+const password = useRef<HTMLInputElement>(null);
+const passwordConfirm = useRef<HTMLInputElement>(null);
+
+useEffect(() => ownidReactService.register({
+  loginIdField: email.current,
+  passwordField: password.current,
+  confirmPasswordContainer: passwordConfirm.current,
+  onRegister: (ownidData) => onRegister(ownidData),
+  onError: (error: string) => setError(error),
+}), []);
+
+Now, you need to modify your existing registration method.
+Inject Service into Login Component
+
+As an alternative to incorporating the OwnID component into an HTML template, use the ownidReactService service at the login page:
+
+  const email = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement>(null);
+  
+  useEffect(() => ownidReactService.login({
+    loginIdField: email.current,
+    passwordField: password.current,
+    onLogin: (ownidData) => onLogin(ownidData),
+    onError: (error: string) => setError(error),
+  }), []);
+
+Now, you need to define the onLogin function.
 Integrate the OwnID SDK in your registration pages.
+```
 </Card>

@@ -1,0 +1,315 @@
+---
+title: "Get Started"
+icon: "rocket"
+color: "#2D596F"
+description: "Create your first OwnID integration."
+---
+
+# Overview
+
+![OwnID Integration Overview](/images/howto.png)
+
+## Before you begin
+First, [create an OwnID account](https://console.ownid.com). After creating your first OwnID application in the OwnID console, we generate an <Tooltip tip="An appId is the unique identifier of the integration">`appId`</Tooltip> for you. You will need that later in this guide.
+
+Then, create a field in your database (usually in the users' table) to store revelant information related to OwnID authentication. Name it `ownIdData`.
+
+<Info>
+If you have a relational database (RDBMS), be sure the field meets the following requirements:
+* A character datatype e.g., VARCHAR
+* A minimum length of 5000 chars
+</Info>
+
+## 1. Add server-side logic
+
+As the user interacts with OwnID to login/register, OwnID server communicates with your website's server through API endpoints created by your team. This guide will help you build these endpoints.
+
+**Build Endpoint 1: Set OwnID data**
+
+When the user enrolls a new device, OwnID server stores the user's `ownIdData` in your database, through a request to your website's backend. 
+
+<Expandable title="code example">
+
+<CodeGroup>
+```javascript nodejs
+router.post('/setOwnIDDataByLoginId', async (req, res) => {
+    const email = req.body.loginId; //The unique id of a user in your database, usually email or phone
+    const ownIdData = req.body.ownIdData; //OwnID authentication information as string
+    const user = await User.findOne({ email: email }).exec();
+    user.ownIdData = ownIdData;
+    await user.save();
+    return res.sendStatus(204);
+});
+```
+```java java
+@PostMapping("/setOwnIDDataByLoginId")
+public ResponseEntity <Object> setOwnIdDataByLoginId(@RequestBody OwnIDData req) {
+    User user = userRepository.findByLoginId(req.getLoginId());
+    user.setOwnIdData(data);
+    userRepository.save(user);
+
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+}
+```
+```csharp csharp
+[HttpPost("setOwnIDDataByLoginId")]
+public async Task<ActionResult<Object>> SetOwnIdDataByLoginId(string loginId, string ownIdData)
+{
+    var user = _userRepository.Instance.Get(loginId);
+    user.ownIdData = ownIdData;
+    _userRepository.Instance.Update(user);
+
+    return NoContent();
+}
+```
+
+```python python
+@app.route('/setOwnIDDataByLoginId', methods=['POST'])
+def set_ownid_data_by_login_id():
+    data = request.get_json()
+    login_id = data['loginId']
+    ownid_data = data['ownIdData']
+    user = db.session.query(Users).filter(Users.email == login_id).first()
+    user.ownid_data = ownid_data
+    user.save()
+    return ('', 204)
+```
+</CodeGroup>
+</Expandable>
+
+[API reference documentation](../api-reference/endpoint/setowniddata)
+
+**Build Endpoint 2: Get OwnID data**
+
+During login, OwnID server gets the `ownIdData` from your backend to resolve the biometric login challenge.
+
+<Expandable title="code example">
+<CodeGroup>
+
+```javascript nodejs
+router.post('/getOwnIDDataByLoginId', async (req, res) => {
+    const email = req.body.loginId; //The unique id of a user in your database, usually email or phone
+    const user = await User.findOne({ email: email }).exec();
+    if (!user) { return res.json({ errorCode: 404 }) } //Error code when user doesn't exist
+    res.json({ ownIdData: user.ownIdData }) //OwnID authentication information as string
+});
+```
+```java java
+@PostMapping("/getOwnIDDataByLoginId")
+public ResponseEntity<Object> getOwnIdDataByLoginId(@RequestBody OwnIDSearchRequest req) {
+    User user = userRepository.findByLoginId(req.getLoginId());
+
+    if (user == null) {
+        return ResponseEntity.status(HttpStatus.OK).
+            body(new OwnIdErrorResponse(HttpStatus.NOT_FOUND, "User not found"));
+    }
+
+    return ResponseEntity.status(HttpStatus.OK).body(new OwnIDDataResponse(user.getOwnIdData()));
+}
+```
+```csharp csharp
+[HttpPost("getOwnIDDataByLoginId")]
+public async Task<ActionResult<Object>> GetOwnIDDataByLoginId(string loginId)
+{
+    var user = _userRepository.Instance.Get(loginId);
+
+    if (user == null)
+        return Ok(new { ErrorCode = HttpStatusCode.NotFound, ErrorMessage = "User not found" });
+
+    return Ok(new { OwnIdData = user.OwnIdData });
+}
+```
+
+```python python
+@app.route('/getOwnIDDataByLoginId', methods=['POST'])
+def get_ownid_data_by_login_id():
+    data = request.get_json()
+    login_id = data['loginId']
+    user = db.session.query(Users).filter(Users.email == login_id).first()
+    if not user:
+        return jsonify({'errorCode': 404})
+    return jsonify({'ownidData': user.ownid_data})
+```
+</CodeGroup>
+</Expandable>
+
+[API reference documentation](../api-reference/endpoint/getowniddata) 
+
+**Build Endpoint 3: Get session**
+
+During login, OwnID server requests a session object from your website's backend. The resulting session object will be transferred to the onLogin() callback in your frontend. 
+
+<Expandable title="code example">
+<CodeGroup>
+
+```javascript nodejs
+router.post('/getSessionByLoginId', async (req, res) => {
+    const sign = require('jwt-encode');
+    const email = req.body.loginId; //The unique id of a user in your database, usually email or phone
+    const user = await User.findOne({ email: email }).exec();
+    const jwt = sign({ email: user.email }, 'secret');
+    return res.json({ token: jwt });
+});
+```
+
+```java java
+@PostMapping("/getSessionByLoginId")
+public ResponseEntity<OwnIDSessionResponse> getSessionByLoginId(@RequestBody OwnIDSearchRequest req) {
+    User user = userRepository.findByLoginId(req.getLoginId());
+    Algorithm alg = Algorithm.HMAC256("secret");
+    String token = JWT.create().
+        withClaim("loginId", req.getLoginId()).
+        sign(alg);
+
+    return ResponseEntity.status(HttpStatus.OK).body(new OwnIDSessionResponse(token));
+}
+```
+```csharp csharp
+[HttpPost("getSessionByLoginId")]
+public async Task<ActionResult<OwnIDSessionResponse>> GetSessionByLoginId(string loginId)
+{
+    var user = _userRepository.Instance.Get(loginId);
+    var hashObject = new HMACSHA256(Encoding.UTF8.GetBytes("secret"));
+    var signature = hashObject.ComputeHash(Encoding.UTF8.GetBytes(user.LoginId));
+    var encodedSignature = Convert.ToBase64String(signature);
+
+    return Ok(new OwnIDSessionResponse() { Token = encodedSignature });
+}
+```
+
+```python python
+@app.route('/ownid/getSessionByLoginId', methods=['POST'])
+def get_session_by_login_id():
+    data = request.get_json()
+    login_id = data['loginId']
+    user = db.session.query(Users).filter(Users.email == login_id).first()
+    token = jwt.encode({
+        'userId': str(user.email), 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=3)},
+        app.config['SECRET_KEY'],
+        "HS256")
+    return jsonify({'token': token})
+```
+
+</CodeGroup>
+</Expandable>
+
+[API reference documentation](../api-reference/endpoint/getownidsession) 
+
+## 2. Frontend integration
+
+**Install OwnID SDK**
+
+Use the CLI to run:
+
+<CodeGroup>
+```javascript reactjs
+npm install @ownid/react
+```
+
+```javascript angular
+npm install @ownid/angular
+```
+</CodeGroup>
+
+**Initialize OwnID SDK**
+
+<CodeGroup>
+
+```jsx reactjs
+import { OwnIDInit } from '@ownid/react';
+<OwnIDInit config={{appId:'9s8d7f9s87g98s7dgMyAppID'}}/>
+```
+
+```javascript angular
+import { OwnidAngularModule } from '@ownid/angular';
+
+@NgModule({
+  imports: [
+    OwnidAngularModule.forRoot({appId:'s9d8f7s98f79s87dfMyAppID'}),
+  ]})
+```
+
+```javascript javascript
+<script>
+    ((o,w,n,i,d)=>{o[i]=o[i]||(async(...a)=>((o[i].q=o[i].q||[]).push(a),{error:null,data:null})),
+    (d=w.createElement("script")).src='https://cdn.ownid.com/sdk/'+n,d.async=1,w.head.appendChild(d)})  
+    (window,document,'<appID>','ownid');
+</script>
+```
+
+</CodeGroup>
+
+**Add OwnID button to your login form**
+
+Add the following code to render the login widget:
+
+<CodeGroup>
+```jsx reactjs
+function LoginComponent() {
+    const emailField = useRef(null);
+    const passwordField = useRef(null);
+    
+    function onLogin(data) {
+        //1. set user session using data.token (usually a jwt or session token), generated in your backend and sent through the OwnID server
+        localStorage.setItem('sessionID', JSON.stringify({ token: data.token }));
+        //2. redirect the user (this is just an example)
+        window.location.href = '/account';
+    }
+    return (
+        <form>
+            <input ref={emailField} type="email" name="email" />
+            <input ref={passwordField} type="password" name="password" />
+            <button type="submit">Log In</button>
+            <OwnID type='login'
+                passwordField={passwordField}
+                loginIdField={emailField}
+                onError={(error) => console.error(error)}
+                onLogin={onLogin} />
+        </form>
+    );
+}
+```
+```javascript angular
+<form #myForm="ngForm" (ngSubmit)="onSubmit()">
+  <input #emailField type="email">
+  <input #passwordField type="password">
+  <ownid type="login"
+       [loginIdField]="emailField"
+       [passwordField]="passwordField"
+       (onLogin)="onLogin($event)">
+  </ownid>
+  <button type="submit">Log In</button>
+</form>
+
+onLogin(data) {
+   //1. set user session using data.token (usually a jwt or session token), generated in your backend and sent through the OwnID server
+  this.authService.setAuth({ token: data.token });
+  //2. redirect the user (this is just an example)
+  this.router.navigateByUrl('/account');
+}
+```
+```javascript javascript
+<body>
+    <form name="myForm">
+        <input id="email" type="text" name="email">
+        <input id="password" type="text" name="password">
+        <input type="submit" value="Submit">
+    </form>
+    <script>
+        ownid("login", {
+            loginIdField: document.getElementById("email"),
+            passwordField: document.getElementById("password"),
+            onError: (error) => console.log(error),
+            onLogin: function (data) {
+                 //1. set user session using data.token (usually a jwt or session token), generated in your backend and sent through the OwnID server
+                localStorage.setItem('sessionID', JSON.stringify({ token: data.token }));
+                //2. redirect the user (this is just an example)
+                window.location.href = '/account';
+            }
+        });
+    </script>
+</body>
+```
+</CodeGroup>
+<br/>
+<Check>Congratulations! You can try the passwordless experience on your website!</Check>

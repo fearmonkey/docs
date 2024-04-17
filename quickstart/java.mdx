@@ -1,0 +1,191 @@
+---
+title: "Java"
+description: "Learn how to integrate OwnID if you are using Java"
+---
+
+## 1. Create Database Field
+Create a field to store revelant information related to OwnID authentication. Name it `ownIdData`.
+
+<Info>
+If you have a relational database (RDBMS), be sure the field meets the following requirements:
+* A character datatype e.g., VARCHAR
+* A minimum length of 5000 chars
+</Info>
+
+
+## 2. Create Three Endpoints
+OwnID requires your endpoints to conform to the following specifications. These endpoints must share a common base URL that is unique.
+
+### Set OwnID data 
+When the user enrolls a new device, the OwnID server sends a `POST /setOwnIDDataByLoginId` request to store authentication data in your database. As an example, when a website's backend receives the following request it must associate the user identified by `sol@testmail.com` with the provided OwnID authentication data.
+<RequestExample>
+
+```md POST test
+curl --location --request POST 'https://bazco.company/setOwnIDDataByLoginId/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "loginId": "sol@testmail.com",
+  "ownIdData":"<String>"
+}'
+```
+</RequestExample>
+
+**Request Parameters**
+
+When the OwnID server sends a `POST /setOwnIDDataByLoginId` request, it encodes parameters as JSON with a Content-Type of application/json. The following parameters must be supported:
+
+| Parameter    | Type   | Is required? | Description                                                       |
+|--------------|--------|--------------|-------------------------------------------------------------------|
+| loginId        | string | True       | The unique identifier of a user in the database, usually email or phone.           |
+| ownIdData    |  string | True        | The OwnID authentication data object.                             |
+
+**Expected Response**
+
+If the website's backend successfully receives and processes the `POST /setOwnIDDataByLoginId` request, it should return a 204 HTTP status code with an empty response body.
+```
+{ }
+```
+**Code Example**
+
+```java
+@PostMapping("/setOwnIDDataByLoginId")
+public ResponseEntity <Object> setOwnIdDataByLoginId(@RequestBody OwnIDData req) {
+    User user = userRepository.findByLoginId(req.getLoginId());
+    user.setOwnIdData(data);
+    userRepository.save(user);
+
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+}
+```
+
+### Get OwnID data
+OwnID sends a `POST /getOwnIDDataByLoginId` request to retrieve OwnID authentication data about a user. The request finds the user within the identify platform based on the user's `loginId`, which is usually the user's email or phone number.
+
+```bash Sample Request
+curl --location --request POST 'https://bazco.company/getOwnIDDataByLoginId' \
+--header 'Content-Type: application/json' \
+--data-raw '{"loginId":"sol@testmail.com"}' 
+```
+
+**Body Parameters**
+
+<ParamField path="loginId" type="string" required>
+  The unique identifier of a user in the database, usually email or phone.
+</ParamField>  
+
+**Response**
+
+<ResponseField name="ownIdData" type="string">
+  The ownIdData retrieved from your database.
+</ResponseField>
+
+<Info>
+If the user exists but doesn't have the `ownIdData` object (this is the use case of an existing user going passwordless for the first time), we expect a response with an empty `ownIdData`:
+
+```json User exists in your database but doesn't have ownIdData
+{
+  "ownIdData": ""
+}
+```
+
+When the user (loginID) doesn't exist in your database, you must return a standard HTTP code with the following response body:
+
+```json User doesn't exist in your database
+{
+  "errorCode": 404,
+  "errorMessage": "User not found"
+}
+```
+</Info>
+
+**Code Example**
+
+```java /getOwnIDDataByLoginId
+@PostMapping("/getOwnIDDataByLoginId")
+public ResponseEntity<Object> getOwnIdDataByLoginId(@RequestBody OwnIDSearchRequest req) {
+    User user = userRepository.findByLoginId(req.getLoginId());
+
+    if (user == null) {
+        return ResponseEntity.status(HttpStatus.OK).
+            body(new OwnIdErrorResponse(HttpStatus.NOT_FOUND, "User not found"));
+    }
+
+    return ResponseEntity.status(HttpStatus.OK).body(new OwnIDDataResponse(user.getOwnIdData()));
+}
+```
+
+### Get session
+The OwnID servers sends a `POST /getSessionByLoginId` request after the user has successfully logged in with OwnID. The backend receiving the request is expected to return a JSON object that will be used to authenticate the user on the client side. Often times, the backend returns a JWT for this purpose, but it can also be an arbitrary JSON string. Once it receives the JSON object, the OwnID server passes it to the client-side app using a JavaScript event.
+
+```md
+curl --location --request POST 'https://bazco.company/getSessionByLoginId' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+   "loginId":"sol@testmail.com",
+   "sessionType":"browser",
+}'
+```
+
+**Request Parameters**
+
+When the OwnID server sends a `POST /getSessionByLoginId` request, it encodes parameters as JSON with a Content-Type of application/json. The following parameters must be supported:
+
+| Parameter | Type   | Is required? | Description         |
+|-----------|--------|--------------|---------------------|
+| loginId       | string | True         | The unique identifier of a user in the database, usually email or phone. |
+| sessionType       | string | False         | Session type, browser or mobile. |
+
+**Expected Response**
+
+When the OwnID makes a `POST /getSessionByLoginId` request, it expects to receive back a response with the following structure, where `token` is a JSON object, often a JWT:
+```
+{
+  "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+}
+
+```
+
+**Code Example**
+
+```java
+@PostMapping("/getSessionByLoginId")
+public ResponseEntity<OwnIDSessionResponse> getSessionByLoginId(@RequestBody OwnIDSearchRequest req) {
+    User user = userRepository.findByLoginId(req.getLoginId());
+    Algorithm alg = Algorithm.HMAC256("secret");
+    String token = JWT.create().
+        withClaim("loginId", req.getLoginId()).
+        sign(alg);
+
+    return ResponseEntity.status(HttpStatus.OK).body(new OwnIDSessionResponse(token));
+}
+```
+
+Congratulations! You have finished tha backend part of the integration. 
+
+## 3. Add OwnID to your login and registration forms
+
+Choose the frontend technology used on your website: 
+
+<CardGroup cols={2}>
+  <Card
+    title="Javascript"
+    icon="js"
+    href="/frontend/javascript"
+  >
+
+  </Card>
+  <Card
+    title="ReactJS"
+    icon="react"
+    href="/frontend/reactjs"
+  >
+
+  </Card>
+  <Card
+    title="Angular"
+    icon="angular"
+    href="/frontend/angular"
+  >
+
+  </Card>
+</CardGroup>

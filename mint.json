@@ -69,10 +69,13 @@
             "building-blocks/build-frontend-integration",
             "building-blocks/build-login",
             "building-blocks/build-registration",
-            "building-blocks/build-account-recovery"
+            "building-blocks/build-account-recovery",
+            "building-blocks/build-onetap-signin",
+            "building-blocks/build-profile-update"
           ]
         },
-        "building-blocks/security"
+        "building-blocks/security",
+        "building-blocks/pre-deployment--checklist"
       ]
       
     },    

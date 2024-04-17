@@ -1,34 +1,30 @@
 ---
-title: 'Login'
+title: 'Build Login'
 description: 'Learn how to add the OwnID widget to your login page'
 ---
 
-_We recommend you build the user 'Login' journey first, as described below. That enables sufficient functionality to 'go live' and provides the code base you need to quickly implement 'Registration' and 'Password Recovery' when you're ready._  
+We recommended Login as the first frontend integration you should build. 
 
-# Prerequisites
-To get the most out of this guide, you’ll need to:
+## Prerequisites
+To get the most out of this guide, make sure you've already completed the backend integrations as described in [Build Server-Side Endpoints](/building-blocks/build-server-endpoints).
 
-- [Build Server Endpoints](/building-blocks/build-server-endpoints)
+## Integrating Login
 
-## Step 1 - Install OwnID Web SDK
+Integrate account recovery in just three steps. 
+1. Step 1 - Install OwnID Web SDK
+2. Step 2 - Reference the OwnID SDK
+3. Step 3 - Implement login Form
+
+### Step 1 - Install OwnID Web SDK
 
 The OwnID Web SDK provides communication between your frontend login page and the OwnID cloud server.
 
-If you're using React or Angular frameworks, install the OwnID SDK from the CLI.
+If you're using React or Angular frameworks, and you haven't yet installed the OwnID SDK on your local system, you should do that now before continuing.
 
-1. To install the React-based or the Angular-based SDK use npm from the CLI:
+Otherwise, continue to Step 2.
 
-<CodeGroup>
-```javascript React
-npm install @ownid/react
-```
 
-```javascript Angular
-npm install @ownid/angular
-```
-</CodeGroup>
-
-## Step 2 - Reference the OwnID SDK
+### Step 2 - Reference the OwnID SDK
 
 Reference the SDK at the top of your web pages.
 
@@ -62,7 +58,7 @@ import { OwnidAngularModule } from '@ownid/angular';
 We recommend including the SDK on all pages, even those without user-facing authentication elements. Doing so will enable additional functionality.
 </Note>
 
-## Step 3 - Add the Widget to your Login Form
+### Step 3 - Add the Widget to your Login Form
 
 Place the widget next to the password field by
 inserting the script below.

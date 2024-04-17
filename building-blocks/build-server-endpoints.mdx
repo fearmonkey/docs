@@ -10,11 +10,11 @@ These endpoints provide the connection between OwnId and your server for exchang
 
 Below are code templates for each of the three request handlers needed to implement your server-side endpoints:
 
-- `setOwnIDDataByLoginId`
+- Set OwnIdData - `setOwnIDDataByLoginId`
 
-- `getOwnIDDataByLoginId`
+- Get OwnIdData - `getOwnIDDataByLoginId`
 
-- `getSessionByLoginId`
+- Get Session - `getSessionByLoginId`
 
 When the OwnID server receives a login event from your frontend, it then makes the appropriate HTTP requests to these endpoints. 
 
@@ -22,7 +22,7 @@ The user's login id (typically the user's email address) is the unique identifie
 
 Select the tab matching your server-side language in the sample templates below. 
 
-### Endpoint 1 - Save OwnIdData to a User Record
+### Endpoint 1 - Set OwnIdData 
 
 This endpoint handles a request to save an `ownIdData` record for a given `loginId` when the user enrolls a new device. This is the VARCHAR field you created previously. It holds the public key of the device used for biometric authentication.
 
@@ -90,7 +90,7 @@ Example:
 ```
 ---
 
-### Endpoint 2 - Get OwnID Data by Login Id
+### Endpoint 2 - Get OwnIdData
 
 This endpoint handles a request to fetch an `ownIdData` record for a given user's login id.
 
@@ -171,13 +171,13 @@ Examples:
 ```
 </CodeGroup>
 
-### Endpoint 3 - Get Session by Login Id
+### Endpoint 3 - Get Session
 
-Handle a request to fetch a web token for the current session by user's email address.
+Handle a request to fetch a token for the current session by user's email address.
 
-Note that `token` is a unique session identifier that you generate. OwnID does not validate or use the tiken in any way, it merely passes the token back to you so you can identify the session it's associated with.
+Note that `token` is a unique session identifier that you generate. OwnID does not validate or use the token in any way, it merely passes the token back to you so you can identify the session it's associated with.
 
-Later, you will see how the OwnID login event returns this value in the frontend to establish a client session.
+Later, we'll see how the OwnID login event returns this value in the frontend to establish a client session.
 <CodeGroup>
 
 ```javascript Node.js
@@ -255,8 +255,7 @@ You might notice two values in request headers from the OwnID plaform:
  - `ownid-signature`  
  - `ownid-timestamp`
 
-These are part of securing your integration before going live. 
-We'll address these parameters separately on the [security page](/building-blocks/security) after you integration is complete.
+These are part of securing your integration before going live. We'll address these parameters separately on the [security page](/building-blocks/security) after you integration is complete.
 </Tip>
 
 

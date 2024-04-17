@@ -11,10 +11,10 @@ Three primary steps are required to implement OwnID journeys end-to-end.
   <Step title="Preparation">
   [Set up your account](https://console.ownid.com/login), get your application id, and add a field to your user table to store OwnID data.      
   </Step>
-  <Step title="Backend - Add Three Endpoints">
+  <Step title="Backend - Build Server-Side Endpoints">
   Add the three event handlers that manage requests to each of three end-points made by the OwnID server when it receives login events from your frontend.
   </Step>
-  <Step title="Frontend - Create User Journeys">
+  <Step title="Frontend - Build User Journeys">
   Add our HTML JavaScript, templates, and the OwnID Password widget to build the login, registration, account recovery  workflow and install the OwnID Password widget.
   </Step> 
 </Steps>
@@ -52,7 +52,7 @@ Be sure the `ownIdData` field meets the following requirements:
 
 Before building frontend user journeys, you must add three endpoints to your web server. 
 
-<Card title="Add Request Handlers" icon="screwdriver-wrench" href="/building-blocks/build-server-endpoints">
+<Card title="Build Server-Side Endpoints" icon="screwdriver-wrench" href="/building-blocks/build-server-endpoints">
 OwnID provides templates for the three request handlers you'll host on your web server. These form the endpoints called with HTTP requests from the OwnID platform.      
 
 </Card>

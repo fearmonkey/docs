@@ -1,23 +1,24 @@
 ---
 title: 'Account Recovery'
-description: 'Learn how to set up account recovery on the frontend'
+description: 'Learn how to set up account recovery on your website frontend'
 ---
 Account Recovery automates the process of re-authenticating users who perhaps had an issue with their existing device.
 
-<Note>
-_If you haven't already, we recommend you build the user 'Login' journey first, as described [here](/building-blocks/build-login). Building login enables sufficient functionality to 'go live' and provides the code base you need to quickly implement 'Registration' and 'Password Recovery' when you're ready._  
-</Note>
+## Prerequisites
+To get the most out of this guide, you should first add the three required event handlers to your web server as described in [Build Server Endpoints](/building-blocks/build-server-endpoints).
 
-# Prerequisites
-To get the most out of this guide, you should first add the three required event handlers on your web server as described in [Build Server Endpoints](/building-blocks/build-server-endpoints).
+## Integrating Account Recovery
 
-## Step 1 - Install OwnID Web SDK
+Integrate account recovery in just three steps. 
+1. Step 1 - Install OwnID Web SDK
+2. Step 2 - Reference the OwnID SDK
+3. Step 3 - Implement Account Recovery Form
+
+### Step 1 - Install OwnID Web SDK
 
 The OwnID Web SDK provides communication between your frontend login page and the OwnID cloud server.
 
 If you're using React or Angular frameworks, and you haven't yet installed the OwnID SDK on your local system, you should do that now before continuing.
-
-Otherwise, continue to Step 2.
 
 <Accordion title="Install the Own SDK">
 
@@ -34,6 +35,7 @@ npm install @ownid/angular
 </CodeGroup>
 </Accordion>
 
+Otherwise, continue to Step 2.
 
 ## Step 2 - Reference the OwnID SDK
 
@@ -65,12 +67,12 @@ import { OwnidAngularModule } from '@ownid/angular';
 </CodeGroup>
 
 <Note>
-**Maximize OwnID Benefits**
+**Get the most from OwnID**
 
 We recommend including the SDK on all pages, even those without user-facing authentication elements. Doing so will enable additional functionality.
 </Note>
 
-## Step 3 - Implement Account Recovery UX
+## Step 3 - Implement Account Recovery Form
 
 Place the widget next to the password field by
 inserting the script below.

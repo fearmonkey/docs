@@ -15,16 +15,6 @@ Below are code templates for each of the three event handlers needed to implemen
 
 When the OwnID server receives a login event from your frontend, it then makes the appropriate HTTP requests to these endpoints. 
 
-<Tip>
-**Request headers**     
-You might notice two values in request headers from OwnID:
- - `ownid-signature`  
- - `ownid-timestamp`
-
-These are part of securing your integration before going live. 
-We'll address these parameters separately on the [security page](/building-blocks/security) after you integration is complete.
-</Tip>
-
 The user's login id (typically the user's email address) is the unique identifier used to look up and save records in the `ownIdData` field.
 
 Select the tab matching your server-side language in the sample templates below. 
@@ -254,9 +244,21 @@ Example:
 ```
 </CodeGroup>
 ---
+<Tip>
+**Request headers**     
+You might notice two values in request headers from OwnID:
+ - `ownid-signature`  
+ - `ownid-timestamp`
+
+These are part of securing your integration before going live. 
+We'll address these parameters separately on the [security page](/building-blocks/security) after you integration is complete.
+</Tip>
+
 
 ## Next Steps
+With the request handlers in place, you're ready to build the frontend integrations for login, registration, account recovery, and more.
 
-<Card title="Build Frontend Flows" href="/building-blocks/build-frontend-integration">
+
+<Card title="Build Frontend User Journey" icon="screwdriver-wrench" href="/building-blocks/build-frontend-integration">
 Integrate the OwnID SDK in your frontend journeys.
 </Card>

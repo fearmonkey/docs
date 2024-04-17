@@ -2,6 +2,9 @@
 title: "Build Server Endpoints"
 description: "Implement your server-side endpoints"
 ---
+OwnID provides templates for the three request handlers you'll host on your web server. These form the endpoints called from the OwnID platform, using HTTP requests.      
+
+These endpoints provide the connection between OwnId and your server for exchange user identifying data. That data is what you save in the `OwnIdData`field you created in your backend user table. 
 
 ## Add Web Server Endpoints
 
@@ -21,7 +24,7 @@ Select the tab matching your server-side language in the sample templates below.
 
 ### Endpoint 1 - Save OwnIdData to a User Record
 
-This endpoint handles a request to save an `ownIdData` record for a given login id when the user enrolls a new device. This is the VARCHAR field you created above. It holds the public key of the device used for biometric authentication.
+This endpoint handles a request to save an `ownIdData` record for a given `loginId` when the user enrolls a new device. This is the VARCHAR field you created previously. It holds the public key of the device used for biometric authentication.
 
 <CodeGroup>
 
@@ -89,7 +92,7 @@ Example:
 
 ### Endpoint 2 - Get OwnID Data by Login Id
 
-Handle a request to fetch an `ownIdData` record for a given user's login id.
+This endpoint handles a request to fetch an `ownIdData` record for a given user's login id.
 
 <CodeGroup>
 
@@ -172,7 +175,9 @@ Examples:
 
 Handle a request to fetch a web token for the current session by user's email address.
 
-Note that `token` is a value that you generate (usually a jwt). Later, you will learn how the OwnID login event returns this value in the frontend to establish a client session.
+Note that `token` is a unique session identifier that you generate. OwnID does not validate or use the tiken in any way, it merely passes the token back to you so you can identify the session it's associated with.
+
+Later, you will see how the OwnID login event returns this value in the frontend to establish a client session.
 <CodeGroup>
 
 ```javascript Node.js
@@ -245,8 +250,8 @@ Example:
 </CodeGroup>
 ---
 <Tip>
-**Request headers**     
-You might notice two values in request headers from OwnID:
+**What's in the Request headers?**     
+You might notice two values in request headers from the OwnID plaform:
  - `ownid-signature`  
  - `ownid-timestamp`
 

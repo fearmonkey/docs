@@ -11,11 +11,11 @@ Three primary steps are required to implement OwnID journeys end-to-end.
   <Step title="Preparation">
   [Set up your account](https://console.ownid.com/login), get your application id, and add a field to your user table to store OwnID data.      
   </Step>
-  <Step title="Add Web Server Endpoints">
+  <Step title="Backend - Add Three Endpoints">
   Add the three event handlers that manage requests to each of three end-points made by the OwnID server when it receives login events from your frontend.
   </Step>
-  <Step title="Create Frontend Flow">
-  Add our HTML and JavaScript templates to build the login workflow and install the OwnID Password widget.
+  <Step title="Frontend - Create User Journeys">
+  Add our HTML JavaScript, templates, and the OwnID Password widget to build the login, registration, account recovery  workflow and install the OwnID Password widget.
   </Step> 
 </Steps>
 
@@ -30,7 +30,7 @@ Login to the developer console and follow the instructions to create an app. You
 
 <Info> If you want to start with local development, you can create a tunnel to your localhost server using a tool like [ngrok](https://ngrok.com/download). For example: `https://84c5df474.ngrok-free.dev/api/ownid` </Info>
 
-2. **Get App Data**    
+2. **Get Integration Credentials**    
 On your app page in the console, copy the following parameters needed for integration:
 
 <Info>
@@ -48,9 +48,9 @@ Be sure the `ownIdData` field meets the following requirements:
 </Info>
 ---
 
-## Next Steps
+## Next Step
 
-<Card title="Build Server Endpoints" href="/building-blocks/build-server-endpoints">
+<Card title="Build Server Endpoints" icon="screwdriver-wrench" href="/building-blocks/build-server-endpoints">
 When the OwnID server receives authentication events from your frontend, it then makes the appropriate HTTP requests to these endpoints.
 </Card>
 

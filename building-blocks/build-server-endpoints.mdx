@@ -1,0 +1,262 @@
+---
+title: "Build Server Endpoints"
+description: "Implement your server-side endpoints"
+---
+
+## Add Web Server Endpoints
+
+Below are code templates for each of the three event handlers needed to implement your server-side endpoints:
+
+- `setOwnIDDataByLoginId`
+
+- `getOwnIDDataByLoginId`
+
+- `getSessionByLoginId`
+
+When the OwnID server receives a login event from your frontend, it then makes the appropriate HTTP requests to these endpoints. 
+
+<Tip>
+**Request headers**     
+You might notice two values in request headers from OwnID:
+ - `ownid-signature`  
+ - `ownid-timestamp`
+
+These are part of securing your integration before going live. 
+We'll address these parameters separately on the [security page](/building-blocks/security) after you integration is complete.
+</Tip>
+
+The user's login id (typically the user's email address) is the unique identifier used to look up and save records in the `ownIdData` field.
+
+Select the tab matching your server-side language in the sample templates below. 
+
+### Endpoint 1 - Save OwnIdData to a User Record
+
+This endpoint handles a request to save an `ownIdData` record for a given login id when the user enrolls a new device. This is the VARCHAR field you created above. It holds the public key of the device used for biometric authentication.
+
+<CodeGroup>
+
+```javascript Node.js
+router.post('/setOwnIDDataByLoginId', async (req, res) => {
+    const email = req.body.loginId; //The unique id of 
+    a user in your database, usually email or phone
+    const ownIdData = req.body.ownIdData; //OwnID authentication information as string
+    const user = await User.findOne({ email: email }).exec();
+    user.ownIdData = ownIdData;
+    await user.save();
+    return res.sendStatus(204);
+}
+```
+```java Java
+@PostMapping("/setOwnIDDataByLoginId")
+public ResponseEntity <Object> setOwnIdDataByLoginId(@RequestBody OwnIDData req) {
+    User user = userRepository.findByLoginId(req.getLoginId());
+    user.setOwnIdData(data);
+    userRepository.save(user);
+
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+}
+```
+```csharp C#
+[HttpPost("setOwnIDDataByLoginId")]
+public async Task<ActionResult<Object>> SetOwnIdDataByLoginId(string loginId, string ownIdData)
+{
+    var user = _userRepository.Instance.Get(loginId);
+    user.ownIdData = ownIdData;
+    _userRepository.Instance.Update(user);
+
+    return NoContent();
+}
+```
+
+```python Python
+@app.route('/setOwnIDDataByLoginId', methods=['POST'])
+def set_ownid_data_by_login_id():
+    data = request.get_json()
+    login_id = data['loginId']
+    ownid_data = data['ownIdData']
+    user = db.session.query(Users).filter(Users.email == login_id).first()
+    user.ownid_data = ownid_data
+    user.save()
+    return ('', 204)
+```
+</CodeGroup>
+<sup>Sample request handler for setting an OwnIDData record by user login id. (`setOwnIDDataByLoginId`) </sup>
+
+
+**Response**  
+Implement these responses for `setOwnIDDataByLoginId`:
+
+| Status | Description | Return |
+|---------|--------- | ---------|
+| `204` | Request successful | return empty body
+
+Example:
+
+```json 204 - Request successful
+{}
+```
+---
+
+### Endpoint 2 - Get OwnID Data by Login Id
+
+Handle a request to fetch an `ownIdData` record for a given user's login id.
+
+<CodeGroup>
+
+```javascript Node.js
+router.post('/getOwnIDDataByLoginId', async (req, res) => {
+    const email = req.body.loginId; //The unique id of a user in your database, usually email or phone
+    const user = await User.findOne({ email: email }).exec();
+    if (!user) { return res.json({ errorCode: 404 }) } //Error code when user doesn't exist
+    res.json({ ownIdData: user.ownIdData }) //OwnID authentication information as string
+});
+```
+```java Java
+@PostMapping("/getOwnIDDataByLoginId")
+public ResponseEntity<Object> getOwnIdDataByLoginId(@RequestBody OwnIDSearchRequest req) {
+    User user = userRepository.findByLoginId(req.getLoginId());
+
+    if (user == null) {
+        return ResponseEntity.status(HttpStatus.OK).
+            body(new OwnIdErrorResponse(HttpStatus.NOT_FOUND, "User not found"));
+    }
+
+    return ResponseEntity.status(HttpStatus.OK).body(new OwnIDDataResponse(user.getOwnIdData()));
+}
+```
+```csharp C#
+[HttpPost("getOwnIDDataByLoginId")]
+public async Task<ActionResult<Object>> GetOwnIDDataByLoginId(string loginId)
+{
+    var user = _userRepository.Instance.Get(loginId);
+
+    if (user == null)
+        return Ok(new { ErrorCode = HttpStatusCode.NotFound, ErrorMessage = "User not found" });
+
+    return Ok(new { OwnIdData = user.ownIdData });
+}
+```
+```python Python
+@app.route('/getOwnIDDataByLoginId', methods=['POST'])
+def get_ownid_data_by_login_id():
+    data = request.get_json()
+    login_id = data['loginId']
+    user = db.session.query(Users).filter(Users.email == login_id).first()
+    if not user:
+        return jsonify({'errorCode': 404})
+    return jsonify({'ownidData': user.ownid_data})
+```
+</CodeGroup>
+<sup> Sample request handler for `getOwnIDDataByLoginId` endpoint</sup>
+
+
+**Response**
+ 
+Implement these responses for `getOwnIDDataByLoginId`:
+
+| Status | Description | Return |
+|---------|--------- | ---------|
+| `200` | User found and has ownIdData | return ownIdData String
+| `204` | User found but doesn't have ownIdData | return empty ownIdData String
+| `404` | User not found | return empty body
+
+Examples:
+
+<CodeGroup>
+```json 200 - Return ownIdData
+{
+  "ownIdData": "<String>"
+}
+```
+```json 204 - Return empty ownIdData
+{
+  "ownIdData": ""
+}
+```
+```json 404 - Return empty body
+{}
+```
+</CodeGroup>
+
+### Endpoint 3 - Get Session by Login Id
+
+Handle a request to fetch a web token for the current session by user's email address.
+
+Note that `token` is a value that you generate (usually a jwt). Later, you will learn how the OwnID login event returns this value in the frontend to establish a client session.
+<CodeGroup>
+
+```javascript Node.js
+router.post('/getSessionByLoginId', async (req, res) => {
+    const sign = require('jwt-encode');
+    const email = req.body.loginId; //The unique id of a user in your database, usually email or phone
+    const user = await User.findOne({ email: email }).exec();
+    const jwt = sign({ email: user.email }, 'secret');
+    return res.json({ token: jwt });
+});
+```
+
+```java Java
+@PostMapping("/getSessionByLoginId")
+public ResponseEntity<OwnIDSessionResponse> getSessionByLoginId(@RequestBody OwnIDSearchRequest req) {
+    User user = userRepository.findByLoginId(req.getLoginId());
+    Algorithm alg = Algorithm.HMAC256("secret");
+    String token = JWT.create().
+        withClaim("loginId", req.getLoginId()).
+        sign(alg);
+
+    return ResponseEntity.status(HttpStatus.OK).body(new OwnIDSessionResponse(token));
+}
+```
+```csharp C#
+[HttpPost("getSessionByLoginId")]
+public async Task<ActionResult<OwnIDSessionResponse>> GetSessionByLoginId(string loginId)
+{
+    var user = _userRepository.Instance.Get(loginId);
+    var hashObject = new HMACSHA256(Encoding.UTF8.GetBytes("secret"));
+    var signature = hashObject.ComputeHash(Encoding.UTF8.GetBytes(user.LoginId));
+    var encodedSignature = Convert.ToBase64String(signature);
+
+    return Ok(new OwnIDSessionResponse() { Token = encodedSignature });
+}
+```
+
+```python Python
+@app.route('/ownid/getSessionByLoginId', methods=['POST'])
+def get_session_by_login_id():
+    data = request.get_json()
+    login_id = data['loginId']
+    user = db.session.query(Users).filter(Users.email == login_id).first()
+    token = jwt.encode({
+        'userId': str(user.email), 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=3)},
+        app.config['SECRET_KEY'],
+        "HS256")
+    return jsonify({'token': token})
+```
+
+</CodeGroup>
+<sup> Sample request handler for `getSessionByLoginId` endpoint.</sup>
+
+**Response**
+ 
+Implement these responses for `getSessionByLoginId`:
+
+| Status | Description | Return |
+|---------|---------  |---------|
+| `200` | Request successful | return object or String (e.g: jtw)|
+
+Example:
+
+<CodeGroup>
+```json 200 - Request successful
+{
+  "token": "<String>"
+}
+```
+</CodeGroup>
+---
+
+## Next Steps
+
+<Card title="Build Frontend Flows" href="/building-blocks/build-frontend-integration">
+Integrate the OwnID SDK in your frontend journeys.
+</Card>

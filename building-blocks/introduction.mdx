@@ -1,0 +1,57 @@
+---
+title: 'Get Started'
+description: 'Start here to build a user journey with the SDK'
+---
+
+## Integration Overview
+
+Three primary steps are required to implement OwnID journeys end-to-end. 
+
+<Steps>
+  <Step title="Preparation">
+  [Set up your account](https://console.ownid.com/login), get your application id, and add a field to your user table to store OwnID data.      
+  </Step>
+  <Step title="Add Web Server Endpoints">
+  Add the three event handlers that manage requests to each of three end-points made by the OwnID server when it receives login events from your frontend.
+  </Step>
+  <Step title="Create Frontend Flow">
+  Add our HTML and JavaScript templates to build the login workflow and install the OwnID Password widget.
+  </Step> 
+</Steps>
+
+---
+
+## Preparation
+
+Before starting, create your account in the [developer console](https://console.ownid.com/login), register your base URL, and get your application id.
+
+1. **Create your App**    
+Login to the developer console and follow the instructions to create an app. You will also be asked to define the `base URL` that OwnID will use to make requests to your web server.  The console guides you through this process step by step.
+
+<Info> If you want to start with local development, you can create a tunnel to your localhost server using a tool like [ngrok](https://ngrok.com/download). For example: `https://84c5df474.ngrok-free.dev/api/ownid` </Info>
+
+2. **Get App Data**    
+On your app page in the console, copy the following parameters needed for integration:
+
+<Info>
+- Your **application id** - _Use this also in data objects where specified by the_ `appId` _field._
+- Your **shared secret** - _Use this to verify the signature in OwnID requests to your web server._
+</Info>
+3. **Create a VARCHAR field**    
+Create a new character field called `ownIdData` in your user database. We'll use this field to store OwnID authentication data for registered users. 
+
+<Info>
+Be sure the `ownIdData` field meets the following requirements:
+
+- A character datatype e.g., **VARCHAR**
+- A minimum length of **5000 chars**
+</Info>
+---
+
+## Next Steps
+
+<Card title="Build Server Endpoints" href="/building-blocks/build-server-endpoints">
+When the OwnID server receives authentication events from your frontend, it then makes the appropriate HTTP requests to these endpoints.
+</Card>
+
+

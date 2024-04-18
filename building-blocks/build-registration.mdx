@@ -4,15 +4,12 @@ description: 'Learn how to set up the registration form, submit handler, and the
 ---
 
 ## Prerequisites
-To get the most out of this guide, make sure you've already completed the backend integrations as described in [Build Server-Side Endpoints](/building-blocks/build-server-endpoints).
+To get the most out of this guide, make sure you've already done the following: 
+
+1. Completed the backend integrations (see [Build Server-Side Endpoints](/building-blocks/build-server-endpoints)).
+2. Completed the Login integration (see [Login](/building-blocks/build-login)). 
 
 ## Integrating Registration
-
-Integrate registration in just three steps. 
-
-1. Step 1 - Install the OwnID Web SDK
-2. Step 2 - Reference the OwnID SDK
-3. Step 3 - Add the Widget to your Registration Form
 
 <img
   width="240"
@@ -90,20 +87,19 @@ import { OwnidAngularModule } from '@ownid/angular';
 We recommend including the SDK on all pages, even those without user-facing authentication elements. Doing so will enable additional functionality.
 </Note>
 
-### Step 3 - Add the Widget to your Registration Form
+## Add the Widget to your Registration Form
 
 Implement the registration form, event handler, and OwnID `register` integration on the desired page.
 
-#### Build the Registration Form
+### Build or Modify your Registration Form
 
-1. Copy or build the HTML  _registration_ form shown below and include these fields:
-<Card>
-- Email
-- First Name
-- Last Name
-- Password
-</Card>
+1. Build an HTML  _registration_ form or use your existing form. 
 
+2. Ensure the registration form contains the fields you want to function as the _user id_ and _password_. The snippet below uses 'Email' and 'Password' only as examples.
+
+<Info>
+**Field names and Id labels are up to you**. OwnID doesn't care what they are as long as they're properly referenced in the form's submit handler.
+</Info>
 
 2. The submit button in the form triggers the `regClick()` function defined below. 
 

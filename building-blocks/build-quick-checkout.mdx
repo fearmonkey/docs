@@ -14,48 +14,6 @@ Integrate account recovery in just three steps.
 2. Step 2 - Reference the OwnID SDK
 3. Step 3 - Implement sign-in widget Form
 
-### Step 1 - Install OwnID Web SDK
-
-The OwnID Web SDK provides communication between your frontend login page and the OwnID cloud server.
-
-If you're using React or Angular frameworks, and you haven't yet installed the OwnID SDK on your local system, you should do that now before continuing.
-
-Otherwise, continue to Step 2.
-
-
-### Step 2 - Reference the OwnID SDK
-
-Reference the SDK at the top of your web pages.
-
-<CodeGroup>
-
-```javascript JavaScript
-<script>
-    ((o,w,n,i,d)=>{o[i]=o[i]||(async(...a)=>((o[i].q=o[i].q||[]).push(a),{error:null,data:null})),
-    (d=w.createElement("script")).src='https://cdn.ownid.com/sdk/'+n,d.async=1,w.head.appendChild(d)})  
-    (window,document,'<appID>','ownid');
-</script>
-```
-
-```jsx React
-import { OwnIDInit } from '@ownid/react';
-<OwnIDInit config={{appId:'9s8d7f9s87g98s7dgMyAppID'}}/>
-```
-
-```javascript Angular
-import { OwnidAngularModule } from '@ownid/angular';
-
-@NgModule({
-  imports: [
-    OwnidAngularModule.forRoot({appId:'s9d8f7s98f79s87dfMyAppID'}),
-  ]})
-```
-</CodeGroup>
-<Note>
-**Maximize OwnID Benefits**
-
-We recommend including the SDK on all pages, even those without user-facing authentication elements. Doing so will enable additional functionality.
-</Note>
 
 ### Step 3 - Triggering the Returning Users Experience
 

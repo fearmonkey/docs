@@ -44,68 +44,8 @@ To get the most out of this guide, make sure to do the following tasks first:
 <sup>Figure 2. After integration (example)</sup>
 
 <Note>
-The instructions on this page assume you have already installed and referenced the OwnID SDK.
+The instructions on this page assume you have already installed and referenced the OwnID SDK as described in Steps 1 and 2 of [Login](/building-blocks/build-login).
 </Note>
-<Accordion title="How to Install the OwnID SDK">
-
-### Install the OwnID Web SDK
-
-The OwnID Web SDK provides communication between your frontend login page and the OwnID cloud server.
-
-If you're using React or Angular frameworks, and you haven't yet installed the OwnID SDK on your local system, you should do that now before continuing.
-
-To install the React-based or the Angular-based SDK, use npm from the CLI:
-
-<CodeGroup>
-```javascript React
-npm install @ownid/react
-```
-
-```javascript Angular
-npm install @ownid/angular
-```
-</CodeGroup>
-
-### Reference the OwnID SDK
-
-Reference the appropriate version of the OwnID SDK at the top of your web pages.
-
-<CodeGroup>
-
-```javascript JavaScript
-<script>
-    ((o,w,n,i,d)=>{o[i]=o[i]||(async(...a)=>((o[i].q=o[i].q||[]).push(a),{error:null,data:null})),
-    (d=w.createElement("script")).src='https://cdn.ownid.com/sdk/'+n,d.async=1,w.head.appendChild(d)})  
-    (window,document,'<appID>','ownid');
-</script>
-```
-
-```jsx React
-import { OwnIDInit } from '@ownid/react';
-
-//place this component on the top level of the component hierarchy
-//this component doesn't render to any visible UI
-ReactDOM.render(
-  <React.StrictMode>
-      <OwnIDInit
-        config={{ appId: config.ownIdAppId }}
-      />
-      <App />
-  </React.StrictMode>,
-  document.getElementById("root"),
-);
-```
-
-```javascript Angular
-import { OwnidAngularModule } from '@ownid/angular';
-
-@NgModule({
-  imports: [
-    OwnidAngularModule.forRoot({appId:'s9d8f7s98f79s87dfMyAppID'}),
-  ]})
-```
-</CodeGroup>
-</Accordion>
 
 ## Integrating Registration 
 
@@ -113,20 +53,18 @@ Implement the registration form, event handler, and OwnID registration integrati
 
 ### Build or Modify your Registration Form
 
-1. Build an HTML  _registration_ form or use your existing form. 
+The structure of the registration form and implementation of the onSubmit handler is a vanilla 
+Whether you use your existing _registration_ form or build a new one, the forms in the snippets below are only shown to emphasize the following guidelines. 
 
-2. Ensure the registration form contains the fields you want to function as the _user id_ and _password_. The snippet below uses 'Email' and 'Password' only as examples.
+#### Registration Form Guidelines
 
-<Info>
-**Field names and Id labels are up to you**. OwnID doesn't care what they are as long as they're properly referenced in the form's submit handler.
-</Info>
+1. Your registration form must contain the fields you want to designate as the _user id_ and _password_. The snippet below uses 'Email' and 'Password' only as examples.
 
-3. We recommend including a link to the login page and a container to display errors below the form.
+2. There are no restrictions on the number or name of any other fields you want to include in the form.
 
-<CodeGroup>
+3. The name of each Field id is also up to you, provided they're reflected in the submit handler. 
 
-```javascript JavaScript
-
+```html HTML
     <form>
         <div><input placeholder="Email" id="email" type="text"></div>
         <div><input placeholder="Name" id="name" type="text"></div>
@@ -134,68 +72,25 @@ Implement the registration form, event handler, and OwnID registration integrati
         <div id="confirm-pass-wrapper"><input placeholder="Confirm Password" id="confirm-pass" type="password"></div>
         <button id="submit" onclick="onSubmit();">Register</button>
     </form>
-
-
 ```
 
-```jsx React
-import { OwnID, WidgetType } from '@ownid/react';
+#### Implement the SDK 'register' Method
 
-...
+1. In the 'register' method, assign the field you want to designate as the user password to the `passwordField` parameter.
 
+2. In the 'register' method, assign the field you want to designate as the user's login id to the `loginIdField` parameter.
 
-    <form>
-        <input ref={emailField} type="email" name="email" placeholder="Email" />
-        <input type="text" name="first-name" placeholder="Name" />
-        <input ref={passwordField} type="password" name="password" placeholder="Password" />
-        <input ref={confirmPasswordField} type="password" name="confirm-password" placeholder="Confirm Password" />
-        <button type="submit" onClick={onSubmit}>Register</button>
-        <OwnID type={WidgetType.Register}
-            loginIdField={emailField}
-            passwordField={passwordField}
-            passwordFieldBinding={true} // false by default (if true, OwnID creates a random strong password)
-            confirmPasswordContainer={confirmPasswordField}
-            onError={(error) => console.error(error)}
-            onRegister={onRegister} />
-    </form>
-```
+<Note>
+The following code snippets arbitrarily use `password` and `email` as password and user id. You can use any fields you want in those roles by assigning them as noted above.
+</Note>
 
-```javascript Angular
-//template
-<form [formGroup]="userForm" class="registration-form" (ngSubmit)="onSubmit()">
-  <input formControlName="name" type="texy" name="name" placeholder="Name" required/>
-  <input formControlName="email" type="email" #email name="email" placeholder="Email" required/>
-  <input formControlName="password" type="password" #password name="password" placeholder="Password" required/>
-  <input formControlName="confirmPassword" type="password" #confirmPassword name="confirmPassword" placeholder="Confirm Password" required/>
-  <button type="submit">Register</button>
-  <ownid [type]="WidgetType.Register"
-         [options]="widgetOptions"
-         (onRegister)="onRegister($event)"
-         [loginIdField]="email"
-         [passwordField]="password"
-         [confirmPasswordContainer]="confirmPassword">
-  </ownid>
-</form>
+3. In the 'register' method, the `passwordFieldBinding` parameter determines whether the OwnID platfrom creates a password automatically. The values is `false` by default. If you set it to `true`, OwnID creates a random strong password.
 
-
-```
-</CodeGroup>
-
-The submit button in the form triggers the `regClick()` function defined below. 
-
-#### Configure and call the SDK 'register' function
-
-1. Configure OwnID authentication with the user's password and email fields.
-
-2. Save registration data in `ownIdDataObject`.
-
-3. Copy the onRegister() function to your page.  
-
-Note: The `<div>` class names in the examples below are arbitrary. 
+Use the code snippets below to model your implementation of the submit handler and the SDK 'register' method.  
 
 <CodeGroup>
 
-```javascript Sample registration front end
+```javascript Javascript
 <body>
     <form>
         <div><input placeholder="Email" id="email" type="text"></div>

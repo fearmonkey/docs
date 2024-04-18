@@ -2,7 +2,7 @@
 title: 'Account Recovery'
 description: 'Learn how to set up account recovery on your website frontend'
 ---
-Account Recovery automates the process of re-authenticating users who had an issue with their existing device.
+Account Recovery automates the process of re-authenticating users who forgot or had an issue with their password or existing device.
 
 ## Prerequisites
 To get the most out of this guide, make sure you've already completed the backend integrations as described in [Build Server-Side Endpoints](/building-blocks/build-server-endpoints).
@@ -12,7 +12,14 @@ To get the most out of this guide, make sure you've already completed the backen
 Integrate account recovery in just three steps. 
 1. Step 1 - Install OwnID Web SDK
 2. Step 2 - Reference the OwnID SDK
-3. Step 3 - Implement Account Recovery Form
+3. Step 3 - Add the Widget to your Account Recovery Form
+
+<img
+  width="240"
+  src="/images/account-recovery.png"
+  alt="Widget"
+  />
+<sup>Figure 1. Expected result (example)</sup>
 
 ### Step 1 - Install OwnID Web SDK
 
@@ -53,7 +60,18 @@ Reference the appropriate version of the OwnID SDK at the top of your web pages.
 
 ```jsx React
 import { OwnIDInit } from '@ownid/react';
-<OwnIDInit config={{appId:'9s8d7f9s87g98s7dgMyAppID'}}/>
+
+//place this component on the top level of the component hierarchy
+//this component doesn't render to any visible UI
+ReactDOM.render(
+  <React.StrictMode>
+      <OwnIDInit
+        config={{ appId: config.ownIdAppId }}
+      />
+      <App />
+  </React.StrictMode>,
+  document.getElementById("root"),
+);
 ```
 
 ```javascript Angular
@@ -72,26 +90,88 @@ import { OwnidAngularModule } from '@ownid/angular';
 We recommend including the SDK on all pages, even those without user-facing authentication elements. Doing so will enable additional functionality.
 </Note>
 
-## Step 3 - Implement Account Recovery Form
+## Step 3 - Add the Widget to your Account Recovery Form
 
-Place the widget next to the password field by
-inserting the script below.
-
+Place the widget next to the email field by inserting the script below.
 
 <CodeGroup>
-
-```javascript Javascript
-
+```html Javascript
+<body>
+    <form name="myForm">
+        <input id="email" type="text" name="email">
+        <input type="submit" value="Request Password Reset">
+    </form>
+    <script>
+        ownid('recover', {
+            loginIdField: document.getElementById('email'),
+            targetField: document.getElementById('email'),
+            widgetPosition: 'end',
+            addOrStatement: false,
+            onError: (event) => console.log('onError', event),
+            onLogin: function (data) {
+                //Generic example on how to set a session and redirect the user (use your own!)
+                //1. set user session using data.token (usually a jwt or session token), generated in your backend and sent through the OwnID server
+                localStorage.setItem('sessionID', JSON.stringify({ token: data.token }));
+                //2. redirect the user to your entry point 
+                window.location.href = '/landingpage';
+            }
+        });
+    </script>
 </body>
 ```
 
 ```jsx React
+import { OwnID, WidgetType } from '@ownid/react';
 
+...
 
+function AccountRecoveryComponent() {
+
+    const emailField = useRef(null);
+    
+    function onLogin(data) {
+        //Generic example on how to set a session and redirect the user (use your own!)
+        //1. set user session using data.token (usually a jwt or session token), generated in your backend and sent through the OwnID server
+        localStorage.setItem('sessionID', JSON.stringify({ token: data.token }));
+        //2. redirect the user (this is just an example)
+        window.location.href = '/account';
+    }
+    return (
+        <form>
+            <input ref={emailField} type="email" name="email" />
+            <button type="submit">Request Password Reset</button>
+            <OwnID type={WidgetType.Recover}
+                loginIdField={email}
+                targetField={email}
+                widgetPosition={'end'}
+                addOrStatement={false}
+                onLogin={onLogin}
+            />
+        </form>
+    );
+}
 ```
 
 ```javascript Angular
+<form #myForm="ngForm" (ngSubmit)="onSubmit()">
+  <input #emailField type="email">
+  <ownid [type]="WidgetType.Recover"
+        [options]="{widgetPosition: 'end', addOrStatement: false}"
+        [loginIdField]="emailField"
+        [targetField]="emailField"
+        (onLogin)="onLogin($data)"
+        (onError)="onError($event)">
+  </ownid>
+  <button type="submit">Request Password Reset</button>
+</form>
 
+onLogin(data) {
+  //Generic example on how to set a session and redirect the user (use your own!)
+  //1. set user session using data.token (usually a jwt or session token), generated in your backend and sent through the OwnID server
+  this.authService.setAuth({ token: data.token });
+  //2. redirect the user (this is just an example)
+  this.router.navigateByUrl('/account');
+}
 ```
 </CodeGroup>
 
@@ -110,9 +190,7 @@ If you're ready to deploy your integration, make sure to read the [Pre-Deploymen
 
 <CardGroup cols={2}>
 <Card title="YES!" href="/building-blocks/pre-deployment-checklist" icon="rocket-launch">
- Take Me to the 
- 
- Deployment Checklist
+ Take Me to the Deployment Checklist
 </Card>
 
 <Card title="NO THANKS" href="/building-blocks/build-frontend-integration"  icon="screwdriver-wrench">

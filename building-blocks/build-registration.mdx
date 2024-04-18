@@ -10,7 +10,7 @@ Registration works with your existing form to add new users or enroll new device
     subgraph Webpage
         direction TB
         top1[Registration Form] --> bottom1[onSubmit Handler]
-        bottom3[callback handler]
+        bottom3[onRegister handler]
     end
     subgraph Webserver
         direction TB
@@ -19,12 +19,16 @@ Registration works with your existing form to add new users or enroll new device
     %% ^ These subgraphs are identical, except for the links to them:
 
     %% Link *to* subgraph1: subgraph1 direction is maintained
-    bottom1 --> OwnID-SDK 
+    bottom1 --> Webserver 
     %% Link *within* subgraph2:
     %% subgraph2 inherits the direction of the top-level graph (LR)
     OwnID-SDK ---> top2
     top2 ---> OwnID-SDK
     OwnID-SDK ---> bottom3
+    bottom3 ---> OwnID-SDK
+    
+    
+
 ```
 <sup>Figure 1. Registration components and dataflow</sup>
 

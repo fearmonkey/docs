@@ -3,30 +3,56 @@ title: 'Registration'
 description: 'Learn how to set up the registration form, submit handler, and the OwnId integration'
 ---
 
+Registration works with your existing form to add new users or enroll new devices for existing users.
+
+```mermaid
+  flowchart LR
+    subgraph Webpage
+        direction TB
+        top1[Registration Form] --> bottom1[onSubmit Handler]
+        bottom3[callback handler]
+    end
+    subgraph Webserver
+        direction TB
+        top2[Endpoints] 
+    end
+    %% ^ These subgraphs are identical, except for the links to them:
+
+    %% Link *to* subgraph1: subgraph1 direction is maintained
+    bottom1 --> OwnID-SDK 
+    %% Link *within* subgraph2:
+    %% subgraph2 inherits the direction of the top-level graph (LR)
+    OwnID-SDK ---> top2
+    top2 ---> OwnID-SDK
+    OwnID-SDK ---> bottom3
+```
+<sup>Figure 1. Registration components and dataflow</sup>
+
 ## Prerequisites
 To get the most out of this guide, make sure to do the following tasks first: 
 
 1. Complete the backend integrations (see [Build Server-Side Endpoints](/building-blocks/build-server-endpoints)).
 2. Complete the Login integration (see [Login](/building-blocks/build-login)). 
 
-## Integrating Registration
+
 
 <img
   width="240"
   src="/images/registration.png"
   alt="Widget"
   />
-<sup>Figure 1. Expected result (example)</sup>
+<sup>Figure 2. After integration (example)</sup>
 
-### Step 1 - Install the OwnID Web SDK
+<Note>
+The instructions on this page assume you have already installed and referenced the OwnID SDK.
+</Note>
+<Accordion title="How to Install the OwnID SDK">
+
+### Install the OwnID Web SDK
 
 The OwnID Web SDK provides communication between your frontend login page and the OwnID cloud server.
 
 If you're using React or Angular frameworks, and you haven't yet installed the OwnID SDK on your local system, you should do that now before continuing.
-
-Otherwise, continue to Step 2.
-
-<Accordion title="Install the OwnID SDK">
 
 To install the React-based or the Angular-based SDK, use npm from the CLI:
 
@@ -39,9 +65,8 @@ npm install @ownid/react
 npm install @ownid/angular
 ```
 </CodeGroup>
-</Accordion>
 
-### Step 2 - Reference the OwnID SDK
+### Reference the OwnID SDK
 
 Reference the appropriate version of the OwnID SDK at the top of your web pages.
 
@@ -80,16 +105,11 @@ import { OwnidAngularModule } from '@ownid/angular';
   ]})
 ```
 </CodeGroup>
-<Note>
+</Accordion>
 
-**Maximize OwnID Benefits**
+## Integrating Registration 
 
-We recommend including the SDK on all pages, even those without user-facing authentication elements. Doing so will enable additional functionality.
-</Note>
-
-## Add the Widget to your Registration Form
-
-Implement the registration form, event handler, and OwnID `register` integration on the desired page.
+Implement the registration form, event handler, and OwnID registration integration on the desired page.
 
 ### Build or Modify your Registration Form
 
@@ -101,9 +121,67 @@ Implement the registration form, event handler, and OwnID `register` integration
 **Field names and Id labels are up to you**. OwnID doesn't care what they are as long as they're properly referenced in the form's submit handler.
 </Info>
 
-2. The submit button in the form triggers the `regClick()` function defined below. 
-
 3. We recommend including a link to the login page and a container to display errors below the form.
+
+<CodeGroup>
+
+```javascript JavaScript
+
+    <form>
+        <div><input placeholder="Email" id="email" type="text"></div>
+        <div><input placeholder="Name" id="name" type="text"></div>
+        <div><input placeholder="Password" id="pass" type="password"></div>
+        <div id="confirm-pass-wrapper"><input placeholder="Confirm Password" id="confirm-pass" type="password"></div>
+        <button id="submit" onclick="onSubmit();">Register</button>
+    </form>
+
+
+```
+
+```jsx React
+import { OwnID, WidgetType } from '@ownid/react';
+
+...
+
+
+    <form>
+        <input ref={emailField} type="email" name="email" placeholder="Email" />
+        <input type="text" name="first-name" placeholder="Name" />
+        <input ref={passwordField} type="password" name="password" placeholder="Password" />
+        <input ref={confirmPasswordField} type="password" name="confirm-password" placeholder="Confirm Password" />
+        <button type="submit" onClick={onSubmit}>Register</button>
+        <OwnID type={WidgetType.Register}
+            loginIdField={emailField}
+            passwordField={passwordField}
+            passwordFieldBinding={true} // false by default (if true, OwnID creates a random strong password)
+            confirmPasswordContainer={confirmPasswordField}
+            onError={(error) => console.error(error)}
+            onRegister={onRegister} />
+    </form>
+```
+
+```javascript Angular
+//template
+<form [formGroup]="userForm" class="registration-form" (ngSubmit)="onSubmit()">
+  <input formControlName="name" type="texy" name="name" placeholder="Name" required/>
+  <input formControlName="email" type="email" #email name="email" placeholder="Email" required/>
+  <input formControlName="password" type="password" #password name="password" placeholder="Password" required/>
+  <input formControlName="confirmPassword" type="password" #confirmPassword name="confirmPassword" placeholder="Confirm Password" required/>
+  <button type="submit">Register</button>
+  <ownid [type]="WidgetType.Register"
+         [options]="widgetOptions"
+         (onRegister)="onRegister($event)"
+         [loginIdField]="email"
+         [passwordField]="password"
+         [confirmPasswordContainer]="confirmPassword">
+  </ownid>
+</form>
+
+
+```
+</CodeGroup>
+
+The submit button in the form triggers the `regClick()` function defined below. 
 
 #### Configure and call the SDK 'register' function
 
@@ -113,7 +191,7 @@ Implement the registration form, event handler, and OwnID `register` integration
 
 3. Copy the onRegister() function to your page.  
 
-Note: The `<div>` class names in the examples below are arbitrary. (???)
+Note: The `<div>` class names in the examples below are arbitrary. 
 
 <CodeGroup>
 
@@ -247,7 +325,7 @@ onSubmit(formData) {
 <Check>
 **That's it!** 
 
-Your users can now register through OwnId services.
+Your users can now register a new account through OwnId platform services.
 
 Before going live make sure you check out the following the next steps.
 </Check>
@@ -258,24 +336,15 @@ Before going live make sure you check out the following the next steps.
 
 <CardGroup cols={2}>
 <Card title="YES!" href="/building-blocks/pre-deployment-checklist" icon="rocket-launch">
- Take Me to the Deployment Checklist
+ Take me to the Deployment Checklist
 </Card>
 
-<Card title="NO THANKS" href="/building-blocks/build-frontend-integration"  icon="screwdriver-wrench">
+<Card title="NO THANKS..." href="/building-blocks/build-frontend-integration"  icon="screwdriver-wrench">
  I want to build another user journey
 </Card>
 
 
 </CardGroup>
-
-
-# Issues
-
-- Div classes are defined in CSS 
-   - box?
-   - footer
-
-- Start pointing out customizable elements  
 
 
 

@@ -5,7 +5,11 @@ description: 'Description of your new file.'
 Returning users need only tap the OwnID widget to log back in, no matter where they are on the site.
  
 ## Prerequisites
-To get the most out of this guide, make sure you've already completed the backend integrations as described in [Build Server-Side Endpoints](/building-blocks/build-server-endpoints).
+To get the most out of this guide, make sure to do the following tasks first: 
+
+1. Complete the backend integrations (see [Build Server-Side Endpoints](/building-blocks/build-server-endpoints)).
+2. Complete the Login integration (see [Login](/building-blocks/build-login)). 
+
 
 ## Integrating One-Tap Sign In
 
@@ -69,11 +73,6 @@ import { OwnidAngularModule } from '@ownid/angular';
   ]})
 ```
 </CodeGroup>
-<Note>
-**Maximize OwnID Benefits**
-
-We recommend including the SDK on all pages, even those without user-facing authentication elements. Doing so will enable additional functionality.
-</Note>
 
 ### Step 3 - Triggering the Returning Users Experience
 

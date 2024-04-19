@@ -3,7 +3,7 @@ title: 'Registration'
 description: 'Learn how to set up the registration form, submit handler, and the OwnId integration'
 ---
 
-Registration works with your existing form to add new users or enroll new devices for existing users.
+Registration works with your existing user registration form to add new users or enroll new devices for existing users.
 
 ## Prerequisites
 To get the most out of this guide, make sure to do the following tasks first: 
@@ -26,11 +26,11 @@ The instructions on this page assume you have already installed and referenced t
 
 ## Integrating Registration 
 
-Implement the registration form, event handler, and OwnID registration integration on the desired page.
+Implement the event handler, and OwnID registration integration with references to the password and user id fields in your existing form.
 
 ### Add the Widget to your Registration Form
 
-The SDK **register** method is used to integrate the registration journey. It references the field Ids in your existing registration form. It also renders the OwnId widget automatically referncing your field Ids to calculate its position in the DOM.  
+The SDK **register** method is used to integrate the registration journey. It references the fields in your existing registration form. It also renders the OwnId widget by automatically referencing your field Ids to calculate its position in the DOM.  
 
 The sample registration forms in the snippets below are vanilla examples, shown here only to confirm the implementation pattern of form fields in SDK methods. 
 

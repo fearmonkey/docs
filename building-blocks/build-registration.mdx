@@ -21,7 +21,7 @@ To get the most out of this guide, make sure to do the following tasks first:
 <sup>Figure 1. After integration (example)</sup>
 
 <Note>
-The instructions on this page assume you have already installed and referenced the OwnID SDK as described in Steps 1 and 2 of [Login](/building-blocks/build-login).
+The instructions on this page assume you have already installed and referenced the OwnID SDK at the top of your page as described in Steps 1 and 2 of [Login](/building-blocks/build-login).
 </Note>
 
 ## Integrating Registration 
@@ -30,40 +30,51 @@ Implement the registration form, event handler, and OwnID registration integrati
 
 ### Add the Widget to your Registration Form
 
-The structure of the registration form and implementation of the onSubmit handler is a vanilla.
-The forms in the snippets below are only shown to emphasize the following guidelines. 
+The SDK **register** method is used for registration. It references the field Ids in your existing registration form. It also renders the OwnId widget automatically referncing your field Ids to calculate its position in the DOM.  
 
-#### Registration Form Guidelines
+The sample registration forms in the snippets below are vanilla examples, shown here only to confirm the implementation pattern of form fields in SDK methods. 
 
-1. Your registration form must contain the fields you want to designate as the _user login id_ and _password_. The snippet below uses 'Email' and 'Password' only as examples.
+#### Calling the SDK 
 
-2. There are no restrictions on the number or name of any other fields you want to include in the form.
+In JavaScript, OwnId SDK methods are instantiated by calling `owndId` with the appropriate method name and its parameters:
+```Javascript
+        ownid("method_name", {
+            parameter_1: value_1,
+            parameter_2: value_2,
+            ...
+            parameter_n: value_n,
+            // Handle errors as you see fit
+            onError: (error) => console.log(error),
+            // When the relevant event fires,
+            onSomeEvent: (ownIdData) => {ownIdDataObject = ownIdData;}
+        });
 
-3. The name of each Field id is also up to you, provided they're reflected in the submit handler. 
+  ```
+Check the Angular or React implementation example snippets for framework-specific variations of the syntax above.
 
-```html HTML
-    <form>
-        <div><input placeholder="Email" id="email" type="text"></div>
-        <div><input placeholder="Name" id="name" type="text"></div>
-        <div><input placeholder="Password" id="pass" type="password"></div>
-        <div id="confirm-pass-wrapper"><input placeholder="Confirm Password" id="confirm-pass" type="password"></div>
-        <button id="submit" onclick="onSubmit();">Register</button>
-    </form>
-```
+#### Implement **register** Method
 
-#### Implement the SDK 'register' Method
+In the ownId call:
 
-1. In the 'register' method, assign the field you want to designate as the user password to the `passwordField` parameter.
+1. Enter "register" for the method name. 
 
-2. In the 'register' method, assign the field you want to designate as the user's login id to the `loginIdField` parameter.
+2. Assign the form field (as a DOM element) you use as the password to the `passwordField` parameter.
+
+3. Assign the form field (as a DOM element) you use as the login id to the `loginIdField` parameter.
+
+4. Set the `passwordFieldBinding` parameter to `true` if you want to force the OwnID platform to automatically create a random strong password. The value is `false` by default.
+
+5. Assign an error function as desired in the `onError` parameter.
+
+6. Declare a local variable above the ownId method call. 
+
+7. Configure the `onRegistration` event to copy the `ownIdData` object to the local variable.
+
+Use the code snippets below, and check the embedded comments, to model your implementation of the submit handler and the SDK **register** method.  
 
 <Note>
-The following code snippets arbitrarily use `password` and `email` as password and user login id. You can use any fields you want in those roles by assigning them as noted above.
+In the examples below, the use of `password` for the password and `email` for the user login id is arbitrary.
 </Note>
-
-3. In the 'register' method, the `passwordFieldBinding` parameter determines whether the OwnID platform creates a password automatically. The values is `false` by default. If you set it to `true`, OwnID creates a random strong password.
-
-Use the code snippets below to model your implementation of the submit handler and the SDK 'register' method.  
 
 <CodeGroup>
 
@@ -197,7 +208,7 @@ onSubmit(formData) {
 <Check>
 **That's it!** 
 
-Your users can now register a new password-free account.
+Your users can now register for a new account and leverage other user journeys you implement.
 
 Before going live make sure you check out the following the next steps.
 </Check>

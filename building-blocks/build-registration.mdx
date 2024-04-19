@@ -55,14 +55,14 @@ The instructions on this page assume you have already installed and referenced t
 
 Implement the registration form, event handler, and OwnID registration integration on the desired page.
 
-### Build or Modify your Registration Form
+### Add the Widget to your Registration Form
 
-The structure of the registration form and implementation of the onSubmit handler is a vanilla 
-Whether you use your existing _registration_ form or build a new one, the forms in the snippets below are only shown to emphasize the following guidelines. 
+The structure of the registration form and implementation of the onSubmit handler is a vanilla.
+The forms in the snippets below are only shown to emphasize the following guidelines. 
 
 #### Registration Form Guidelines
 
-1. Your registration form must contain the fields you want to designate as the _user id_ and _password_. The snippet below uses 'Email' and 'Password' only as examples.
+1. Your registration form must contain the fields you want to designate as the _user login id_ and _password_. The snippet below uses 'Email' and 'Password' only as examples.
 
 2. There are no restrictions on the number or name of any other fields you want to include in the form.
 
@@ -85,10 +85,10 @@ Whether you use your existing _registration_ form or build a new one, the forms 
 2. In the 'register' method, assign the field you want to designate as the user's login id to the `loginIdField` parameter.
 
 <Note>
-The following code snippets arbitrarily use `password` and `email` as password and user id. You can use any fields you want in those roles by assigning them as noted above.
+The following code snippets arbitrarily use `password` and `email` as password and user login id. You can use any fields you want in those roles by assigning them as noted above.
 </Note>
 
-3. In the 'register' method, the `passwordFieldBinding` parameter determines whether the OwnID platfrom creates a password automatically. The values is `false` by default. If you set it to `true`, OwnID creates a random strong password.
+3. In the 'register' method, the `passwordFieldBinding` parameter determines whether the OwnID platform creates a password automatically. The values is `false` by default. If you set it to `true`, OwnID creates a random strong password.
 
 Use the code snippets below to model your implementation of the submit handler and the SDK 'register' method.  
 
@@ -224,7 +224,7 @@ onSubmit(formData) {
 <Check>
 **That's it!** 
 
-Your users can now register a new account through OwnId platform services.
+Your users can now register a new password-free account.
 
 Before going live make sure you check out the following the next steps.
 </Check>
@@ -238,7 +238,7 @@ Before going live make sure you check out the following the next steps.
  Take me to the Deployment Checklist
 </Card>
 
-<Card title="NO THANKS..." href="/building-blocks/build-frontend-integration"  icon="screwdriver-wrench">
+<Card title="NOT YET..." href="/building-blocks/build-frontend-integration"  icon="screwdriver-wrench">
  I want to build another user journey
 </Card>
 

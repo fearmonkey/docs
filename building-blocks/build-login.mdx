@@ -86,7 +86,7 @@ We recommend including the SDK on all pages, even those without user-facing auth
 
 ### Step 3 - Add the Widget to your Login Form
 
-The SDK **login** method is used to integrate the login journey. It references the field Ids in your existing login form. It also renders the OwnId widget by automatically referencing your field Ids to calculate its position in the DOM.  
+The SDK **login** method is used to integrate the login journey. It references the field Ids in your existing login form. It also renders the OwnId widget by automatically referencing your field elements (through their id) to calculate its position in the DOM.  
 
 The sample login forms in the snippets below are vanilla examples, shown here only to confirm the implementation pattern of form fields in SDK methods. 
 
@@ -106,6 +106,8 @@ In JavaScript, OwnId SDK methods are instantiated by calling `owndId` with the a
         });
 
   ```
+We'll use the **login** method name here.
+  
 Check the Angular or React implementation example snippets for framework-specific variations of the syntax above.
 
 #### Implement **login** Method

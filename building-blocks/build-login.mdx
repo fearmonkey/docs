@@ -5,31 +5,6 @@ description: 'Learn how to add the OwnID widget to your login page'
 
 We recommended that you build Login before any other user journey. This page includes instructions for installing the SDK, which is a prerequisite for all other frontend integrations. 
 
-```mermaid
-  flowchart LR
-    subgraph Webpage
-        direction TB
-        top1[Login Form] --> bottom1[onSubmit Handler]
-        bottom3[onLogin handler]
-    end
-    subgraph Webserver
-        direction TB
-        top2[Endpoints] --> bottom6[SAVE OwnIdData]
-        
-    end
-    %% ^ These subgraphs are identical, except for the links to them:
-
-    %% Link *to* subgraph1: subgraph1 direction is maintained
-    bottom1 --> Webserver 
-    %% Link *within* subgraph2:
-    %% subgraph2 inherits the direction of the top-level graph (LR)
-    OwnID-SDK ---> top2
-    top2 ---> OwnID-SDK
-    OwnID-SDK ---> bottom3
-    bottom3 ---> OwnID-SDK
-```
-<sup>Figure 1. Login components and dataflow</sup>
-
 ## Prerequisites
 To get the most out of this guide, make sure you've already completed the backend integrations as described in [Build Server-Side Endpoints](/building-blocks/build-server-endpoints).
 
@@ -45,7 +20,7 @@ Integrate account recovery in just three steps.
   src="/images/sign in 2.png"
   alt="Widget"
   />
-<sup>Figure 2. After implementation (example)</sup>
+<sup>Figure 1. After implementation (example)</sup>
 
 ### Step 1 - Install OwnID Web SDK
 

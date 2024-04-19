@@ -27,9 +27,9 @@ The instructions on this page assume you have already installed and referenced t
 
 Implement the event handlers, and OwnID integration on the desired page.
 
-### Add the Widget to your Registration Form
+### Add the Pop-Up Prompt to your Page
 
-The SDK **activateReturningUsersPrompt** method is used to integrate with the one-tap sign-in journey. It starts by offering users on the site the OwnId widget if they're not already logged in.  
+The SDK **activateReturningUsersPrompt** method is used to integrate with the one-tap sign-in journey. It starts by offering users on the site a pop-up to login by clicking the **Continue** button shown in Figure 1, if they're not already logged in.  
 
 #### Calling the SDK 
 
@@ -51,7 +51,7 @@ In the example below, we're packaging all the parameters into a constant and pas
 
 #### Implement the **activateReturningUsersPrompt** Method
 
-In the ownId call:
+In the `ownId` call:
 
 1. Enter "activateReturningUsersPrompt" for the method name. 
 

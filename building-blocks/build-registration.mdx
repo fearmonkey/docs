@@ -34,27 +34,9 @@ The SDK **register** method is used to integrate the registration journey. It re
 
 The sample registration forms in the snippets below are vanilla examples, shown here only to confirm the implementation pattern of form fields in SDK methods. 
 
-#### Calling the SDK 
-
-In JavaScript, OwnId SDK methods are instantiated by calling `owndId` with the appropriate method name and its parameters:
-```Javascript
-        ownid("method_name", {
-            parameter_1: value_1,
-            parameter_2: value_2,
-            ...
-            parameter_n: value_n,
-            // Handle errors as you see fit
-            onError: (error) => console.log(error),
-            // When the relevant event fires,
-            onSomeEvent: (ownIdData) => {ownIdDataObject = ownIdData;}
-        });
-
-  ```
-Check the Angular or React implementation example snippets for framework-specific variations of the syntax above.
-
 #### Implement **register** Method
 
-In the ownId call:
+In the ownid method:
 
 1. Enter "register" for the method name. 
 
@@ -66,15 +48,9 @@ In the ownId call:
 
 5. Assign an error function as desired in the `onError` parameter.
 
-6. Declare a local variable above the ownId method call. 
-
-7. Configure the `onRegistration` event to copy the `ownIdData` object to the local variable.
+6. Configure the `onRegister` event to copy the `ownIdData` object to a local variable. When submitting the registration form, you must send that object to your backend and store it in the `ownIdData` field you created during Preparation.
 
 Use the code snippets below, and check the embedded comments, to model your implementation of the submit handler and the SDK **register** method.  
-
-<Note>
-In the examples below, the use of `password` for the password and `email` for the user login id is arbitrary.
-</Note>
 
 <CodeGroup>
 
@@ -126,8 +102,8 @@ function RegisterComponent() {
     const confirmPasswordField = useRef(null); //optional
     
     function onRegister(ownIdData) {
-        //store the ownIdDataObject in your app storage.
-        //global variable is just an example. It's not recommended using it in that way
+        // store the ownIdDataObject in your app storage.
+        // global variable is just an example. It's not recommended using it in that way
         window.ownIdDataObject = ownIdData;
     }
 

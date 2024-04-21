@@ -1,0 +1,553 @@
+---
+title: 'New file'
+description: 'Description of your new file.'
+---
+
+https://github.com/orgs/OwnID/repositories?q=react&type=all&language=&sort=Result of
+
+https://linear.app/ownid/issue/KYIV-2570/mapping-websdk-params
+
+Functions
+Name
+Properties
+Description
+
+| **Name**      | **Properties**  | **Description**           |
+|-----------|----------------------------|-------------------|
+| **init**  | `config: IInitConfig`  | Sets configuration for an app. Extends config with new properties on each call. Verifies and logs in using a magic-link-token from the query-string if present. |
+| **render**  | `config:IWidgetConfig`   | Renders a widget showing RUP and subscribes to SDK events based on app’s integration type, e.g., gigya-websdk’s onLogin. |
+| **login** | `config: IWidgetConfig`  | Renders a widget for user login. |
+| **recover** |`config:IWidgetConfig`  | Renders a widget for account recovery.  |
+| **customButton** |`targetElement: HTMLElement, config:IWidgetConfig`| Renders a "client-button" variant widget only on mobile devices. Subscribes to `onClick` events of the target element to trigger an OwnID login flow on a web-app. |
+| **showPrompt** | `promptType: PromptTypes \| IWidgetConfig, config?: IWidgetConfig` | Renders a prompt widget based on the specified type (Returning User or Immediate Connect).      |
+| **activateAlwaysConnected**     | `config: IWidgetConfig`      | Renders a prompt widget for AlwaysConnected type to facilitate a connection that collects the loginId, shown only if there is no valid session.  |
+| **activateReturningUsersPrompt**| `config: IWidgetConfig` | Renders a prompt widget for ReturningUser type.   |
+| **authButton**  | `element: HTMLElement, config: IWidgetConfig` | Renders a widget inside the specified element for login, designated as 'ownid-auth-button'. Does not interact with the password field or show tooltips. |
+| **getOwnIDData**  | `widgetId: string`  | Invoked during registration to defer opening of the webapp until form submission, at which point it resolves with OwnID data to be included in the registration payload. |
+| **addOwnIDConnectionOnServer**  | `widgetId: string, payload: any` | Adds a FIDO2/loginId connection to a user at the end of the registration flow, specific to Firebase integration where user data update must occur post-creation. |
+| **generateOwnIDPassword**  | `length: number, numberCapitalised = 1, numberNumbers = 1, numberSpecial = 1` | Generates a random password with specified length and character group requirements.  |
+| **reRender** | `widgetId: string, config: IWidgetConfig` | Destroys and re-renders a widget by provided ID, extending it with the current widget configuration. |
+| **destroy** | `widgetId: string`   | Completely removes a widget by provided ID, including any custom CSS rules and attributes associated with the loginId/password  |
+| **auth**   | `loginId: string \| IPartialConfig, config?: IPartialConfig` | Runs the main authentication flow. |
+| **reauth**   | `loginId: string, config?: IPartialConfig` | Runs reauthentication flow, with integration server calling `getSessionByLoginId` at the end to potentially return a different proof than a session token.  |
+| **setTranslations** | `languages: { [langKey: string]: ITranslation }` | Sets translations for the translation service, intended for internal use.   |
+| **getURLParam**  | `paramName: string`    | Retrieves a specific GET parameter from the URL. Not used in production and can be removed.  |
+
+
+
+
+
+IInitConfig
+All properties are optional 
+Name
+Type
+Default Value
+Description
+logger
+ILogger
+-
+Defines custom logger.
+This is separate from the reported websdk events to datadog
+logLevel
+LogLevel
+error
+Defines app’s loglevel
+IPartialConfig
+
+
+
+
+
+
+
+
+
+
+IWidgetConfig
+Name
+Type
+Optional 
+Default Value
+Description
+type
+WidgetType
+-
+-
+Defines widget type. Determinate flow type.
+loginType
+LoginType
++
+standard
+Defines login type. Changes flow.
+linkSocialAccount - is used ONLY for gigya’s link-accounts screenset & integration
+[reauth not tested for the widget]
+promptType
+PromptTypes
++
+returning-user
+Used only for prompt widget. Defines prompt type 
+element
+HTMLElement
++
+-
+Sets a host element where the widget will be inserted. This will be ignored,  if a targetField is provided.
+Id (widgetId)
+string
++
+Defines automatically according to type
+Widget Id. Used for accessing to widgets entities via owned sdk.
+For gigya integrations, the default widget id also consists of the screenset’s id
+injectedLoginId
+string
++
+-
+Predefined loginId. Currently used for internal needs [e.g. RUP]
+IPartialConfig
+
+
+
+
+
+
+
+
+
+
+
+IPartialConfig
+All properties are optional 
+Name
+Type
+Default Value
+Description
+appConfig
+IContextConfig
+-
+Defines app config.
+language?: string
+string
+en
+Defines app’s language. Supported languages list cane checked here:
+https://github.com/OwnID/localization/blob/develop/translations/langs.json
+asyncMobileRegistration
+boolean
+FALSE
+If set to true, only on mobile, this suppresses the opening of the web-app when clicking on the widget; it is expected to use ownid(‘getOwnIdData’) on form submission to complete the actual authentication.
+(this isn’t relevant to desktop, because we expect the QR to be shown there in the relevant scenario)
+
+Used for screen sets. 
+This marks the widget as done when pressed.
+appId
+string
+-
+Application id
+env
+string
+Prod
+Sets sdk’s environment - used to generate the server url.
+addOrStatement
+boolean
+TRUE
+Defines to show “or” statement for the button widget with the targetField.
+forceRender
+boolean
+FALSE
+Can be deprecated and removed
+Not used with baking.
+
+Defines if widget will be rendered without waiting for its app configuration.
+ssoUrl
+string
+undefined
+ONLY on desktop, If the value is not empty, forces loading the widget in iframe mode, its value as  the iframe’s src.
+
+This should point to a trusted domain and a path that can serve the relevant page for the “iframe” logic.
+infoTooltip
+boolean
+TRUE
+Defines if info tooltip will be shown or not.
+infoTooltipPosition
+Position
+top
+Sets infoTooltip position relative to the widget
+mobileInfoTooltipPosition
+Position
+top
+Sets infoTooltip position for mobile devices. Overrides infoTooltipPosition value for mobile devices
+loginIdPattern
+string
+```
+/^(?=(.{1,64}@.{1,255}))([\w!#$%&'*+/=?^`{|}~-]{1,64}(\.[\w!#$%&'*+/=?^`{|}~-]*)*)@((\[(25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3}])|([\dA-Za-z-]{1,63}(\.[\dA-Za-z-]{2,63})+))$/
+```
+When listening to value types into loginIdField, if it matches this pattern then show the info tooltip of the widget.
+passwordField
+HTMLInputElement
+Null
+This field is set as the targetField 
+if it was not set.
+If the widget is in register type,
+Then onRegister,
+Disable this field 
+If (passwordFieldBinding)
+Set auto-gen pw as value
+
+```
+loginIdField
+HTMLInputElement
+Null
+Sets a field where widget will grab a login id
+loginIdPrefixField
+HTMLInputElement | HTMLSelectElement
+Null
+Sets a field to get the prefix that will be prepended to the loginId (used for phone numbers, as the country prefix)
+passwordToggle
+string
+undefined
+Css selector for view password toggle button. (For eye buttons)
+
+So it can move together with the password field [via setting the element margin]
+confirmPasswordContainer
+HTMLElement[] | HTMLElement
+Null
+Sets the element(s) we’ll hide after the register-widget is done - e.g. where the “confirm password” field is. 
+offset
+[number, number]
+[0, 0]
+Defines number of pixel to move widget horizontally and vertically
+serverUrl
+string
+[according to the appId & env the websdk loaded from]
+Sets server’s url
+[takes priority over provided appId & env]
+translationsUrl
+string
+[according to the appId & env the websdk loaded from]
+Sets translations url - to be used when the requested language wasn’t baked into the websdk. 
+E.g. “en” & “gr” & “he” were baked into the websdk, but when showing the widget, i requested language: “BA” - then the websdk will request that locale from the mentioned translationsUrl. 
+
+For internal use.
+[calculated same as above]
+mobileTitle
+string
+-
+ONLY for widget-qr variant, it sets the text on mobile.
+
+(Widget from very first implementation. Still supported)
+[not localizable]
+title
+string
+-
+Sets the button’s text for the widget-button-variants that have one:
+button
+ownid-auth-button
+Ownid-auth-button-faceid
+
+[not localizable]
+desktopTitle
+string
+-
+Sets title text for:
+Widget-qr variant
+Widget-button’s QR bubble
+desktopSubtitle
+string
+-
+Sets title text for:
+Widget-qr variant
+[currently not for the QR bubble]
+statusInterval
+number
+500
+Sets interval between status requests when showing the QR
+[no min value]
+variant
+WidgetVariants
+button-fingerprint
+Defines widget variant
+widgetPosition
+WidgetPosition
+start
+Defines widget position according to target field and “direction” style
+backgroundColor
+string
+-
+Sets background color of the button widgets
+textColor
+string
+-
+Sets text color of the button widgets
+Affects the icon as well.
+borderColor
+string
+-
+Sets border color of the button widgets
+boxShadow
+string
+-
+Sets shadow of the button widgets with all available properties
+redirectUrl
+string
+-
+Usually used in the following flow:
+Native-mobile-app open a webview with our websdk
+The widget is being rendered with this param
+Usually provided as part of initializing the ownid websdk in gigya’s websdk global conf
+When clicking the widget, when the websdk tries to open the web-app, it passes this param value forward to it [ONLY if device param is set to “mobile”]
+After a successful authentication, the web-app will redirect to this url
+This returns the native-mobile-app back to focus, with the open webview
+At this point the websdk inside the webview will query the context in order to get the session info.
+
+
+redirectUrlOverride
+{
+  android?: string;
+  ios?: string;
+}
+
+
+Used for mobile integration to be able to redirect back from browser to mobile app. Overrides redirectUrl according to device.
+device
+‘mobile’ [only]
+-
+If this param holds the “mobile” value, then the redirectUrl is passed to the web-app [see above].
+
+Today, this is only being set in the websdk by the gigya screenset integration.
+
+
+onMagicLink
+Callback
+-
+Will be called after a successful magic link authentication - with the session info.
+[for gigya integration, we hook it ourselves to its onLogin event]
+onMagicLinkError
+Callback
+-
+Will be called after an error when trying to use the magic link, e.g. token expired, wrong browser-instance [missing the server-cookie identifier for the browser initiating the flow]
+onBeforeLogin
+async Callback
+-
+This callback will be called just before
+onLogin and it will wait for its completion. 
+
+E.g. if there’s an active gigya integration, it will hook to the onLogin event and set the session on page - so this hook allows you [as a client] to provide a handler that will be called before that.
+onBeforeRegister
+async Callback
+-
+This callback will be called just before
+onRegister and it will wait for its completion. 
+onBeforeReauth
+async Callback
+-
+This callback will be called just before
+onReauth and it will wait for its completion. 
+onLogin
+Callback
+-
+Will be called on ownid successful authentication.
+If there’s an integration in place, it will first handle the onLogin event in order to establish a frontend session, and only then this callback will be called.
+onRegister
+Callback
+-
+Will be called on ownid success 
+onReauth
+Callback
+-
+Will be called on ownid success 
+onError
+Callback
+-
+Will be called on ownid error - returned from the backend flows
+notifyLoginParams
+Key-value list
+-
+List of elements will be added to notifyLogin call
+Used only for native mobile integration
+getAccountInfoParams
+Key-value list
+-
+List of elements will be added to getAccountInfo call
+Used only for web
+firebaseAuth
+firebaseAuth
+-
+Sets firebaseAuth for firebase integration [firebase sdk instance]
+template
+string [html]
+-
+[not in use]
+Used to set own template for fingerprint button
+targetElement
+HTMLElement
+-
+Can be deprecated and removed. 
+As we have owned.auth
+
+Subscribing to this element “onclick” in order to initiate authentication (used by ownid[‘customButton’] )
+
+This property takes affect ONLY if the widget variant is “client-button”.
+targetField
+HTMLInputElement
+-
+Sets a field to which widget will be placed next to [according to widgetPosition]
+promptType
+PromptTypes
+returning-user
+Used only for prompt widget. Defines prompt type 
+checkSession
+() => boolean | Promise<boolean>
+-
+Callback for session checker - for IC widget (prompt/modal)
+
+Receives default value from gigya & firebase integrations
+encrypt
+(data: string | object) => Promise<string>
+-
+Encrypt function for secure login id from network transferring.
+skipFallback
+boolean
+FALSE
+If set - skips fallback from primary auth method.
+By default: 
+Blocks otp if Fido call was unsuccessful 
+onlyReturningUsers
+boolean
+FALSE
+Blocks execution js api call for non returning users 
+onlyMobile
+boolean
+FALSE
+Blocks execution js api call for non mobile users 
+forceClientWebFlows
+boolean
+FALSE
+Forces using webFlows on devices where if was denied by default. (e.q. for webviews)
+
+
+
+
+
+
+
+
+
+IContextConfig
+The application’s configuration & toggles that are received as part of the baked websdk
+All properties are optional 
+Name
+Type
+Default Value
+Description
+clientEncrypt
+boolean
+FALSE
+Sets encryption to login id
+clientWebFlows
+boolean
+FALSE
+Enables webauthn on sdk side
+displayName
+string
+-
+Application’s display name (set via console) that is shown in the RUP or OTP-modals
+emailVerification
+boolean
+
+
+No used
+showExpandableTooltip
+boolean
+TRUE
+Switches from regular tooltip (light) to expandable (dark)
+instantConnect
+boolean
+FALSE
+Whether to show the RUP on widget render.
+The backend default for new applications is TRUE.
+logLevel
+LogLevel
+error
+Defines app’s loglevel
+loginIdSettings
+loginIdSettings
+
+
+Mandatory property 
+Sets settings for login id related functionality.
+magicLink
+boolean
+FALSE
+Defines if magic link functionality is available - so it can be used, for example, in case of showing the QR or when webflows are disabled.
+passkeysAutofill
+boolean
+FALSE
+Defines if passkeysAutofill functionality will be activated for the loginIdField of a widget.
+This excludes the loginId field that might appear in the prompts or ownid.auth
+passwordFieldBinding
+boolean
+FALSE
+Whether to set a mock complex password as the value of the widget’s passwordField after a successful widget’s register flow.
+[EnablePasswordGeneration on backend]
+showTooltipBranding
+boolean
+TRUE
+Shows OwnID branding inside info tooltip
+showTooltipOnEmailEntered
+boolean
+FALSE
+Changes the widget’s tooltip to appear when a valid email is types into the loginIdField.
+[both mobile & desktop]
+enableRegistrationFromLogin
+boolean
+FALSE
+When trying to authenticate and the user wants to change the loginId (“not you” link), if can try to collect the new one ONLY if we can auto-register the user - this is because we can only know if the user exists after full authentication
+ssoCname
+string
+-
+Enables sso mode (Iframed widgets will be used)
+If has value then:
+On desktop
+Show Iframe widget
+On mobile
+Click on the widget opens the webapp
+E.g.
+If ssoCname is 
+pwless.a.com
+And the user is at 
+front.a.com
+rpId is:
+a.com
+Then the webapp will still open in the cname
+[though we can do inpage webflow]
+verificationType
+VerificationType
+email
+Defines login id verification type
+[in theory, verification can be for email while the loginId is phone, and vise-versa]
+windowsBiometricIcon
+boolean
+FALSE
+Restricts showing windows icon on windows 
+modalICWidget
+boolean
+FALSE
+Switches IC widget from prompt mode to modal
+
+
+
+CSS Variables
+https://github.com/OwnID/web-sdk/blob/develop/src/components/common/button/button.scss
+
+--ownid-button-height: 42px;
+  --ownid-button-width: 42px;
+  --ownid-button-widget-font-size: 14px;
+  --ownid-button-widget-color: #0070F2;
+  --ownid-button-widget-background: #FFFFFF;
+  --ownid-button-widget-border-color: #D0D0D0;
+  --ownid-button-widget-border-width: 1px;
+  --ownid-button-widget-box-shadow: none;
+  --ownid-button-widget-border-radius: 6px;
+  --ownid-button-widget-button-padding: 0 4px;
+  --ownid-qr-or-width: 4px
+
+```
+

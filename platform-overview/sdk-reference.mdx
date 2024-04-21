@@ -3,7 +3,6 @@ title: 'Web SDK Reference'
 description: 'Description of your new file.'
 ---
 
-
 This reference details Web SDK methods and configuration objects.
 
 
@@ -27,6 +26,98 @@ This reference details Web SDK methods and configuration objects.
 | **reauth**   | `loginId: string, config?: IPartialConfig` | Runs reauthentication flow, with integration server calling `getSessionByLoginId` at the end to potentially return a different proof than a session token.  |
 | **setTranslations** | `languages: { [langKey: string]: ITranslation }` | Sets translations for the translation service, intended for internal use.   |
 | **getURLParam**  | `paramName: string`    | Retrieves a specific GET parameter from the URL. Not used in production and can be removed.  |
+
+#### IInitConfig
+##### Configuration object
+<ParamField query="logger" type="ILogger" default="None">
+  Defines custom logger. This is separate from the reported websdk events to datadog.
+</ParamField>
+<ParamField query="logLevel" type="LogLevel" default="error">
+  Defines app’s log level.
+</ParamField>
+
+
+<sub>OBJECT</sub>
+#### IPartialConfig
+<sup>OBJECT</sup>
+
+##### Configuration object
+<ParamField query="appConfig" type="IContextConfig" default="None">
+  Defines app config.
+</ParamField>
+<ParamField query="language" type="string" default="en">
+  Defines app’s language. Supported languages list can be checked here: https://github.com/OwnID/localization/blob/develop/translations/langs.json.
+</ParamField>
+<ParamField query="asyncMobileRegistration" type="boolean" default="FALSE">
+  If set to true, only on mobile, this suppresses the opening of the web-app when clicking on the widget; it is expected to use ownid['getOwnIdData'] on form submission to complete the actual authentication. [this isn’t relevant to desktop, because we expect the QR to be shown there in the relevant scenario].
+</ParamField>
+<ParamField query="appId" type="string" default="None">
+  Application id.
+</ParamField>
+<ParamField query="env" type="string" default="Prod">
+  Sets sdk’s environment - used to generate the server url.
+</ParamField>
+<ParamField query="addOrStatement" type="boolean" default="TRUE">
+  Defines to show “or” statement for the button widget with the targetField.
+</ParamField>
+<ParamField query="forceRender" type="boolean" default="FALSE">
+  Can be deprecated and removed Not used with baking.
+</ParamField>
+<ParamField query="ssoUrl" type="string" default="undefined">
+  ONLY on desktop, If the value is not empty, forces loading the widget in iframe mode, its value as the iframe’s src. This should point to a trusted domain and a path that can serve the relevant page for the “iframe” logic.
+</ParamField>
+<ParamField query="infoTooltip" type="boolean" default="TRUE">
+  Defines if info tooltip will be shown or not.
+</ParamField>
+<ParamField query="infoTooltipPosition" type="Position" default="top">
+  Sets infoTooltip position relative to the widget.
+</ParamField>
+<ParamField query="mobileInfoTooltipPosition" type="Position" default="top">
+  Sets infoTooltip position for mobile devices. Overrides infoTooltipPosition value for mobile devices.
+</ParamField>
+<ParamField query="loginIdPattern" type="string" default="None">
+  When listening to value types into loginIdField, if it matches this pattern then show the info tooltip of the widget.
+</ParamField>
+
+#### IWidgetConfig
+##### Configuration object
+<ParamField query="type" type="WidgetType" default="None" required>
+  Defines widget type. Determinate flow type.
+</ParamField>
+<ParamField query="loginType" type="LoginType" default="standard">
+  Defines login type. Changes flow. linkSocialAccount - is used ONLY for gigya’s link-accounts screenset & integration [reauth not tested for the widget].
+</ParamField>
+<ParamField query="promptType" type="PromptTypes" default="returning-user">
+  Used only for prompt widget. Defines prompt type.
+</ParamField>
+<ParamField query="element" type="HTMLElement" default="None">
+  Sets a host element where the widget will be inserted. This will be ignored, if a targetField is provided.
+</ParamField>
+<ParamField query="Id" type="string" default="None">
+  Widget Id. Used for accessing widgets entities via owned sdk. For gigya integrations, the default widget id also consists of the screenset’s id.
+</ParamField>
+<ParamField query="injectedLoginId" type="string" default="None">
+  Predefined loginId. Currently used for internal needs [e.g. RUP].
+</ParamField>
+
+#### IContextConfig
+##### Configuration object
+
+<ParamField query="clientEncrypt" type="boolean" default="FALSE">
+  Sets encryption to login id.
+</ParamField>
+<ParamField query="clientWebFlows" type="boolean" default="FALSE">
+  Enables webauthn on sdk side.
+</ParamField>
+<ParamField query="displayName" type="string" default="None">
+  Application’s display name (set via console) that is shown in the RUP or OTP-modals.
+</ParamField>
+<ParamField query="emailVerification" type="boolean" default="None">
+  No used.
+</ParamField>
+<ParamField query="instantConnect" type="boolean" default="FALSE">
+  Whether to show the RUP on widget render. The backend default for new applications is TRUE.
+</ParamField>
 
 
 IInitConfig

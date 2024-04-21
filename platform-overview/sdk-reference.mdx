@@ -1,27 +1,22 @@
 ---
-title: 'New file'
+title: 'Web SDK Reference'
 description: 'Description of your new file.'
 ---
 
-https://github.com/orgs/OwnID/repositories?q=react&type=all&language=&sort=Result of
 
-https://linear.app/ownid/issue/KYIV-2570/mapping-websdk-params
+This reference details Web SDK methods and configuration objects.
 
-Functions
-Name
-Properties
-Description
 
 | **Name**      | **Properties**  | **Description**           |
-|-----------|----------------------------|-------------------|
+|--------|----------------------------|-------------------|
 | **init**  | `config: IInitConfig`  | Sets configuration for an app. Extends config with new properties on each call. Verifies and logs in using a magic-link-token from the query-string if present. |
 | **render**  | `config:IWidgetConfig`   | Renders a widget showing RUP and subscribes to SDK events based on app’s integration type, e.g., gigya-websdk’s onLogin. |
 | **login** | `config: IWidgetConfig`  | Renders a widget for user login. |
 | **recover** |`config:IWidgetConfig`  | Renders a widget for account recovery.  |
 | **customButton** |`targetElement: HTMLElement, config:IWidgetConfig`| Renders a "client-button" variant widget only on mobile devices. Subscribes to `onClick` events of the target element to trigger an OwnID login flow on a web-app. |
 | **showPrompt** | `promptType: PromptTypes \| IWidgetConfig, config?: IWidgetConfig` | Renders a prompt widget based on the specified type (Returning User or Immediate Connect).      |
-| **activateAlwaysConnected**     | `config: IWidgetConfig`      | Renders a prompt widget for AlwaysConnected type to facilitate a connection that collects the loginId, shown only if there is no valid session.  |
-| **activateReturningUsersPrompt**| `config: IWidgetConfig` | Renders a prompt widget for ReturningUser type.   |
+| **activateAlwaysConnected**     | `config: IWidgetConfig`      | Renders a prompt widget for `AlwaysConnected` type to facilitate a connection that collects the `loginId`, shown only if there is no valid session.  |
+| **activateReturningUsersPrompt**| `config: IWidgetConfig` | Renders a prompt widget for `ReturningUser` type.   |
 | **authButton**  | `element: HTMLElement, config: IWidgetConfig` | Renders a widget inside the specified element for login, designated as 'ownid-auth-button'. Does not interact with the password field or show tooltips. |
 | **getOwnIDData**  | `widgetId: string`  | Invoked during registration to defer opening of the webapp until form submission, at which point it resolves with OwnID data to be included in the registration payload. |
 | **addOwnIDConnectionOnServer**  | `widgetId: string, payload: any` | Adds a FIDO2/loginId connection to a user at the end of the registration flow, specific to Firebase integration where user data update must occur post-creation. |
@@ -32,9 +27,6 @@ Description
 | **reauth**   | `loginId: string, config?: IPartialConfig` | Runs reauthentication flow, with integration server calling `getSessionByLoginId` at the end to potentially return a different proof than a session token.  |
 | **setTranslations** | `languages: { [langKey: string]: ITranslation }` | Sets translations for the translation service, intended for internal use.   |
 | **getURLParam**  | `paramName: string`    | Retrieves a specific GET parameter from the URL. Not used in production and can be removed.  |
-
-
-
 
 
 IInitConfig
@@ -55,14 +47,6 @@ Defines app’s loglevel
 IPartialConfig
 
 
-
-
-
-
-
-
-
-
 IWidgetConfig
 Name
 Type
@@ -70,7 +54,7 @@ Optional
 Default Value
 Description
 type
-WidgetType
+WidgetType 
 -
 -
 Defines widget type. Determinate flow type.
@@ -550,4 +534,5 @@ https://github.com/OwnID/web-sdk/blob/develop/src/components/common/button/butto
   --ownid-qr-or-width: 4px
 
 ```
+
 

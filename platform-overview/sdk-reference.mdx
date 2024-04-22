@@ -32,31 +32,33 @@ This reference details Web SDK methods and configuration objects.
   Defines custom logger. This is separate from the reported websdk events to datadog.
 </ParamField>
 <ParamField query="logLevel" type="LogLevel" default="error">
-  Defines app’s log level.
+  Defines the log level of the application.
 </ParamField>
 
-
-<sub>OBJECT</sub>
 #### IPartialConfig
 
 ##### Configuration object
 <ParamField query="appConfig" type="IContextConfig" default="None">
-  Defines app config.
+  Defines app configuration.
 </ParamField>
 <ParamField query="language" type="string" default="en">
   Defines app’s language. Supported languages list can be checked here: https://github.com/OwnID/localization/blob/develop/translations/langs.json.
 </ParamField>
 <ParamField query="asyncMobileRegistration" type="boolean" default="FALSE">
-  If set to true, only on mobile, this suppresses the opening of the web-app when clicking on the widget; it is expected to use ownid['getOwnIdData'] on form submission to complete the actual authentication. [this isn’t relevant to desktop, because we expect the QR to be shown there in the relevant scenario].
+  _Mobile only_
+
+  If set to `true`, this suppresses the opening of the web-app when clicking on the widget; it is expected to use ownid['getOwnIdData'] on form submission to complete the actual authentication. <Note>**NOTE** This isn’t relevant to desktop, because we expect the QR to be shown there in the relevant scenario.</Note>
 </ParamField>
 <ParamField query="appId" type="string" default="None">
   Application id.
+
+  Get this from the developer console by selecting your application.
 </ParamField>
 <ParamField query="env" type="string" default="Prod">
-  Sets sdk’s environment - used to generate the server url.
+  Sets SDK environment -- used to generate the server URL.
 </ParamField>
 <ParamField query="addOrStatement" type="boolean" default="TRUE">
-  Defines to show “or” statement for the button widget with the targetField.
+  Determines whether or not to show “or” statement for the button widget with the `targetField`.
 </ParamField>
 <ParamField query="forceRender" type="boolean" default="FALSE">
   Can be deprecated and removed Not used with baking.
@@ -65,28 +67,43 @@ This reference details Web SDK methods and configuration objects.
   ONLY on desktop, If the value is not empty, forces loading the widget in iframe mode, its value as the iframe’s src. This should point to a trusted domain and a path that can serve the relevant page for the “iframe” logic.
 </ParamField>
 <ParamField query="infoTooltip" type="boolean" default="TRUE">
-  Defines if info tooltip will be shown or not.
+  Deetermines whether or not to show the _info tooltip_.
 </ParamField>
 <ParamField query="infoTooltipPosition" type="Position" default="top">
   Sets infoTooltip position relative to the widget.
 </ParamField>
 <ParamField query="mobileInfoTooltipPosition" type="Position" default="top">
-  Sets infoTooltip position for mobile devices. Overrides infoTooltipPosition value for mobile devices.
+  _Mobile only_
+
+  Sets and overrides the `infoTooltip` position value for mobile devices.
+
+  Valid values: 
+  - top
+  - right
+  - bottom
+  - left
+  
 </ParamField>
 <ParamField query="loginIdPattern" type="string" default="None">
   When listening to value types into loginIdField, if it matches this pattern then show the info tooltip of the widget.
 </ParamField>
 
 #### IWidgetConfig
-##### Configuration object
+
+<ParamField query=" " type="WidgetType">
+Defines widget type. Determines flow type.
+</ParamField>
+
+
+
 <ParamField query="type" type="WidgetType" default="None" required>
-  Defines widget type. Determinate flow type.
+  Defines widget type. Determines flow type.
 </ParamField>
 <ParamField query="loginType" type="LoginType" default="standard">
   Defines login type. Changes flow. linkSocialAccount - is used ONLY for gigya’s link-accounts screenset & integration [reauth not tested for the widget].
 </ParamField>
 <ParamField query="promptType" type="PromptTypes" default="returning-user">
-  Used only for prompt widget. Defines prompt type.
+  Used only for prompt widget. Defines the prompt type.
 </ParamField>
 <ParamField query="element" type="HTMLElement" default="None">
   Sets a host element where the widget will be inserted. This will be ignored, if a targetField is provided.
@@ -132,16 +149,18 @@ This reference details Web SDK methods and configuration objects.
   Whether to set a mock complex password as the value of the widget’s passwordField after a successful widget’s register flow. [EnablePasswordGeneration on backend].
 </ParamField>
 <ParamField query="showTooltipBranding" type="boolean" default="TRUE">
-  Shows OwnID branding inside info tooltip.
+  If `TRUE` it displays OwnID branding inside info tooltip.
 </ParamField>
 <ParamField query="showTooltipOnEmailEntered" type="boolean" default="FALSE">
-  Changes the widget’s tooltip to appear when a valid email is typed into the loginIdField. [both mobile & desktop].
+  If `TRUE' the _valid email_ tooltip appears when a valid email is typed into the `loginIdField`. 
+  
+  _Supported on Mobile and Desktop_.
 </ParamField>
 <ParamField query="enableRegistrationFromLogin" type="boolean" default="FALSE">
-  When trying to authenticate and the user wants to change the loginId (“not you” link), it can try to collect the new one ONLY if we can auto-register the user - this is because we can only know if the user exists after full authentication.
+  When trying to authenticate and the user wants to change the loginId (when they select the “not you” link), it can try to collect the new one ONLY if we can auto-register the user -- this is because we can only know if the user exists after full authentication.
 </ParamField>
 <ParamField query="ssoCname" type="string" default="None">
-  Enables sso mode (Iframed widgets will be used). On desktop, show Iframe widget. On mobile, click on the widget opens the webapp. E.g., if ssoCname is pwless.a.com and the user is at front.a.com, rpId is a.com, then the webapp will still open in the cname [though we can do inpage webflow].
+  Enables sso mode (Iframed widgets will be used). On desktop, show Iframe widget. On mobile, click on the widget opens the webapp. E.g., if `ssoCname` is pwless.a.com and the user is at front.a.com, `rpId` is a.com, then the webapp will still open in the cname [though we can do inpage webflow].
 </ParamField>
 <ParamField query="verificationType" type="VerificationType" default="email">
   Defines login id verification type [in theory, verification can be for email while the loginId is phone, and vice-versa].

@@ -14,7 +14,7 @@ This reference details Web SDK methods and configuration objects.
 | **showPrompt** | `promptType: PromptTypes \| IWidgetConfig, config?: IWidgetConfig` | Renders a prompt widget based on the specified type (Returning User or Immediate Connect).      |
 | **activateAlwaysConnected**     | `config: IWidgetConfig`      | Renders a prompt widget for `AlwaysConnected` type to facilitate a connection that collects the `loginId`, shown only if there is no valid session.  |
 | **activateReturningUsersPrompt**| `config: IWidgetConfig` | Renders a prompt widget for `ReturningUser` type.   |
-| **auth**   | `loginId: string \| IPartialConfig, config?: IPartialConfig` | Runs the main authentication flow. |
+| **auth**   | `loginId: string | IPartialConfig, config?: IPartialConfig` | Runs the main authentication flow. |
 | **reauth**   | `loginId: string, config?: IPartialConfig` | Runs reauthentication flow, with integration server calling `getSessionByLoginId` at the end to potentially return a different proof than a session token.  |
 
 #### IInitConfig
@@ -34,7 +34,7 @@ This reference details Web SDK methods and configuration objects.
 <ParamField query="language" type="string" default="en">
   Defines app’s language. Supported languages list can be checked here: https://github.com/OwnID/localization/blob/develop/translations/langs.json.
 </ParamField>
-<ParamField query="asyncMobileRegistration" type="boolean" default="FALSE">
+<ParamField query="asyncMobileRegistration" type="boolean" default="false">
   _Mobile only_
 
   If set to `true`, this suppresses the opening of the web-app when clicking on the widget; it is expected to use ownid['getOwnIdData'] on form submission to complete the actual authentication. <Note>**NOTE** This isn’t relevant to desktop, because we expect the QR to be shown there in the relevant scenario.</Note>
@@ -47,17 +47,17 @@ This reference details Web SDK methods and configuration objects.
 <ParamField query="env" type="string" default="Prod">
   Sets SDK environment -- used to generate the server URL.
 </ParamField>
-<ParamField query="addOrStatement" type="boolean" default="TRUE">
+<ParamField query="addOrStatement" type="boolean" default="true">
   Determines whether or not to show “or” statement for the button widget with the `targetField`.
 </ParamField>
-<ParamField query="forceRender" type="boolean" default="FALSE">
+<ParamField query="forceRender" type="boolean" default="false">
   Can be deprecated and removed Not used with baking.
 </ParamField>
 <ParamField query="ssoUrl" type="string" default="undefined">
   _Desktop only_ 
   If the value is not empty, forces loading the widget in iframe mode, its value as the iframe’s src. This should point to a trusted domain and a path that can serve the relevant page for the “iframe” logic.
 </ParamField>
-<ParamField query="infoTooltip" type="boolean" default="TRUE">
+<ParamField query="infoTooltip" type="boolean" default="true">
   Determines whether or not to show the _info tooltip_.
 </ParamField>
 <ParamField query="infoTooltipPosition" type="Position" default="top">
@@ -89,10 +89,10 @@ Defines widget type. Determines flow type.
   Defines widget type. Determines flow type.
 </ParamField>
 <ParamField query="loginType" type="LoginType" default="standard">
-  Defines login type. Changes flow. linkSocialAccount - is used ONLY for gigya’s link-accounts screenset & integration [reauth not tested for the widget].
+  Defines login type. Changes flow. 
 </ParamField>
 <ParamField query="promptType" type="PromptTypes" default="returning-user">
-  Used only for prompt widget. Defines the prompt type.
+  Used only for the prompt widget. Defines the prompt type.
 </ParamField>
 <ParamField query="element" type="HTMLElement" default="None">
   Sets a host element where the widget will be inserted. This will be ignored, if a targetField is provided.
@@ -104,10 +104,10 @@ Defines widget type. Determines flow type.
 #### IContextConfig
 ##### Configuration object
 
-<ParamField query="clientEncrypt" type="boolean" default="FALSE">
+<ParamField query="clientEncrypt" type="boolean" default="false">
   Sets encryption to login id.
 </ParamField>
-<ParamField query="clientWebFlows" type="boolean" default="FALSE">
+<ParamField query="clientWebFlows" type="boolean" default="false">
   Enables webauthn on sdk side.
 </ParamField>
 <ParamField query="displayName" type="string" default="None">
@@ -116,8 +116,8 @@ Defines widget type. Determines flow type.
 <ParamField query="emailVerification" type="boolean" default="None">
   Not used.
 </ParamField>
-<ParamField query="instantConnect" type="boolean" default="FALSE">
-  Whether to show the RUP on widget render. The backend default for new applications is `TRUE`.
+<ParamField query="instantConnect" type="boolean" default="false">
+  Whether to show the RUP on widget render. The backend default for new applications is `true`.
 </ParamField>
 <ParamField query="logLevel" type="LogLevel" default="error">
   Defines the applications’s logging level.
@@ -125,24 +125,24 @@ Defines widget type. Determines flow type.
 <ParamField query="loginIdSettings" type="loginIdSettings" default="None" required>
   Sets settings for login id related functionality.
 </ParamField>
-<ParamField query="magicLink" type="boolean" default="FALSE">
+<ParamField query="magicLink" type="boolean" default="false">
   Defines if magic link functionality is available - so it can be used, for example, in case of showing the QR or when webflows are disabled.
 </ParamField>
-<ParamField query="passkeysAutofill" type="boolean" default="FALSE">
+<ParamField query="passkeysAutofill" type="boolean" default="false">
   Defines if `passkeysAutofill` functionality will be activated for the loginIdField of a widget. This excludes the loginId field that might appear in the prompts or `ownid.auth`.
 </ParamField>
-<ParamField query="passwordFieldBinding" type="boolean" default="FALSE">
+<ParamField query="passwordFieldBinding" type="boolean" default="false">
   Whether to set a mock complex password as the value of the widget’s passwordField after a successful widget’s register flow. [EnablePasswordGeneration on backend].
 </ParamField>
-<ParamField query="showTooltipBranding" type="boolean" default="TRUE">
-  If `TRUE` it displays OwnID branding inside info tooltip.
+<ParamField query="showTooltipBranding" type="boolean" default="true">
+  If `true` it displays OwnID branding inside info tooltip.
 </ParamField>
-<ParamField query="showTooltipOnEmailEntered" type="boolean" default="FALSE">
-  If `TRUE' the _valid email_ tooltip appears when a valid email is typed into the `loginIdField`. 
+<ParamField query="showTooltipOnEmailEntered" type="boolean" default="false">
+  If `true' the _valid email_ tooltip appears when a valid email is typed into the `loginIdField`. 
   
   _Supported on Mobile and Desktop_.
 </ParamField>
-<ParamField query="enableRegistrationFromLogin" type="boolean" default="FALSE">
+<ParamField query="enableRegistrationFromLogin" type="boolean" default="false">
   When trying to authenticate and the user wants to change the loginId (when they select the “not you?” link), it can try to collect the new one ONLY if we can auto-register the user -- this is because we can only know if the user exists after full authentication.
 </ParamField>
 <ParamField query="ssoCname" type="string" default="None">
@@ -154,10 +154,10 @@ Defines widget type. Determines flow type.
   **NOTE** In theory, verification can be for email while the loginId is phone, and vice-versa.
   </Note>
 </ParamField>
-<ParamField query="windowsBiometricIcon" type="boolean" default="FALSE">
+<ParamField query="windowsBiometricIcon" type="boolean" default="false">
   Restricts showing windows icon on windows.
 </ParamField>
-<ParamField query="modalICWidget" type="boolean" default="FALSE">
+<ParamField query="modalICWidget" type="boolean" default="false">
   Switches IC widget from prompt mode to modal.
 </ParamField>
 

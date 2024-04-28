@@ -1,0 +1,75 @@
+---
+title: 'Okta Frontend integration'
+description: 'Description of your new file.'
+---
+
+OwnID integrates with the Okta SignIn widget. Use JavaScript to manage login behaviors with support from  `ownid` SDK. 
+
+The following code sample is annotated heavily with comments:
+
+```javascript
+
+// Listen for the 'afterRender' event from the Okta SignIn widget
+oktaSignIn.on('afterRender', function (context) {
+    // Get the password input field and login input
+    const passwordInput = document.getElementsByClassName('password-with-toggle')[0];
+    const loginIdInput = document.querySelectorAll('[name="identifier"]')[0];
+    // Destroy any previous instances of OwnID tied to the login process
+    ownid('destroy', 'login');
+    // Confirm the login identifier input exists
+    if (loginIdInput) {
+        // Initialize OwnID for login with the login identifier input
+        ownid("login", {
+            loginIdField: loginIdInput, // Input field for login ID
+            targetField: loginIdInput.parentElement, // The parent element where OwnID UI is appended
+            addOrStatement: false, // Determines if an "OR" statement should be added in UI (typically used in passwordless scenarios)
+            onLogin // Function to handle login event
+        });
+    }
+    // If the login identifier isn't there but password input is 
+    else if (passwordInput) {
+        // Get the login identifier input container by class name
+        const loginIdContainer = document.getElementsByClassName('identifier')[0];
+        // Get the 'title' attribute which might store the login ID
+        const loginId = loginIdContainer?.getAttribute('title') ?? '';
+        // If there is no login ID, stop
+        if (!loginId) return;
+        // Create a new input element to hold the login ID
+        const loginIdHolder = document.createElement("input");
+        loginIdHolder.value = loginId;
+        // Initialize OwnID for login using the new login ID holder and the password input
+        ownid("login", {
+            loginIdField: loginIdHolder,
+            passwordField: passwordInput,
+            targetField: passwordInput.parentElement, // The parent element where OwnID UI is appended
+            onLogin // Function to handle login event
+        });
+    }
+});
+
+// Asynchronous function to handle login
+async function onLogin(data, flowMetadata) {
+    // Constant to hold a unique identifier for the OWNID OIDC provider
+    const OWNID_OIDC_IDENTITY_PROVIDER_ID = 'OKTA OWNID IDP ID';
+    // Redirect the user to an OIDC URL, passing the login hint and the current URL, encoded for URL compliance
+    window.location.href = `/sso/idps/${OWNID_OIDC_IDENTITY_PROVIDER_ID}?login_hint=${flowMetadata.authToken}&fromURI=${encodeURIComponent(window.location.href)}`;
+}
+```
+
+## Detailed Explanation
+
+The code above interacts with the DOM to enhance the login process on a webpage using Okta's authentication service along with OwnID for a possibly more secure or simplified login experience.
+
+- Event Handling: The afterRender event is utilized, which is likely triggered after the Okta login widget is fully rendered on the page. This ensures that DOM manipulations occur only after all elements are available.
+
+- DOM Manipulations: It selectively retrieves elements like the password and login ID inputs using class names and selectors. This indicates a specific structure and naming convention in the HTML which the script depends on.
+
+- OwnID Initialization: It initializes OwnID with configurations depending on the availability of certain inputs. OwnID seems to provide a mechanism to handle login processes, potentially offering features like passwordless login, using just an identifier.
+
+- Login Flow: In the scenario where login credentials are dynamically determined (like fetching a login ID from a title attribute), the script handles these cases gracefully, including creating new input elements to facilitate the process.
+
+- Redirection upon Login: The onLogin function suggests a redirection mechanism using an OIDC (OpenID Connect) URL, presumably to handle single sign-on (SSO) processes, passing necessary tokens and current URL data for seamless session continuation or initiation.
+
+The script demonstrates an integration between Okta and OwnID to provide a robust user authentication experience on your web platform.
+
+

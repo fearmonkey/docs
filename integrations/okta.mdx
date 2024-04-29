@@ -1,0 +1,182 @@
+---
+title: "Okta"
+description: "Integrate OwnID into your Okta flow"
+---
+
+## Step 1 - Extend Okta user schema
+
+* In your Okta admin dashboard go to `Directory -> Profile Editor`
+* Choose the `User (default)` user group
+
+<img
+    src="/images/okta/okta_3_profile_editor.png"
+    width="250"
+    alt="Profile editor"
+/>
+<sup>Figure 1. Profile editor</sup>
+
+* Click `Add Attribute`
+
+<img
+    src="/images/okta/okta_4_add_attr.png"
+    width="250"
+    alt="Add attribute"
+/>
+<sup>Figure 2. Add attribute</sup>
+
+* Fill in the attribute configuration as below and click `Save`
+
+<img
+    src="/images/okta/okta_5_attr.png"
+    width="250"
+    alt="Attribute configuration"
+/>
+<sup>Figure 3. Attribute configuration</sup>
+
+## Step 2 - Create Okta API Token
+
+* In your Okta admin dashboard, go to: `Security -> API -> Tokens tab`
+* Click `Create Token`
+
+<img
+    src="/images/okta/okta_1_create_token.png"
+    width="250"
+    alt="Create token"
+/>
+<sup>Figure 4. Create API token</sup>
+
+* Fill in the token name - "OwnID API Token"
+* Copy the token value, we will use it in the next step.
+
+<img
+    src="/images/okta/okta_2_token_copy.png"
+    width="250"
+    alt="Copy token"
+/>
+<sup>Figure 5. Copy API token</sup>
+
+## Step 3 - OwnID Application
+
+* Login to the [OwnID Console](https://console.ownid.com).
+* Create a new application.
+* Name the application and select its type as the `Okta` Connector.
+* Copy the `appId`. We will use it in the final step.
+
+<Check>Your application is created!</Check>
+
+In your Okta integration page, fill in the following information;
+
+### Okta settings
+* `Site Domain` - _e.g: https://acme.okta.com_
+* `API Token` - As created in the previous step
+
+### OpenID Connect settings
+* `Redirect URIs` - Add one or more Okta redirect URIs, typically `https://your-auth-domain.com/oauth2/v1/authorize/callback`
+
+**Save Changes**. The other values in this page will be used in the next step.
+
+## Step 4 - Create an OwnID OIDC Identity Provider
+
+* In your Okta admin dashboard, go to `Security -> Identity Providers`
+* Add a new identity provider
+
+<img
+    src="/images/okta/okta_6_add_idp.png"
+    width="250"
+    alt="Add identity provider"
+/>
+<sup>Figure 6. Add identity provider</sup>
+
+* Choose it to be of type OpenID Connect IdP
+
+<img
+    src="/images/okta/okta_7_select_idp.png"
+    width="250"
+    alt="OpenID Connect IdP"
+/>
+<sup>Figure 7. OpenID Connect IdP</sup>
+
+* Configure it with the following general settings:
+
+<img
+    src="/images/okta/okta_8_gen_settings.png"
+    width="250"
+    alt="IdP settings"
+/>
+<sup>Figure 8. IdP settings</sup>
+
+* For the `Client details` use the `Client ID` and `Client Secret` from the OwnID application created in the previous step.
+
+<img
+    src="/images/okta/okta_9_client_settings.png"
+    width="250"
+    alt="Client details"
+/>
+<sup>Figure 9. Client details</sup>
+
+* For the `Endpoints` use the values from the OwnID application created in the previous step.
+
+* Set the remaining details as follows:
+
+<img
+    src="/images/okta/okta_10_auth_settings.png"
+    width="250"
+    alt="Authentication settings"
+/>
+<sup>Figure 10. Authentication settings</sup>
+
+* Click `Save`. Copy the `IdP ID` value, we will use it in the next step.
+
+<img
+    src="/images/okta/okta_11_idp_summary.png"
+    width="250"
+    alt="IdP Summary"
+/>
+<sup>Figure 11. IdP Summary</sup>
+
+## Step 5 - Frontend Integration
+
+* In your Okta admin dashboard, go to `Customizations -> Brands`
+* Select your relevant brand
+* Click `Customize`
+
+<img
+    src="/images/okta/okta_12_brand.png"
+    width="250"
+    alt="Brand customization"
+/>
+<sup>Figure 12. Brand customization</sup>
+
+* Make sure the `Code Editor` is toggled on (requires a custom domain)
+
+<img
+    src="/images/okta/okta_13_code_editor.png"
+    width="250"
+    alt="Code editor"
+/>
+<sup>Figure 13. Code editor</sup>
+
+* Under the Head tag, add the following script for loading the OwnID WebSDK:
+
+> Replace `<appId>` with the `appId` from the OwnID application created in step 3
+
+> Replace `<idpId>` with the `IdP ID` from step 4
+
+```javascript Web SDK Configuration
+((o, w, n, i, d) => {
+    o[i] = o[i] || (async (...a) => ((o[i].q = o[i].q || []).push(a), { error: null, data: null })),
+        (e = w.createElement("script")).src = 'https://cdn.ownid.com/sdk/' + n, e.async = 1, w.head.appendChild(e);
+        new OktaSignIn(OktaUtil.getSignInWidgetConfig()).on('afterRender', () => ownid("login", {idpId: d}))
+})
+(window, document, '<appId>', 'ownid', '<idpId>');
+```
+
+* Click `Save and Publish`
+
+<Check>Congratulations! Enjoy your passwordless authentication!</Check>
+
+## Next Steps
+
+<Card title="Add Your Custom Domain" icon="globe" href="/explore/custom-domain">
+    Unify the login experience with your own domain.
+</Card>

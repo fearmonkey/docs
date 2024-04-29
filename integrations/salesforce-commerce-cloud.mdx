@@ -1,0 +1,195 @@
+---
+title: "Salesforce Commerce Cloud"
+description: "Integrate OwnID into Salesforce Commerce Cloud using a cartridge."
+---
+
+## Prerequisites
+
+Request the cartridge from [this page](https://ownid.com/enterprise-connectors/salesforce-commerce-cloud).
+
+## Step 1 - SFCC Credentials
+
+### Create Credentials
+
+[OAuth Client Credentials](https://help.salesforce.com/s/articleView?id=cc.b2c_account_manager_add_api_client_id.htm&type=5)
+
+Log into Account Manager. Go to `API Client` and click `Add API Client`:
+* Enter Display Name: OwnID Integration
+* Enter a password
+* Assign your organization
+* Assign the following roles: `Sandbox API User` and `Salesforce Commerce Cloud`
+* Token Endpoint Auth Method: `private_key_jwt`
+* Save Changes. 
+
+<img
+  width="240"
+  src="/images/SFCC-step1.jpeg"
+  alt="SFCC Account Manager"
+  />
+<sup>Figure 1. Salesforce API Client Creation</sup>
+
+You will get a `Client Id` and `Secret`. (Save this values for later)
+
+### Assign Permissions
+
+Go to `Administration > Site Development > Open Commerce API Settings`:
+
+**Configure shop tab**
+
+Add the following JSON to the shop tab:
+
+<Note> Change "Your Client ID" value in the json by the `Client Id` created in the previous step. </Note>
+
+```json shop
+{
+  "_v": "23.1",
+  "clients": [
+    {
+      "allowed_origins": [
+      ],
+      "client_id": "Your Client ID",
+      "resources": [
+        {
+          "resource_id": "/customers/auth/trustedsystem",
+          "methods": [
+            "post"
+          ],
+          "read_attributes": "(**)",
+          "write_attributes": "(**)"
+        },
+        {
+          "resource_id": "/sessions",
+	           "methods": [
+            "post"
+          ],
+          "read_attributes": "(**)",
+          "write_attributes": "(**)"
+        }
+     ]
+   }
+ ]
+}
+```
+
+**Note**: If the OCAPI configuration is already in place, simply include the following resource into the resources section:
+
+```json
+{
+  "resource_id": "/customers/auth/trustedsystem",
+   "methods": [
+       "post"
+   ],
+   "read_attributes": "(**)",
+   "write_attributes": "(**)"
+},
+{
+   "resource_id": "/sessions",
+   "methods": [
+       "post"
+   ],
+   "read_attributes": "(**)",
+   "write_attributes": "(**)"
+}
+```
+
+<img
+  width="240"
+  src="/images/SFCC-shop-json.jpeg"
+  alt="SFCC Account Manager"
+  />
+<sup>Figure 2. shop JSON configuration example</sup>
+
+**Configure data tab**
+
+Add the following JSON to the data tab:
+
+<Note> Change "Your Client ID" value in the json by the `Client Id` created in the previous step. </Note>
+
+```json data
+{
+  "_v": "23.1",
+  "clients": [
+    {
+      "allowed_origins": [
+      ],
+      "client_id": "Your Client ID",
+      "resources": [
+       {
+          "resource_id": "/customer_lists/*/customers/*",
+          "methods": ["get", "patch"],
+          "read_attributes": "(**)",
+          "write_attributes": "(**)"
+       },
+       {
+         "resource_id":"/customer_lists/*/customer_search",
+         "methods": ["post"],
+         "read_attributes": "(**)",
+         "write_attributes": "(**)"
+        },
+   {
+    "resource_id":"/ocapi_configs/*",
+    "methods": ["get"],
+    "read_attributes": "(**)",
+    "write_attributes": "(**)"
+   }
+   ]   
+  }
+  ]
+}
+```
+<img
+  width="240"
+  src="/images/SFCC-data-json.jpeg"
+  alt="SFCC Account Manager"
+  />
+<sup>Figure 3. data JSON configuration example</sup>
+
+## Step 2 - OwnID Application
+
+* Login to the [OwnID Console](https://console.ownid.com).
+* Create a new application.
+* Name the application and select its type as the SFCC Connector.
+
+<Check>Your application is created!</Check>
+
+* In your Salesforce integration page, fill in the following information:
+  * `Instance Hostname` - _e.g: xyzb-001.dx.commercecloud.salesforce.com_ (only the domain, without protocol)
+  * `Site ID` - _e.g: RefArch_ (case sensitive) 
+  * `API Client ID` (generated in the previous step)
+  * `API Client Secret` (generated in the previous step)
+  * `SFCC Username` (get it from the Account Manager)
+  * `SFCC Password`
+* Save Changes
+
+<img
+  width="240"
+  src="/images/SFCC-ownid-console.jpeg"
+  alt="SFCC Account Manager"
+  />
+<sup>Figure 4. OwnID Console</sup>
+
+Copy the `appId`. You will use it in the next step.
+
+## Step 3 - SFCC Cartridge Installation
+
+* Upload and add the cartridge to the target site.
+
+* Navigate to `Merchant Tools > Site Preferences > Custom Preferences > OwnID` and set the following preferences:
+  * `EnableOwnId`: Set to true to display the OwnID widget.
+  * `Env`: Select the OwnID production environment.
+  * `AppId`: Enter the previously copied OwnID appId from the OwnID console.
+
+<img
+  width="240"
+  src="/images/SFCC-cartridge.jpeg"
+  alt="SFCC Account Manager"
+  />
+<sup>Figure 5. OwnID Cartridge Configuration</sup>
+
+<Check>Congratulations! Enjoy your passwordless authentication!</Check>
+
+## Next Steps
+
+<Card title="Add Your Custom Domain" icon="globe" href="/explore/custom-domain">
+Unify the login experience with your own domain.
+</Card>

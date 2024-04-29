@@ -12,7 +12,7 @@ This reference details Web SDK methods and configuration objects.
 | **recover** |`config:IWidgetConfig`  | Renders a widget for account recovery.  |
 | **showPrompt** | `promptType: PromptTypes | IWidgetConfig, config?: IWidgetConfig` | Renders a prompt widget based on the specified type (Returning User or Immediate Connect).      |
 | **activateReturningUsersPrompt**| `config: IWidgetConfig` | Renders a prompt widget for `ReturningUser` type.   |
-
+| **destroy** | `widgetId: string` or `login`  | Completely removes a widget by provided `widgetId`, including any custom CSS rules and attributes associated with the loginId/password. If the value of the second field is `login`, it removes any previous instances of OwnID tied to the login process.   |
 #### IInitConfig
 <ParamField query="logger" type="ILogger" default="None">
   Defines custom logger. This is separate from the reported websdk events to datadog.

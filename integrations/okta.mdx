@@ -3,52 +3,46 @@ title: "Okta"
 description: "Integrate OwnID into your Okta flow"
 ---
 
+The OwnID Okta Connector supports integration with Okta through our 
+
 ## Step 1 - Extend Okta user schema
 
-* In your Okta admin dashboard go to `Directory -> Profile Editor`
-* Choose the `User (default)` user group
-
-<img
+1. In your Okta Admin Dashboard go to `Directory -> Profile Editor`.
+2. Select the User (default) user group. <img
     src="/images/okta/okta_3_profile_editor.png"
     width="250"
     alt="Profile editor"
 />
 <sup>Figure 1. Profile editor</sup>
 
-* Click `Add Attribute`
-
-<img
+3. Click the **+Add Attribute** button. <img
     src="/images/okta/okta_4_add_attr.png"
     width="250"
     alt="Add attribute"
 />
 <sup>Figure 2. Add attribute</sup>
 
-* Fill in the attribute configuration as below and click `Save`
-
-<img
+4. Fill in the attribute configuration as shown below. <img
     src="/images/okta/okta_5_attr.png"
     width="250"
     alt="Attribute configuration"
 />
 <sup>Figure 3. Attribute configuration</sup>
 
+5. Click the **Save** button. 
+
 ## Step 2 - Create Okta API Token
 
-* In your Okta admin dashboard, go to: `Security -> API -> Tokens tab`
-* Click `Create Token`
-
-<img
+1. In your Okta Admin Dashboard, go to: `Security -> API -> Tokens tab`
+2. Click the **Create Token** button. <img
     src="/images/okta/okta_1_create_token.png"
     width="250"
     alt="Create token"
 />
 <sup>Figure 4. Create API token</sup>
 
-* Fill in the token name - "OwnID API Token"
-* Copy the token value, we will use it in the next step.
-
-<img
+3. Fill in the token name - "OwnID API Token"
+4. Copy the token value. We will use it in the next step. <img
     src="/images/okta/okta_2_token_copy.png"
     width="250"
     alt="Copy token"
@@ -57,46 +51,46 @@ description: "Integrate OwnID into your Okta flow"
 
 ## Step 3 - OwnID Application
 
-* Login to the [OwnID Console](https://console.ownid.com).
-* Create a new application.
-* Name the application and select its type as the `Okta` Connector.
-* Copy the `appId`. We will use it in the final step.
+1. Login to the [OwnID Console](https://console.ownid.com).
+2. Create a new application.
+3. Enter a name for the application. 
+4. Select the _Okta Connector_ as its _type_.
+5. Copy the `appId`. We will use it in the final step.
 
-<Check>Your application is created!</Check>
+<Check>Your OwnID application is created!</Check>
 
 In your Okta integration page, fill in the following information;
 
-### Okta settings
-* `Site Domain` - _e.g: https://acme.okta.com_
-* `API Token` - As created in the previous step
 
-### OpenID Connect settings
-* `Redirect URIs` - Add one or more Okta redirect URIs, typically `https://your-auth-domain.com/oauth2/v1/authorize/callback`
+1. In _Okta Settings_, set the **Site Domain** - _e.g: https://acme.okta.com_
+2. In _Okta Settings_, set the API Token value you created in Step 2.
 
-**Save Changes**. The other values in this page will be used in the next step.
+3. In _OpenID Connect settings_, **Redirect URIs** - Add one or more Okta redirect URIs, typically `https://your-auth-domain.com/oauth2/v1/authorize/callback`
 
-## Step 4 - Create an OwnID OIDC Identity Provider
+4. Click **Save Changes**. 
 
-* In your Okta admin dashboard, go to `Security -> Identity Providers`
-* Add a new identity provider
+The other values in this page will be used in the next step.
 
-<img
+## Step 4 - Create an Identity Provider
+
+Create an OwnID OIDC Identity Provider.
+
+1. In your Okta Admin Dashboard, go to `Security -> Identity Providers`.
+2. Click the **Add identity provider button**. <img
     src="/images/okta/okta_6_add_idp.png"
     width="250"
     alt="Add identity provider"
 />
 <sup>Figure 6. Add identity provider</sup>
 
-* Choose it to be of type OpenID Connect IdP
-
-<img
+3. From the options, select the 'OpenID Connect IdP' tile. <img
     src="/images/okta/okta_7_select_idp.png"
     width="250"
     alt="OpenID Connect IdP"
 />
 <sup>Figure 7. OpenID Connect IdP</sup>
 
-* Configure it with the following general settings:
+4. The General settings form opens. Configure it with the following general settings:
 
 <img
     src="/images/okta/okta_8_gen_settings.png"
@@ -105,7 +99,7 @@ In your Okta integration page, fill in the following information;
 />
 <sup>Figure 8. IdP settings</sup>
 
-* For the `Client details` use the `Client ID` and `Client Secret` from the OwnID application created in the previous step.
+5. For the `Client details` use the `Client ID` and `Client Secret` from the OwnID application created in the previous step.
 
 <img
     src="/images/okta/okta_9_client_settings.png"
@@ -136,7 +130,7 @@ In your Okta integration page, fill in the following information;
 
 ## Step 5 - Frontend Integration
 
-* In your Okta admin dashboard, go to `Customizations -> Brands`
+* In your Okta Admin Dashboard, go to `Customizations -> Brands`
 * Select your relevant brand
 * Click `Customize`
 
@@ -173,6 +167,83 @@ In your Okta integration page, fill in the following information;
 * Click `Save and Publish`
 
 <Check>Congratulations! Enjoy your passwordless authentication!</Check>
+
+
+
+OwnID integrates with the Okta SignIn widget. Use JavaScript to manage login behaviors with support from  `ownid` SDK. 
+
+The following code sample is annotated heavily with comments:
+
+```javascript
+
+// Listen for the 'afterRender' event from the Okta SignIn widget
+oktaSignIn.on('afterRender', function (context) {
+    // Get the password input field and login input
+    const passwordInput = document.getElementsByClassName('password-with-toggle')[0];
+    const loginIdInput = document.querySelectorAll('[name="identifier"]')[0];
+    // Destroy any previous instances of OwnID tied to the login process
+    ownid('destroy', 'login');
+    // Confirm the login identifier input exists
+    if (loginIdInput) {
+        // Initialize OwnID for login with the login identifier input
+        ownid("login", {
+            loginIdField: loginIdInput, // Input field for login ID
+            targetField: loginIdInput.parentElement, // The parent element where OwnID UI is appended
+            addOrStatement: false, // Determines if an "OR" statement should be added in UI (typically used in passwordless scenarios)
+            onLogin // Function to handle login event
+        });
+    }
+    // If the login identifier isn't there but password input is 
+    else if (passwordInput) {
+        // Get the login identifier input container by class name
+        const loginIdContainer = document.getElementsByClassName('identifier')[0];
+        // Get the 'title' attribute which might store the login ID
+        const loginId = loginIdContainer?.getAttribute('title') ?? '';
+        // If there is no login ID, stop
+        if (!loginId) return;
+        // Create a new input element to hold the login ID
+        const loginIdHolder = document.createElement("input");
+        loginIdHolder.value = loginId;
+        // Initialize OwnID for login using the new login ID holder and the password input
+        ownid("login", {
+            loginIdField: loginIdHolder,
+            passwordField: passwordInput,
+            targetField: passwordInput.parentElement, // The parent element where OwnID UI is appended
+            onLogin // Function to handle login event
+        });
+    }
+});
+
+// Asynchronous function to handle login
+async function onLogin(data, flowMetadata) {
+    // Constant to hold a unique identifier for the OWNID OIDC provider
+    const OWNID_OIDC_IDENTITY_PROVIDER_ID = 'OKTA OWNID IDP ID';
+    // Redirect the user to an OIDC URL, passing the login hint and the current URL, encoded for URL compliance
+    window.location.href = `/sso/idps/${OWNID_OIDC_IDENTITY_PROVIDER_ID}?login_hint=${flowMetadata.authToken}&fromURI=${encodeURIComponent(window.location.href)}`;
+}
+```
+
+## Detailed Explanation
+
+The code above interacts with the DOM to enhance the login process on a webpage using Okta's authentication service along with OwnID for a possibly more secure or simplified login experience.
+
+- Event Handling: The afterRender event is utilized, which is likely triggered after the Okta login widget is fully rendered on the page. This ensures that DOM manipulations occur only after all elements are available.
+
+- DOM Manipulations: It selectively retrieves elements like the password and login ID inputs using class names and selectors. This indicates a specific structure and naming convention in the HTML which the script depends on.
+
+- OwnID Initialization: It initializes OwnID with configurations depending on the availability of certain inputs. OwnID seems to provide a mechanism to handle login processes, potentially offering features like passwordless login, using just an identifier.
+
+- Login Flow: In the scenario where login credentials are dynamically determined (like fetching a login ID from a title attribute), the script handles these cases gracefully, including creating new input elements to facilitate the process.
+
+- Redirection upon Login: The onLogin function suggests a redirection mechanism using an OIDC (OpenID Connect) URL, presumably to handle single sign-on (SSO) processes, passing necessary tokens and current URL data for seamless session continuation or initiation.
+
+The script demonstrates an integration between Okta and OwnID to provide a robust user authentication experience on your web platform.
+
+
+
+
+
+
 
 ## Next Steps
 

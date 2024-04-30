@@ -35,7 +35,7 @@ Configuration on the Okta side happens through your Admin Dashboard.
 
 ## Step 2 - Create Okta API Token
 
-1. In your Okta Admin Dashboard, go to: _Security -> API -> Tokens_ tab
+1. In your Okta Admin Dashboard, go to: _Security -> API -> Tokens_ tab.
 2. Click the **Create Token** button. <img
     src="/images/okta/okta_1_create_token.png"
     width="400"
@@ -43,7 +43,7 @@ Configuration on the Okta side happens through your Admin Dashboard.
 />
 <sup>Figure 4. Create API token</sup>
 
-3. Fill in the token name - "OwnID API Token"
+3. Fill in the token name - "OwnID API Token".
 4. Copy the token value. We will use it in the next step. <img
     src="/images/okta/okta_2_token_copy.png"
     width="400"
@@ -51,23 +51,23 @@ Configuration on the Okta side happens through your Admin Dashboard.
 />
 <sup>Figure 5. Copy API token</sup>
 
-## Step 3 - OwnID Application
+## Step 3 - Create OwnID Application
 
 1. Login to the [OwnID Console](https://console.ownid.com).
-2. Create a new application.
-3. Enter a name for the application. 
+2. Click **Create a new application**.
+3. Enter a name for your application. 
 4. Select the _Okta Connector_ as its _type_.
 5. Copy the `appId`. We will use it in the final step.
 
 <Check>Your OwnID application is created!</Check>
 
-In your Okta integration page, fill in the following information;
+In your Okta integration page, fill in the following information:
 
 
 1. In _Okta Settings_, set the **Site Domain** - _e.g: https://acme.okta.com_
-2. In _Okta Settings_, set the API Token value you created in Step 2.
+2. In _Okta Settings_, set the API Token value you created in Step 2 above.
 
-3. In _OpenID Connect settings_, **Redirect URIs** - Add one or more Okta redirect URIs, typically `https://your-auth-domain.com/oauth2/v1/authorize/callback`
+3. In _OpenID Connect settings_, set **Redirect URIs** by adding one or more Okta redirect URIs, typically in the format `https://your-auth-domain.com/oauth2/v1/authorize/callback`.
 
 4. Click **Save Changes**. 
 
@@ -77,57 +77,49 @@ The other values in this page will be used in the next step.
 
 Create an OwnID OIDC Identity Provider.
 
-1. In your Okta Admin Dashboard, go to `Security -> Identity Providers`.
-2. Click the **Add identity provider button**. <img
+1. In your Okta Admin Dashboard, go to _Security -> Identity Providers_.
+2. Click the **Add identity provider** button. <img
     src="/images/okta/okta_6_add_idp.png"
     width="250"
     alt="Add identity provider"
 />
 <sup>Figure 6. Add identity provider</sup>
 
-3. From the options, select the 'OpenID Connect IdP' tile. <img
+3. From the provider options, select the _OpenID Connect IdP_ tile. <img
     src="/images/okta/okta_7_select_idp.png"
-    width="250"
+    width="400"
     alt="OpenID Connect IdP"
 />
 <sup>Figure 7. OpenID Connect IdP</sup>
 
-4. The General settings form opens. Configure it with the following general settings:
-
-<img
+4. The General settings form opens. Configure it with the following general settings: <img
     src="/images/okta/okta_8_gen_settings.png"
-    width="250"
+    width="400"
     alt="IdP settings"
 />
 <sup>Figure 8. IdP settings</sup>
 
-5. For the `Client details` use the `Client ID` and `Client Secret` from the OwnID application created in the previous step.
-
-<img
+5. For the `Client details` use the `Client ID` and `Client Secret` from the OwnID application created in the previous step. <img
     src="/images/okta/okta_9_client_settings.png"
-    width="250"
+    width="400"
     alt="Client details"
 />
 <sup>Figure 9. Client details</sup>
 
 6. In _Endpoints_, enter the values from the OwnID application created in the previous step.
 
-7. Set the remaining details as shown below:
-
-<img
+7. Set the remaining details as shown below: <img
     src="/images/okta/okta_10_auth_settings.png"
-    width="250"
+    width="400"
     alt="Authentication settings"
 />
 <sup>Figure 10. Authentication settings</sup>
 
 8. Click the **Save** button. 
 
-Be sure to copy the `IdP ID` value so we can use it in the next step.
-
-<img
+Be sure to copy the `IdP ID` value so we can use it in the next step. <img
     src="/images/okta/okta_11_idp_summary.png"
-    width="250"
+    width="400"
     alt="IdP Summary"
 />
 <sup>Figure 11. IdP Summary</sup>
@@ -136,29 +128,25 @@ Be sure to copy the `IdP ID` value so we can use it in the next step.
 
 1. In your Okta Admin Dashboard, go to _Customizations -> Brands_.
 2. Select your relevant brand.
-3. Click the **Customize** button.
-
-<img
+3. Click the **Customize** button. <img
     src="/images/okta/okta_12_brand.png"
-    width="250"
+    width="400"
     alt="Brand customization"
 />
 <sup>Figure 12. Brand customization</sup>
 
-4. Make sure the **Code Editor** option is toggled on (requires a custom domain)
-
-<img
+4. Ensure the **Code Editor** option is toggled _on_ (requires a custom domain). <img
     src="/images/okta/okta_13_code_editor.png"
     width="250"
     alt="Code editor"
 />
 <sup>Figure 13. Code editor</sup>
 
-5. Under the Head tag, add the following script for loading the OwnID WebSDK:
+5. Under the `Head` tag, add the following script for loading the OwnID WebSDK:
 
-6. Replace `<appId>` with the `appId` from the OwnID application created in step 3
+6. Replace `<appId>` with the `appId` from the OwnID application created in step 3.
 
-7. Replace `<idpId>` with the `IdP ID` from step 4
+7. Replace `<idpId>` with the `IdP ID` from step 4.
 
 ```javascript Web SDK Configuration
 ((o, w, n, i, d) => {
@@ -173,6 +161,9 @@ Be sure to copy the `IdP ID` value so we can use it in the next step.
 <Check>Congratulations! Enjoy your Okta-integrated passwordless authentication!</Check>
 
 
+---
+
+# Front End NOTES
 
 OwnID integrates with the Okta SignIn widget. Use JavaScript to manage login behaviors with support from  `ownid` SDK. 
 
@@ -227,7 +218,7 @@ async function onLogin(data, flowMetadata) {
 }
 ```
 
-## Detailed Explanation
+## Code Tun Through
 
 The code above interacts with the DOM to enhance the login process on a webpage using Okta's authentication service along with OwnID for a possibly more secure or simplified login experience.
 

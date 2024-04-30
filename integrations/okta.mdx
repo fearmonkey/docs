@@ -1,13 +1,15 @@
 ---
 title: "Okta"
-description: "Integrate OwnID into your Okta flow"
+description: "Integrate OwnID password free authentication into your Okta flow"
 ---
 
-The OwnID Okta Connector supports integration with Okta through our 
+OwnID supports integration with Okta through our pre-built Okta Connector.
 
-## Step 1 - Extend Okta user schema
+Configuration on the Okta side happens through your Admin Dashboard.
 
-1. In your Okta Admin Dashboard go to `Directory -> Profile Editor`.
+## Step 1 - Extend Okta User Schema
+
+1. In your Okta Admin Dashboard go to _Directory -> Profile Editor_.
 2. Select the User (default) user group. <img
     src="/images/okta/okta_3_profile_editor.png"
     width="250"
@@ -33,10 +35,10 @@ The OwnID Okta Connector supports integration with Okta through our
 
 ## Step 2 - Create Okta API Token
 
-1. In your Okta Admin Dashboard, go to: `Security -> API -> Tokens tab`
+1. In your Okta Admin Dashboard, go to: _Security -> API -> Tokens_ tab
 2. Click the **Create Token** button. <img
     src="/images/okta/okta_1_create_token.png"
-    width="250"
+    width="400"
     alt="Create token"
 />
 <sup>Figure 4. Create API token</sup>
@@ -44,7 +46,7 @@ The OwnID Okta Connector supports integration with Okta through our
 3. Fill in the token name - "OwnID API Token"
 4. Copy the token value. We will use it in the next step. <img
     src="/images/okta/okta_2_token_copy.png"
-    width="250"
+    width="400"
     alt="Copy token"
 />
 <sup>Figure 5. Copy API token</sup>
@@ -108,9 +110,9 @@ Create an OwnID OIDC Identity Provider.
 />
 <sup>Figure 9. Client details</sup>
 
-* For the `Endpoints` use the values from the OwnID application created in the previous step.
+6. In _Endpoints_, enter the values from the OwnID application created in the previous step.
 
-* Set the remaining details as follows:
+7. Set the remaining details as shown below:
 
 <img
     src="/images/okta/okta_10_auth_settings.png"
@@ -119,7 +121,9 @@ Create an OwnID OIDC Identity Provider.
 />
 <sup>Figure 10. Authentication settings</sup>
 
-* Click `Save`. Copy the `IdP ID` value, we will use it in the next step.
+8. Click the **Save** button. 
+
+Be sure to copy the `IdP ID` value so we can use it in the next step.
 
 <img
     src="/images/okta/okta_11_idp_summary.png"
@@ -130,9 +134,9 @@ Create an OwnID OIDC Identity Provider.
 
 ## Step 5 - Frontend Integration
 
-* In your Okta Admin Dashboard, go to `Customizations -> Brands`
-* Select your relevant brand
-* Click `Customize`
+1. In your Okta Admin Dashboard, go to _Customizations -> Brands_.
+2. Select your relevant brand.
+3. Click the **Customize** button.
 
 <img
     src="/images/okta/okta_12_brand.png"
@@ -141,7 +145,7 @@ Create an OwnID OIDC Identity Provider.
 />
 <sup>Figure 12. Brand customization</sup>
 
-* Make sure the `Code Editor` is toggled on (requires a custom domain)
+4. Make sure the **Code Editor** option is toggled on (requires a custom domain)
 
 <img
     src="/images/okta/okta_13_code_editor.png"
@@ -150,11 +154,11 @@ Create an OwnID OIDC Identity Provider.
 />
 <sup>Figure 13. Code editor</sup>
 
-* Under the Head tag, add the following script for loading the OwnID WebSDK:
+5. Under the Head tag, add the following script for loading the OwnID WebSDK:
 
-> Replace `<appId>` with the `appId` from the OwnID application created in step 3
+6. Replace `<appId>` with the `appId` from the OwnID application created in step 3
 
-> Replace `<idpId>` with the `IdP ID` from step 4
+7. Replace `<idpId>` with the `IdP ID` from step 4
 
 ```javascript Web SDK Configuration
 ((o, w, n, i, d) => {
@@ -164,9 +168,9 @@ Create an OwnID OIDC Identity Provider.
 })
 (window, document, '<appId>', 'ownid', '<idpId>');
 ```
-* Click `Save and Publish`
+8. Click the **Save and Publish** button. 
 
-<Check>Congratulations! Enjoy your passwordless authentication!</Check>
+<Check>Congratulations! Enjoy your Okta-integrated passwordless authentication!</Check>
 
 
 

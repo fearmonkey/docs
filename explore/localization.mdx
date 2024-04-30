@@ -1,0 +1,42 @@
+---
+title: "Localization"
+description: "You can handle different languages within your applications"
+---
+
+The OwnID interface uses American English (en_US) by default. If that’s fine, then you can skip this Localization page.
+
+In order to configure your language(s), go to the `Branding → Button Look and Feel` page in the console. In the Language field, mark the checkboxes of all the languages in which your website interface can appear.
+
+In case you have selected more than a language, you can specify which one will be active when the OwnID widget is initialized using the `language` parameter:
+
+ ```javascript Example: Initializing OwnID in French
+ownid('init', {appId: 'yourAppId', language: 'fr_FR'});
+```
+
+
+
+The following languages are supported:
+
+| Target Language         | Code  |
+| ----------------------- | ----- |
+| Arabic                  | ar_AR |
+| Chinese (China)         | zh_CN |
+| English (Great Britain) | en_GB |
+| English (United States) | en_US |
+| French                  | fr_FR |
+| German                  | de_DE |
+| Indonesian              | id_ID |
+| Italian                 | it_IT |
+| Japanese                | ja_JP |
+| Javanese                | jv_ID |
+| Korean                  | ko_KR |
+| Malay                   | ms_MY |
+| Portuguese (Brazil)     | pt_BR |
+| Portuguese (Portugal)   | pt_PT |
+| Russian                 | ru_RU |
+| Spanish (Latin America) | es_LA |
+| Spanish (Spain)         | es_ES |
+| Thai                    | th_TH |
+| Turkish                 | tr_TR |
+| Vietnamese              | vi_VN |
+| Hebrew                  | he |

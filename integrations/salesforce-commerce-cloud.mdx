@@ -3,27 +3,28 @@ title: "Salesforce Commerce Cloud"
 description: "Integrate OwnID into Salesforce Commerce Cloud using a cartridge."
 ---
 
-OwnID integrates with Salesforce Commerce Cloud (SFCC) through their built-in API client.
+OwnID integrates with Salesforce Commerce Cloud (SFCC) through their built-in API client, using our SFCC Connector.
+
 ## Prerequisites
 
-Request the cartridge from [this page](https://ownid.com/enterprise-connectors/salesforce-commerce-cloud).
+Request the _Sales Force Commerce Cloud_ cartridge from [this page](https://ownid.com/enterprise-connectors/salesforce-commerce-cloud).
+
+See: [OAuth Client Credentials](https://help.salesforce.com/s/articleView?id=cc.b2c_account_manager_add_api_client_id.htm&type=5)
 
 ## Step 1 - SFCC Credentials
 
 ### Create Credentials
 
-[OAuth Client Credentials](https://help.salesforce.com/s/articleView?id=cc.b2c_account_manager_add_api_client_id.htm&type=5)
-
 1. Log into the SFCC Account Manager. 
 2. Select API Client from the left side menu. 
-3. Click `Add API Client`
-1. Enter Display Name "OwnID Integration"
-1. Enter a password
-1. Assign your organization
+3. Click `Add API Client`.
+1. Enter Display Name "OwnID Integration".
+1. Enter a password.
+1. Assign your organization.
 1. Assign the following roles: 
 - `Sandbox API User` 
 - `Salesforce Commerce Cloud`
-8. In the _Token Endpoint Auth Method_, select `private_key_jwt`
+8. In the _Token Endpoint Auth Method_, select `private_key_jwt`.
 9. Click **Save Changes**. 
 
 <img
@@ -33,17 +34,13 @@ Request the cartridge from [this page](https://ownid.com/enterprise-connectors/s
   />
 <sup>Figure 1. Salesforce API Client Creation</sup>
 
-Saleforce displays your `Client Id` and `Secret`. Save these values for later.
+Saleforce displays your `Client Id` and `Secret`. Save these values for later use.
 
 ### Assign Permissions
 
 Go to _Administration > Site Development > Open Commerce API Settings_:
 
-**Configure shop tab**
-
-Add the following JSON to the shop tab:
-
-<Note> Change `client_id` value in the JSON to match the `Client Id` created in the previous step. </Note>
+1. Add the following JSON to the shop tab:
 
 ```json shop
 {
@@ -52,7 +49,7 @@ Add the following JSON to the shop tab:
     {
       "allowed_origins": [
       ],
-      "client_id": "Your Client ID",
+      "client_id": "Client ID",
       "resources": [
         {
           "resource_id": "/customers/auth/trustedsystem",
@@ -75,8 +72,9 @@ Add the following JSON to the shop tab:
  ]
 }
 ```
+2. Change `client_id` value in the _shop_ JSON to match the `Client Id` created in the previous step.
 
-<Info>**Note**: If the OCAPI configuration is already in place, simply include the following resource into the resources section. </Info>
+3. If the OCAPI configuration is already in place, simply include the following resource into the resources section. 
 
 ```json
 {
@@ -98,17 +96,13 @@ Add the following JSON to the shop tab:
 ```
 
 <img
-  width="240"
+  width="500"
   src="/images/SFCC-shop-json.jpeg"
   alt="SFCC Account Manager"
   />
-<sup>Figure 2. shop JSON configuration example</sup>
+<sup>Figure 2. Example JSON configuration in _shop_ tab</sup>
 
-**Configure data tab**
-
-Add the following JSON to the data tab:
-
-<Note> Change "Your Client ID" value in the json by the `Client Id` created in the previous step. </Note>
+4. Add the following JSON to the _shop_ tab:
 
 ```json data
 {
@@ -143,17 +137,23 @@ Add the following JSON to the data tab:
 }
 ```
 <img
-  width="240"
+  width="500"
   src="/images/SFCC-data-json.jpeg"
   alt="SFCC Account Manager"
   />
-<sup>Figure 3. data JSON configuration example</sup>
+<sup>Figure 3. Example JSON configuration in _data_ tab</sup>
 
-## Step 2 - OwnID Application
+5. Change the `client_id` value in the JSON to match the `Client Id` created in the previous step. 
 
-* Login to the [OwnID Console](https://console.ownid.com).
-* Create a new application.
-* Name the application and select its type as the SFCC Connector.
+
+## Step 2 - Create OwnID Application
+
+Configure a new OwnID application in the Console.
+
+1. Login to the [OwnID Console](https://console.ownid.com).
+2. Create a new application.
+3. Name the application as desired. 
+1. Select _SFCC Connector_ as its **type**.
 
 <Check>Your application is created!</Check>
 
@@ -173,7 +173,7 @@ Add the following JSON to the data tab:
   />
 <sup>Figure 4. OwnID Console</sup>
 
-Copy the `appId`. You will use it in the next step.
+Copy the `appId` so you can use it in the next step.
 
 ## Step 3 - SFCC Cartridge Installation
 

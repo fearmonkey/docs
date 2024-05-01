@@ -3,6 +3,7 @@ title: "Salesforce Commerce Cloud"
 description: "Integrate OwnID into Salesforce Commerce Cloud using a cartridge."
 ---
 
+OwnID integrates with Salesforce Commerce Cloud (SFCC) through their built-in API client.
 ## Prerequisites
 
 Request the cartridge from [this page](https://ownid.com/enterprise-connectors/salesforce-commerce-cloud).
@@ -13,13 +14,17 @@ Request the cartridge from [this page](https://ownid.com/enterprise-connectors/s
 
 [OAuth Client Credentials](https://help.salesforce.com/s/articleView?id=cc.b2c_account_manager_add_api_client_id.htm&type=5)
 
-Log into Account Manager. Go to `API Client` and click `Add API Client`:
-* Enter Display Name: OwnID Integration
-* Enter a password
-* Assign your organization
-* Assign the following roles: `Sandbox API User` and `Salesforce Commerce Cloud`
-* Token Endpoint Auth Method: `private_key_jwt`
-* Save Changes. 
+1. Log into the SFCC Account Manager. 
+2. Select API Client from the left side menu. 
+3. Click `Add API Client`
+1. Enter Display Name "OwnID Integration"
+1. Enter a password
+1. Assign your organization
+1. Assign the following roles: 
+- `Sandbox API User` 
+- `Salesforce Commerce Cloud`
+8. In the _Token Endpoint Auth Method_, select `private_key_jwt`
+9. Click **Save Changes**. 
 
 <img
   width="240"
@@ -28,17 +33,17 @@ Log into Account Manager. Go to `API Client` and click `Add API Client`:
   />
 <sup>Figure 1. Salesforce API Client Creation</sup>
 
-You will get a `Client Id` and `Secret`. (Save this values for later)
+Saleforce displays your `Client Id` and `Secret`. Save these values for later.
 
 ### Assign Permissions
 
-Go to `Administration > Site Development > Open Commerce API Settings`:
+Go to _Administration > Site Development > Open Commerce API Settings_:
 
 **Configure shop tab**
 
 Add the following JSON to the shop tab:
 
-<Note> Change "Your Client ID" value in the json by the `Client Id` created in the previous step. </Note>
+<Note> Change `client_id` value in the JSON to match the `Client Id` created in the previous step. </Note>
 
 ```json shop
 {
@@ -71,7 +76,7 @@ Add the following JSON to the shop tab:
 }
 ```
 
-**Note**: If the OCAPI configuration is already in place, simply include the following resource into the resources section:
+<Info>**Note**: If the OCAPI configuration is already in place, simply include the following resource into the resources section. </Info>
 
 ```json
 {

@@ -7,6 +7,10 @@ import NextStepsSnippet from '/snippets/next-steps-after-integ.mdx';
 
 import BuildAppSnippet from '/snippets/create-app-simple.mdx';
 
+OwnID supports integration with Shopify through our pre-built Shopify Connector.
+
+Configuration on the Shopify side happens through your Shopify ownder's account. Ensure you have an account with admin access in Shopify. 
+
 ## Step 1 - Enable Multipass login in the Shopify admin
 
 Log in to your shop admin and go to the **Settings > Checkout and accounts** page. Scroll down to the **Customer accounts section** section and ensure that you have "Allow customers to log in from online store and checkout" selected.
@@ -27,52 +31,51 @@ In order to use our Shopify integration you will need the URL of your Shopify St
 
 You can enable a custom app from your Shopify owner's account. To do this:
 
-* Log in to your Shopify Store as the store owner.
-* Select **Apps** in the admin section on the left sidebar.
+1. Log in to your Shopify Store as the store owner.
+1. Select **Apps** in the admin section on the left sidebar.
 
 <Frame>
   <img src="/images/shop1.png" alt="Shopify Customer Accounts"></img>
 </Frame>
 
-* A dropdown menu will appear. Select **Apps and sales channels settings**.
+3. From the dropdown menu, select **Apps and sales channels settings**.
 
 <Frame>
   <img src="/images/shop2.png" alt="Shopify Customer Accounts"></img> 
 </Frame>
 
-* In the next window that appears click on **Develop apps for your store**.
+4. In the next window that appears click on **Develop apps for your store**.
 
 <Frame>
   <img src="/images/shop3.png" alt="Shopify Customer Accounts"></img>
 </Frame>
 
-* Click to **Allow Custom App Development** in the next two screens.
+5. Click to **Allow Custom App Development** in the next two screens.
 
 <Frame>
   <img src="/images/shop5.png" alt="Shopify Customer Accounts"></img>
 </Frame>
 
-* Select **Create an app**. You'll be asked to give your app a name, and add your email in the App developer text box. 
+5. Select **Create an app**. You'll be asked to give your app a name, and add your email in the App developer text box. 
 
 <Frame>
   <img src="/images/shop7.png" alt="Shopify Customer Accounts"></img>
 </Frame>
 
-* Navigate to the **Configuration** tab and select **Configure** in the Admin API Integration section.
+6. Navigate to the **Configuration** tab and select **Configure** in the Admin API Integration section.
 
 <Frame>
   <img src="/images/shop8.png" alt="Shopify Customer Accounts"></img>
 </Frame>
 
-* Under **Admin API access scopes** you'll see many categories. Scroll down until you reach **Customers**, or search for Customers in the search bar. Here, you'll click to tick the boxes for 'write_customers' and 'read_customers', then click the **Save** button. 
+7. Under **Admin API access scopes** you'll see many categories. Scroll down until you reach **Customers**, or search for Customers in the search bar. Here, you'll click to tick the boxes for 'write_customers' and 'read_customers', then click the **Save** button. 
 
 <Frame>
   <img src="/images/shop9.png" alt="Shopify Customer Accounts"></img>
 </Frame>
 
-* Go to the **API Credentials** and click on **Install** in the Access tokens box.
+8. Go to the **API Credentials** and click on **Install** in the Access tokens box.
 Now you will see your Admin API Access Token has been generated. Click on **Reveal token once** and you will see the token. You will use this access token during the onboarding in the OwnID console.
-
 <Frame>
   <img src="/images/shop12.png" alt="Shopify Customer Accounts"></img>
 </Frame>

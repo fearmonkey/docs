@@ -22,19 +22,3 @@ description: 'Description of your new file.'
  I want to do something else.
 </Card>
 
-{/* `setTimeout` simulates a React.useEffect, which is called after the component is mounted. */}
-export const ClientComponent = () => {
-  if (typeof document === "undefined") {
-    return null;
-  } else {
-    setTimeout(() => {
-      const clientComponent = document.getElementById("client-component");
-      if (clientComponent) {
-        clientComponent.innerHTML = "Hello, client-side component!";
-      }
-    }, 1);
-
-    return <div id="client-component"></div>
-  }
-}
-

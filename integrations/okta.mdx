@@ -4,6 +4,8 @@ description: "Integrate OwnID password free authentication into your Okta flow"
 ---
 import NextStepsSnippet from '/snippets/next-steps-after-integ.mdx';
 
+import BuildAppSnippet from '/snippets/create-app-simple.mdx';
+
 OwnID supports integration with Okta through our pre-built Okta Connector.
 
 Configuration on the Okta side happens through your Okta Admin Dashboard. Ensure you have an account with admin access in Okta. 
@@ -35,7 +37,7 @@ Configuration on the Okta side happens through your Okta Admin Dashboard. Ensure
 5. Click the **Save** button. 
 
 ## Step 2 - Create Okta API Token
-
+<BuildAppSnippet/>
 1. In your Okta Admin Dashboard, go to: _Security -> API -> Tokens_ tab.
 2. Click the **Create Token** button. <img
     src="/images/okta/okta_1_create_token.png"
@@ -162,4 +164,6 @@ Be sure to copy the `IdP ID` value so we can use it in the next step. <img
 Enjoy your Okta-integrated passwordless authentication!</Check>
 
 <NextStepsSnippet/>
+
+
 

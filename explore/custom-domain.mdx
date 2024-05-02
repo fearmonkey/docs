@@ -3,21 +3,31 @@ title: "Custom Domain"
 description: "Unify the login experience with your own domain"
 ---
 
-You can use your own domain name during the OwnID flows (as for example when users scan a QR Code to sign-in). A custom domain lets you unify the login experience with your own brand and products. <br/> Your users see a URL that displays your brand such as `passwordless.your_domain.com` instead of passwordless.ownid.com.
+You can use your own domain name during the OwnID flows (as for example when users scan a QR Code to sign-in). A custom domain lets you unify the login experience with your own brand and products.  
 
-## Add your custom domain
+Your users see a URL that displays your brand such as `passwordless.your_domain.com` instead of passwordless.ownid.com.
+
+## Select your subdomain
 
 First, decide what subdomain to use:
 If your domain is `example.com`, we recommend you use `passwordless.example.com` as your custom subdomain, but you can replace `passwordless` with whatever you like as long as it's a valid subdomain.
 
-After you decide on a subdomain, visit the `OwnID Console > Custom Domain` tab to start the domain connection process.
+## Add your custom domain
 
-On the Custom Domain page, click **Set up your own**. You now see a form with an input to enter your desired subdomain. After entering your desired subdomain, a panel with instructions for setting up your DNS records will appear:
+After you decide on a subdomain, 
+
+1. Log into the OwnID Console.
+2. Click the _Custom Domain_ tab to start the domain connection process.
+3. On the Custom Domain page, click the **Set up your own** button. The domain configuration form appears.
+4. Enter your subdomain name. The DNS setup form opens.
+ 
+ You now see a form with an input to enter your desired subdomain. After entering your desired subdomain, a panel with instructions for setting up your DNS records will appear:
 
 <Frame>
   <img src="/images/Custom_Domain_step1.png" alt="Custom Domain Step 1"></img>
 </Frame>
 
+5.
 ## Step 1: Create a DNS record
 
 ### Identify your DNS provider
@@ -105,11 +115,14 @@ Once the validation is completed, the status of your domain will change to `Issu
 
 ## Removing your custom domain (Optional)
 
-If you need to remove your custom domain for any reason, you can. If you remove your custom domain, you’ll need to remove any DNS records you created for your custom subdomain and follow this guide again to add it back.
+You can also remove an existing custom domain from here, although you’ll also need to remove any DNS records you created for it.
 
-To remove your custom domain completely:
+### To remove your custom domain
 
-- Go to the OwnID console > Custom Domain tab.
-- Click **Remove domain**.
-- Read the popup confirmation, and click Disconnect to confirm the removal.
-- Login to your DNS provider and delete the 2 DNS records you previously created for your custom subdomain.
+1. Go to the OwnID console > Custom Domain tab.
+2. Click **Remove domain**.
+3. Read the popup confirmation, and click **Disconnect** to confirm the removal.
+4. Login to your DNS provider and delete the two DNS records you previously created for your custom subdomain.
+
+
+

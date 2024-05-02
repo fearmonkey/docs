@@ -1,0 +1,16 @@
+---
+title: 'Post-Login Enrollment'
+description: 'Description of your new file.'
+---
+
+No link to the reference docs!
+
+After a user logs in to your site with a password on their mobile device, you can off them anrollment in biometric verification at any time.
+
+## Enrollment Endpoint
+
+TODO: Add to endpoints
+
+In your frontend code, after a user logged in successfully, call to the above endpoint in order to fetch the `authToken`.
+
+Make a request to the backend endpoint and as a response they will pass the authToken that they will utilize in the await ownid.enrollCredential(loginId, authToken);

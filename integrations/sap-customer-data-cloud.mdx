@@ -2,6 +2,9 @@
 title: "SAP Customer Data Cloud"
 description: "Integrate OwnID into your screensets in minutes"
 ---
+import NextStepsSnippet from '/snippets/next-steps-after-integ.mdx';
+
+import BuildAppSnippet from '/snippets/create-app-simple.mdx';
 
 A website that uses SAP Customer Data Cloud (CDC) as its identity platform can implement OwnID to simplify and streamline the login experience for its users. 
 
@@ -116,3 +119,5 @@ The following custom code events are available:
 * `onBeforeLogin` - Defines a custom function that is called just before OwnID logs in the user.
 * `onBeforeLinkOnLogin` - Defines a custom function that is called when an existing CDC user with a traditional password completes the process of setting up  OwnID for the first time.
 * `onMagicLinkLogin` - Defines a custom function that is called just after the user logs in with a Magic Link. With Magic Link, users who are using a desktop without their phone available have the option of receiving an email that contains a one-time link. Without this parameter, the `onLogin` function is called after the user logs in with a Magic Link.
+
+<NextStepsSnippet/>

@@ -41,7 +41,7 @@ Saleforce displays your `Client Id` and `Secret`. Save these values for later us
 
 ### Assign Permissions
 
-Go to _Administration > Site Development > Open Commerce API Settings_:
+Go to _Administration > Site Development > Open Commerce API Settings_.
 
 1. Add the following JSON to the shop tab:
 
@@ -160,14 +160,14 @@ Configure a new OwnID application in the Console.
 
 <Check>Your application is created!</Check>
 
-* In your Salesforce integration page, fill in the following information:
-  * `Instance Hostname` - _e.g: xyzb-001.dx.commercecloud.salesforce.com_ (only the domain, without protocol)
-  * `Site ID` - _e.g: RefArch_ (case sensitive) 
-  * `API Client ID` (generated in the previous step)
-  * `API Client Secret` (generated in the previous step)
-  * `SFCC Username` (get it from the Account Manager)
-  * `SFCC Password`
-* Save Changes
+1. Open the Salesforce integration page.
+1. Enter the Instance Hostname - _e.g: xyzb-001.dx.commercecloud.salesforce.com_ (only the domain, without protocol).
+1. Enter a Site ID - _e.g: RefArch_ (case sensitive). 
+1. Enter the API Client ID (generated in the previous step).
+1. Enter the API Client Secret (generated in the previous step).
+1. Enter the SFCC Username (get it from the Account Manager).
+1. Enter the SFCC Password.
+1. Save Changes.
 
 <img
   width="240"
@@ -180,12 +180,11 @@ Copy the `appId` so you can use it in the next step.
 
 ## Step 3 - SFCC Cartridge Installation
 
-* Upload and add the cartridge to the target site.
-
-* Navigate to `Merchant Tools > Site Preferences > Custom Preferences > OwnID` and set the following preferences:
-  * `EnableOwnId`: Set to true to display the OwnID widget.
-  * `Env`: Select the OwnID production environment.
-  * `AppId`: Enter the previously copied OwnID appId from the OwnID console.
+1. Upload and add the cartridge to the target site.
+1. Navigate to `Merchant Tools > Site Preferences > Custom Preferences > OwnID` and set the following preferences:
+1. Set `EnableOwnId` to `true` to display the OwnID widget.
+1. `Env` Select the OwnID production environment.
+1. Enter the `AppId` previously copied from the OwnID Console.
 
 <img
   width="240"

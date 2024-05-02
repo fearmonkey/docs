@@ -3,9 +3,9 @@ title: "SAP Customer Data Cloud"
 description: "Integrate OwnID into your screensets in minutes"
 ---
 
-A website using SAP Customer Data Cloud (CDC) as its identity platform can implement OwnID to simplify and streamline the login experience for its users. 
+A website that uses SAP Customer Data Cloud (CDC) as its identity platform can implement OwnID to simplify and streamline the login experience for its users. 
 
-Integrating OwnID with a website that uses CDC involves three basic steps:
+The integration involves three basic steps:
 
 **Step 1** - Create a CDC application and modify the CDC schema.
 
@@ -15,12 +15,13 @@ Integrating OwnID with a website that uses CDC involves three basic steps:
 
 ## Step 1 - Configure CDC
 
-Configuring CDC includes creating a new CDC application with appropriate permissions.
+Configuring CDC means creating a new CDC application with appropriate permissions.
 
-### Create Permissions Group and Application Key/Secret
+### Create Permissions Group 
 
-The CDC application used for the OwnID integration requires a Permissions Group that authorizes OwnID to perform certain actions. 
-OwnID strongly recommends that you create a new CDC application that is dedicated to the OwnID integration.
+The CDC application used for the OwnID integration requires a Permissions Group that authorizes OwnID to perform certain actions using an application key/secret. 
+
+OwnID strongly recommends that you create a _new_ CDC application that is dedicated to the OwnID integration.
 
 <div style={{position: 'relative', paddingBottom: '54.961832061068705%', height: '0',}}>
 <iframe src="https://www.loom.com/embed/60d1ee94e57d48c6962fcc8d8ce10fd9" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position: 'absolute', top:'0', left: '0', width: '100%', height: '100%',}}>
@@ -29,15 +30,23 @@ OwnID strongly recommends that you create a new CDC application that is dedicate
 
 ## Step 2 - Create OwnID Application
 
-An OwnID application connects your website's identity platform with the OwnID widget in the front end. First, you integrate with CDC when creating the application. This OwnID application is then assigned a unique `appId` that is added to the website's front end. To create an OwnID application:
-1. Open the [OwnID Console](https://console.ownid.com/) and create an account or log into an existing account.
+An OwnID application connects the existing identity platform used by your website with the OwnID widget on the front end. 
+
+First, you integrate with CDC when creating the application. This OwnID application is then assigned a unique `appId` that is added to the website's front end. 
+
+### To create an OwnID application
+
+1. Log into the [OwnID Console](https://console.ownid.com/). Create a new account if you don't have one.
 2. Select **Create Application**.
 3. Define the details of the OwnID application, and select **Next**.
 4. Select the **Customer Data Cloud** card.
-5. Collect the identifying information of the CDC application (site data center, site API key, application key, and application secret) and then define them in the OwnID application. When working with a site group, the API Key identifies the key of the child site.
+5. Collect the identifying information from the CDC application (site data center, site API key, application key, and application secret) and then define them in the OwnID application. When working with a site group, the API Key identifies the key of the child site.
 
 ## Step 3 - Integrate OwnID with Your Website
-You can add the passwordless feature to your registration and login flows by adding a small block of code to the CDC WebSDK Configuration for your website. For additional configuration options that can change the behavior and look of the OwnID button, see [Advanced Initialization Parameters](#advanced-initialization-parameters).
+
+Add the passwordless feature to your registration and login flows by adding a small block of code to the CDC WebSDK Configuration for your website. 
+
+For additional configuration options that can change the behavior and look of the OwnID button, see [Advanced Initialization Parameters](#advanced-initialization-parameters).
 1. Open your site in the CDC Console, and go to the **Settings** tab.
 2. In the left-hand pane, select **WebSDK Configuration**.
 3. Copy and paste the following code into the text box, being sure to initialize it with the `appId` of your OwnID application. To find this `appId`, open the OwnID application in the [OwnID Console](https://console.ownid.com/) and go to the **My App** tab.
@@ -58,7 +67,7 @@ gigya.events.addMap({eventMap:[{events:"afterScreenLoad",args:["$event"],method:
 ```
 4. Select **Save Changes**.
 
-As a result, your WebSDK Configuration should look something like:
+As a result, your WebSDK Configuration should look something like this:
 ![WebSDK Configuration](/images/cdc_websdk.png)
 
 <br/>
@@ -87,7 +96,9 @@ screensetsConfig:  {
 
 **Custom Code Parameters**
 
-The OwnID SDK can be initialized with custom code that is called just before or just after OwnID performs an action. This code is written as an inline JavaScript function that is passed as the value of an initialization parameter. For example, you could use the `onRegister` parameter to invoke a function that leverages the `gtag` of Google Analytics when a user registers:
+The OwnID SDK can be initialized with custom code that is called just before or just after OwnID performs an action. 
+
+This code is written as an inline JavaScript function that is passed as the value of an initialization parameter. For example, you could use the `onRegister` parameter to invoke a function that leverages the `gtag` of Google Analytics when a user registers:
 
 ```js
 onRegister:function(){
@@ -98,7 +109,7 @@ onRegister:function(){
 }
 ```
 ### Parameter Definitions
-The following custom code parameters are available:
+The following custom code events are available:
 
 * `onRegister` - Defines a custom function that is called just after OwnID registers a new user.
 * `onLogin` - Defines a custom function that is called just after OwnID has logged in the user.

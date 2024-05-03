@@ -6,18 +6,18 @@ import NextStepsSnippet from '/snippets/next-steps-after-integ.mdx';
 
 import BuildAppSnippet from '/snippets/create-app-simple.mdx';
 
-OwnID supports integration with Drupal through our pre-built Drupal Connector.
+OwnID supports integration with Drupal through our pre-built Drupal Connector and the [OwnID module for Drupal](https://www.drupal.org/project/ownid).
 
-Configuration on the Okta side happens through your Okta Admin Dashboard. Ensure you have an account with admin access in Okta.
+Configuration on the Drupal side happens through your Drupal Admin Dashboard. Ensure you have an account with admin access in Drupal.
 
-## Installing The Module
-To download and install the OwnID module, access the official [module page](https://www.drupal.org/project/ownid).
+## Installing the Module
+To download and install the OwnID module, access the official [Drupal module page](https://www.drupal.org/project/ownid).
 
 ## Configuration Steps
-An OwnID application connects your Drupal website with the OwnID button in the front end. To create an OwnID application:
-1. Open the [OwnID Console](https://console.ownid.com/) and create an account or log in to an existing account.
-2. Create a **Drupal** integration and complete the onboarding.
-3. Copy and paste the **appID** and **shared secret** into the settings of the OwnID Drupal module.
+
+<BuildAppSnippet connector_name="Drupal"/>
+
+1. Copy and paste the **appID** and **shared secret** into the settings of the OwnID Drupal module.
 
 <Check>**Congratulations!**   
 Enjoy your Drupal-integrated passwordless authentication!</Check>

@@ -11,7 +11,7 @@ OwnID supports integration with Shopify through our pre-built Shopify Connector.
 
 Configuration on the Shopify side happens through configuration in your Shopify Partner Dashboard. Ensure you have an account with admin access in Shopify. 
 
-## Step 1 - Enable Multipass login in the Shopify admin
+## Step 1 - Enable Multipass
 
 Log in to your shop admin and go to the **Settings > Checkout and accounts** page. Scroll down to the **Customer accounts section** section and ensure that you have "Allow customers to log in from online store and checkout" selected.
 
@@ -82,13 +82,13 @@ Now you will see your Admin API Access Token has been generated. Click on **Reve
 
 ## Step 3: Create OwnID Application
 
-Each website integrating with OwnID must have an OwnID application. To create an OwnID application:
-1. Open the [OwnID Console](https://console.ownid.com/) and create an account or log in to an existing account.
-2. Select **Create Application**.
-3. Select **Shopify Plus** Integration
+Each website integrating with OwnID must have an OwnID application. 
+
+<BuildAppSnippet connector_name="Shopify"/>
+
 4. Complete the integration steps. Use your `Shopify Multipass secret` and `Shopify API Access Token` described above.
 
-## Step 4: Add OwnID button to your Login and Registration forms
+## Step 4: Add OwnID button
 
 The last step to complete this integration is adding the passwordless button to the login and registration forms.
 

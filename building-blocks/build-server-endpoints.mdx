@@ -297,21 +297,55 @@ const token = jwt.sign({}, privateKey, signingOptions);
 
 ```
 
-```csharp C#
-[HttpPost("getOwnIDDataByLoginId")]
-public async Task<ActionResult<Object>> GetOwnIDDataByLoginId(string loginId)
+```C C/C++
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
+using Microsoft.IdentityModel.Tokens;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
+
+class Program
 {
-    var user = _userRepository.Instance.Get(loginId);
+    static void Main(string[] args)
+    {
+        var userLoginId = "user-login-id@domain.com"; // Replace with actual user login ID
+        var ownIdAppId = "YourOwnIDAppId"; // Replace with your OwnID App ID
 
-    if (user == null)
-        return Ok(new { ErrorCode = HttpStatusCode.NotFound, ErrorMessage = "User not found" });
+        var privateKey = File.ReadAllText("path/to/your/privatekey.pem"); // Path to your RSA private key
+        var rsa = RSA.Create();
+        rsa.ImportFromPem(privateKey.ToCharArray());
 
-    return Ok(new { OwnIdData = user.ownIdData });
+        var signingCredentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256)
+        {
+            CryptoProviderFactory = new CryptoProviderFactory { CacheSignatureProviders = false }
+        };
+
+        var now = DateTime.UtcNow;
+        var jwtTokenHandler = new JwtSecurityTokenHandler();
+        var jwtToken = new JwtSecurityToken(
+            issuer: "OwnID",
+            audience: "OwnID",
+            notBefore: now,
+            expires: now.AddMinutes(5),
+            signingCredentials: signingCredentials,
+            claims: new System.Security.Claims.Claim[]
+            {
+                new System.Security.Claims.Claim(JwtRegisteredClaimNames.Sub, userLoginId),
+                new System.Security.Claims.Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().toString()),
+                new System.Security.Claims.Claim(JwtRegisteredClaimNames.Kid, $"https://{ownIdAppId}.server.ownid.com")
+            }
+        );
+
+        var token = jwtTokenHandler.WriteToken(jwtToken);
+
+        Console.WriteLine($"JWT Token: {token}");
+    }
 }
+
 ```
 </CodeGroup>
 <sup> Sample request handler for Post Login Enrollment endpoint</sup>
-
 
 **Response**
  
@@ -341,10 +375,8 @@ Examples:
 ```
 </CodeGroup>
 
-
 ## Next Steps
 With the request handlers in place, you're ready to build the frontend integrations for login, registration, account recovery, and more.
-
 
 <Card title="Build Frontend User Journey" icon="screwdriver-wrench" href="/building-blocks/build-frontend-integration">
 Integrate the OwnID SDK in your frontend journeys.

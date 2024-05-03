@@ -4,7 +4,11 @@ description: "Implement your server-side endpoints"
 ---
 OwnID provides templates for the three request handlers you'll host on your web server. These form the endpoints called from the OwnID platform, using signed HTTP requests.      
 
-These endpoints provide the connection between OwnId and your server for exchange user authentication data. That data is what you save in the `ownIdData` field you created in your database user table. 
+These endpoints provide the connection between OwnId and your server for exchange user authentication data. That data is what you save in the `ownIdData` field you created in your database user table.
+
+<Info> 
+**NOTE** There's an optional 4th endpoint you can build to support post-login enrollment offers.
+</Info> 
 
 ## Add Web Server Request Handlers
 
@@ -15,6 +19,8 @@ Below are code templates for each of the three request handlers needed to implem
 - Get OwnIdData - `getOwnIDDataByLoginId`
 
 - Get Session - `getSessionByLoginId`
+
+- Post Login Enrollment (optional) - `tbd`
 
 When the OwnID server receives a login event from your frontend, it then makes the appropriate HTTP requests to these endpoints. 
 
@@ -257,6 +263,83 @@ You might notice two values in request headers from the OwnID plaform:
 
 These are part of securing your integration before going live. We'll address these parameters separately on the [security page](/building-blocks/security) after you integration is complete.
 </Tip>
+
+### Endpoint 4 - Post Login Enrollment (optional)
+
+This endpoint handles the reuirements of post login enrollment.
+
+<CodeGroup>
+
+```javascript Node.js
+import fs from 'fs';
+import { v4 as uuidv4 } from 'uuid';
+import jwt from 'jsonwebtoken'; 
+
+// router.post('/getOwnIDDataByLoginId', async (req, res)
+
+// OwnID application's private key
+const privateKey = await fs.readFileAsync('./private.key', 'utf8'); 
+
+const signingOptions = {
+issuer: 'OwnID',
+subject: '{user-login-id@domain.com}', // the email/phone of the relevant user
+audience: 'OwnID', 
+expiresIn: '5m', 
+notBefore: '0', 
+keyid: 'https://{OwnID-AppId}.server.ownid.com', 
+jwtid: uuidv4(),
+algorithm: 'RS256' 
+};
+
+const token = jwt.sign({}, privateKey, signingOptions); 
+
+// return the `token` to the requesting client
+
+```
+
+```csharp C#
+[HttpPost("getOwnIDDataByLoginId")]
+public async Task<ActionResult<Object>> GetOwnIDDataByLoginId(string loginId)
+{
+    var user = _userRepository.Instance.Get(loginId);
+
+    if (user == null)
+        return Ok(new { ErrorCode = HttpStatusCode.NotFound, ErrorMessage = "User not found" });
+
+    return Ok(new { OwnIdData = user.ownIdData });
+}
+```
+</CodeGroup>
+<sup> Sample request handler for Post Login Enrollment endpoint</sup>
+
+
+**Response**
+ 
+Implement these responses for this endpoint:
+
+| Status | Description | Return |
+|---------|--------- | ---------|
+| `200` | User found and has ownIdData | return ownIdData String
+| `204` | User found but doesn't have ownIdData | return empty ownIdData String
+| `404` | User not found | return empty body
+
+Examples:
+
+<CodeGroup>
+```json 200 - Return ownIdData
+{
+  "ownIdData": "<String>"
+}
+```
+```json 204 - Return empty ownIdData
+{
+  "ownIdData": ""
+}
+```
+```json 404 - Return empty body
+{}
+```
+</CodeGroup>
 
 
 ## Next Steps

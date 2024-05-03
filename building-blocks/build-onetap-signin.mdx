@@ -40,6 +40,7 @@ In the `ownid` method:
 1. Enter "activateReturningUsersPrompt" for the method name. 
 
 2. Check to make sure the user isn't already logged in.
+
 ```Javascript Show prompt only to logged out users 
 // only if `false` then the prompt will be shown 
 checkSession: async () => { 
@@ -61,29 +62,6 @@ As noted in the Login integration, the session identifier can be any unique data
 
 Use the code snippets below, and check the embedded comments, to model your implementation of the submit handler and the SDK **activateReturningUsersPrompt** method.  
 
-<CodeGroup>
-
-```javascript Javascript
-<script>
-    const config = {
-        // only if `false` then the prompt will be shown 
-        checkSession: async () => {
-            // use your own method to check for if the user is logged in
-            return this.authService.isLoggedIn();
-        },
-        onLogin: (data) => {
-            // Generic example on how to set a session and redirect the user (use your own!)
-            // 1. set user session using data.token (usually a jwt or session token), generated in your backend and sent through the OwnID server
-            this.authService.setAuth({ token: data.token });
-            // 2. redirect the user (this is just an example)
-            this.router.navigateByUrl('/account');
-        },
-        onError: (errorMsg) => {console.log(errorMsg);}
-    };
-    ownid('activateReturningUsersPrompt', config);
-</script>
-```
-</CodeGroup>
 
 
 <Check>

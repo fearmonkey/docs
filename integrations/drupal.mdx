@@ -6,19 +6,27 @@ import NextStepsSnippet from '/snippets/next-steps-after-integ.mdx';
 
 import BuildAppSnippet from '/snippets/create-app-simple.mdx';
 
+OwnID supports integration with Drupal through our pre-built Connector. To use it, create your OwnID app in the Console and select the _Drupal_ Connector as described below.
+ <img src="/images/oi-tile-drup.png" width="200"  alt="Shopify Customer Accounts"></img>
+
 OwnID supports integration with Drupal through our native pre-built Drupal Connector and the [Drupal module for OwnID](https://www.drupal.org/project/ownid).
 
-OwnID does not store or process any user data. Users' public keys and device information are stored in the Adobe Commerce customer repository.
+<Info>
+
+**Securing User's Personal Data**  
+OwnID does not store or process any user data. Users' public keys and device information are stored on the Drupal platform.
+
 Private keys are kept exclusively on the user's device and are never transmitted elsewhere.
+</Info>
 
 ## Installing the Drupal Module for OwnID
-To download and install the OwnID module, access the official [Drupal module page](https://www.drupal.org/project/ownid).
+Download and install the OwnID module from the official [Drupal module page](https://www.drupal.org/project/ownid).
 
 ## Configuration Steps
 
 <BuildAppSnippet connector_name="Drupal"/>
 
-1. Copy and paste the **appID** and **shared secret** into the settings of the OwnID Drupal module.
+Copy the **appID** and **shared secret** from the OwnID app page into the settings of the Drupal for OwnID module.
 
 <Check>**Congratulations!**   
 Enjoy your Drupal-integrated passwordless authentication!</Check>

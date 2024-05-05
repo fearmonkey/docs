@@ -12,6 +12,16 @@ OwnID supports integration with Shopify through our pre-built Shopify Connector.
 
 Configuration on the Shopify side happens through the OwnID Connector in the Shopify marketplace. Ensure you have an account with admin access in Shopify. 
 
+Integrate CDC with OwnID in three basic steps:
+
+**Step 1** - Enable Multipass.
+
+**Step 2** - Get your Shopify Token.
+
+**Step 3** - Create the OwnID No-code App.
+
+
+
 ## Step 1 - Enable Multipass
 
 Log in to your shop admin and go to the **Settings > Checkout and accounts** page. Scroll down to the **Customer accounts section** section and ensure that you have "Allow customers to log in from online store and checkout" selected.
@@ -26,11 +36,15 @@ Select **Enable Multipass**. Once enabled, a secret will be shared with you. You
   <img src="/images/shopify-multipass-v2.png" alt="Shopify Customer Accounts"></img>
 </Frame>
 
-## Step 2 - Get your Shopify API Access Token
+## Step 2 - Get your Shopify Token
 
-In order to use our Shopify integration you will need the URL of your Shopify Store and an API access token. In this section you will learn how to generate and find this API access token within your Shopify Store.
+To implement our Shopify integration you will need to specify two identifiers:
+- URL of your Shopify Store 
+- Shopify API access token. 
 
-You can enable a custom app from your Shopify owner's account. To do this:
+In this section you'll learn how to get your API access token within your Shopify Store.
+
+First enable a custom app from your Shopify owner's account:
 
 1. Log in to your Shopify Store as the store owner.
 1. Select **Apps** in the admin section on the left sidebar.
@@ -57,26 +71,25 @@ You can enable a custom app from your Shopify owner's account. To do this:
   <img src="/images/shop5.png" alt="Shopify Customer Accounts"></img>
 </Frame>
 
-5. Select **Create an app**. You'll be asked to give your app a name, and add your email in the App developer text box. 
+6. Select **Create an app**. You'll be asked to give your app a name, and add your email in the App developer text box. 
 
 <Frame>
   <img src="/images/shop7.png" alt="Shopify Customer Accounts"></img>
 </Frame>
 
-6. Navigate to the **Configuration** tab and select **Configure** in the Admin API Integration section.
+7. Navigate to the **Configuration** tab and select **Configure** in the Admin API Integration section.
 
 <Frame>
   <img src="/images/shop8.png" alt="Shopify Customer Accounts"></img>
 </Frame>
 
-7. Under **Admin API access scopes** you'll see many categories. Scroll down until you reach **Customers**, or search for Customers in the search bar. Here, you'll click to tick the boxes for 'write_customers' and 'read_customers', then click the **Save** button. 
+8. Under **Admin API access scopes** you'll see many categories. Scroll down until you reach **Customers**, or search for "Customers" in the search bar. Here, you'll click to tick the boxes for 'write_customers' and 'read_customers', then click the **Save** button. 
 
 <Frame>
   <img src="/images/shop9.png" alt="Shopify Customer Accounts"></img>
 </Frame>
 
-8. Go to the **API Credentials** and click on **Install** in the Access tokens box.
-Now you will see your Admin API Access Token has been generated. Click on **Reveal token once** and you will see the token. You will use this access token during the onboarding in the OwnID console.
+8. Go to the **API Credentials** and click on **Install** in the Access tokens box. The Admin API Access Token is generated. Click on **Reveal token once** to see the token as plain text. Make a copy to use during onboarding in the OwnID console.
 <Frame>
   <img src="/images/shop12.png" alt="Shopify Customer Accounts"></img>
 </Frame>
@@ -87,13 +100,13 @@ Each website integrating with OwnID must have an OwnID application.
 
 <BuildAppSnippet connector_name="Shopify"/>
 
-4. Complete the integration steps. Use your `Shopify Multipass secret` and `Shopify API Access Token` described above.
+Complete the integration steps. Use your `Shopify Multipass secret` and `Shopify API Access Token` described above.
 
-## Step 4 - Add OwnID button
+## Step 4 - Add the OwnID Widget
 
-Lastly, we'll add the passwordless button to the login and registration forms.
+Lastly, we'll add the passwordless widget to the frontend login and registration forms.
 
-To complete this step, you'll need to edit three pages of your Shopify theme:
+Do this by editing three pages of your Shopify theme:
 
 1. From your Shopify admin, go to **Online Store > Themes**.
 2. Click **Actions > Edit code**. The code editor shows a directory of theme files on the left, and a space to view and edit the files on the right.
@@ -108,7 +121,7 @@ To complete this step, you'll need to edit three pages of your Shopify theme:
 </script>
 ```
 
-4. Now, go to the folder **Sections** and select the file **main-login.liquid**. Place the following code **after** your login form:
+4. Go to the **Sections** folder and select the file **main-login.liquid**. Place the following code **after** your login form:
 
 ```js
   <script>
@@ -128,7 +141,7 @@ To complete this step, you'll need to edit three pages of your Shopify theme:
 
 5. Finally, inside the same folder **Sections**, select the file **main-register.liquid**. 
 
-Add the following input after your password field element, inside the registration form:
+6. Add the following input after your password field element, inside the registration form:
 
 ```html
   <div class="ownIdData">
@@ -136,7 +149,7 @@ Add the following input after your password field element, inside the registrati
   </div>
 ```
 
-In the same file, place the following code after the registration form:
+7. In the same file, insert the following code below the registration form:
 
 ```js
   <script>
@@ -152,7 +165,7 @@ In the same file, place the following code after the registration form:
   </script>
 ```
 
-5. Save your changes.
+8. Save your changes.
 
 <Check>Congratulations! Enjoy your Shopify Plus passwordless authentication!</Check>
 

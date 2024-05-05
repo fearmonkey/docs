@@ -16,9 +16,20 @@ OwnID supports integration with Okta through our pre-built Okta Connector.
 
 Configuration on the Okta side happens through your Okta Admin Dashboard. Ensure you have an account with admin access in Okta. 
 
+Integrate OwnID with Okta in four basic steps:
+
+**Step 1** - Extend Okta User Schema.
+
+**Step 2** - Create Okta API Token.
+
+**Step 3** - Create a new OwnID No-code App.
+
+**Step 4** - Create an Identity Provider. 
 
 ## Step 1 - Extend Okta User Schema
 
+Add an attribute in Okta called `ownidData`. This is used to store user data _in Okta_.
+ 
 1. In your Okta Admin Dashboard go to _Directory -> Profile Editor_.
 2. Select the User (default) user group. <img
     src="/images/okta/okta_3_profile_editor.png"

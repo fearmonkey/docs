@@ -12,7 +12,16 @@ Integration with Salesforce Commerce Cloud (SFCC) gives you full access to the O
 
 ## How it Works
 
-OwnID integrates with SFCC through their built-in API client, using our native SFCC Connector and an SFCC _cartridge_.
+OwnID integrates with the SFCC built-in API client, using our native SFCC Connector and an SFCC _cartridge_.
+
+Integrate OwnID with SFCC in three basic steps:
+
+**Step 1** - Get SFCC Credentials.
+
+**Step 2** - Create an OwnID application in the OwnID Console.
+
+**Step 3** - Install the SFCC Cartridge.
+
 
 ## Prerequisites
 
@@ -85,7 +94,7 @@ Go to _Administration > Site Development > Open Commerce API Settings_.
 
 3. If the OCAPI configuration is already in place, simply include the following resource into the resources section. 
 
-```json
+```json Insert Resource
 {
   "resource_id": "/customers/auth/trustedsystem",
    "methods": [
@@ -179,7 +188,7 @@ Go to _Administration > Site Development > Open Commerce API Settings_.
 
 Copy the `appId` so you can use it in the next step.
 
-## Step 3 - SFCC Cartridge Installation
+## Step 3 - Install the SFCC Cartridge
 
 1. Upload and add the cartridge to the target site.
 1. Navigate to `Merchant Tools > Site Preferences > Custom Preferences > OwnID` and set the following preferences:

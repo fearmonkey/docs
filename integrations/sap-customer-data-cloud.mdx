@@ -17,7 +17,7 @@ Integrate CDC with OwnID in three basic steps:
 
 **Step 2** - Create an OwnID application in the OwnID Console.
 
-**Step 3** - Integrate OwnID with your website.
+**Step 3** - Integrate OwnID with your CDC website.
 
 ## Step 1 - Create CDC Application
 
@@ -40,11 +40,11 @@ OwnID strongly recommends that you create a _new_ CDC application that is dedica
 
 An OwnID application connects the existing identity platform used by your website with the OwnID widget on the front end. 
 
-First, you integrate with CDC when creating the application. This OwnID application is then assigned a unique `appId` that is added to the website's front end. 
+This OwnID application is assigned a unique `appId` that is added to the CDC website's front end. 
 
 <BuildAppSnippet connector_name="Customer Data Cloud"/>
 
-1. Collect the identifying information from the CDC application (site data center, site API key, application key, and application secret) and then define them in the OwnID application. When working with a site group, the API Key identifies the key of the child site.
+Collect the identifying information from the CDC application (site data center, site API key, application key, and application secret) and then define them in the OwnID application. When working with a site group, the API Key identifies the key of the child site.
 
 ## Step 3 - Integrate OwnID with Your Website
 
@@ -77,19 +77,21 @@ As a result, your WebSDK Configuration should look something like this:
 <br/>
 <Check>Congratulations! Enjoy your SAP CDC passwordless authentication!</Check>
 
-**User Interface Parameters**
+## Advanced Initialization Options
+OwnID exposes some standard events and configurtion options that allow you to further customize and extend functionality. 
+
+### User Interface Parameters
+
+The OwnID widget can accomodate password hide/show functionality by assigning the relevant DOM element to the `passwordToggle` attribute.
 
 * `passwordToggle` - If your password field includes an option to hide/show the password (typically an eye icon), then the OwnID SDK must know the DOM element of the icon so it can adjust the OwnID widget accordingly. For example, the following key/value pair sets the `passwordToggle` parameter to a String that specifies the DOM element of the hide/show icon:
 
-```js
+```js Configure hide/show Password Response
 passwordToggle: '[data-screenset-roles*="instance"] .toggle-pw-visibility-icons'
 ```
-
-**CDC Configuration Parameters**
-
 * `screensetsConfig` - If your CDC implementation includes Screen-Sets with custom IDs, you must initialize the OwnID SDK with the custom IDs of the login and registration Screen-Sets. CDC implementations that use the default Screen-Set IDs can ignore this parameter. As an example, the following key/value pair passes the custom IDs of the login and registration Screen-Sets to the OwnID SDK:
 
-```js
+```js Screen-Sets
 screensetsConfig:  {
     customScreenSetsIds: {
        login: 'bazco-nord-login-screen',
@@ -98,13 +100,13 @@ screensetsConfig:  {
 }
 ```
 
-**Custom Code Parameters**
+### Custom Code Parameters
 
 The OwnID SDK can be initialized with custom code that is called just before or just after OwnID performs an action. 
 
 This code is written as an inline JavaScript function that is passed as the value of an initialization parameter. For example, you could use the `onRegister` parameter to invoke a function that leverages the `gtag` of Google Analytics when a user registers:
 
-```js
+```js Custom onRegister Function
 onRegister:function(){
   gtag('event', 'ownid_registration', {
   'event_category': 'OwnID-registration',
@@ -113,7 +115,7 @@ onRegister:function(){
 }
 ```
 ### Parameter Definitions
-The following custom code events are available:
+You can build custom functions around any of these  available events:
 
 * `onRegister` - Defines a custom function that is called just after OwnID registers a new user.
 * `onLogin` - Defines a custom function that is called just after OwnID has logged in the user.

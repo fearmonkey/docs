@@ -17,18 +17,30 @@ For each of your OwnID apps, you can create a unique email template to use when 
 
 1. Log into the [Console](https://console.ownid.com/home) and select the App that you want to associate with your template. The My App view opens.
 
-1. Click the **Branding** menu from the left side navigation panel.
-<img src="/images/oi-console-branding.png" width="200"  alt="Console branding link"></img>
+1. Click the **Branding** menu from the left side navigation panel. <img src="/images/oi-console-branding.png" width="200"  alt="Console branding link"></img>
 
 
-1. Select **Email templates** from the dropdown options. The _Email templates_ page opens. <img src="/images/oi-et-preview_ml.png" width="400"  alt="Console branding link"></img>
+1. Select **Email templates** from the dropdown options. The _Email templates_ page opens. <img src="/images/oi-et-main.png" width="400"  alt="Console branding link"></img>
 
 1. From the _Select a template_ option, select _Magic link_ or _Verification Email (using code)_. Be sure to configure both types for each App.
 
-1. The existing template for the selected type appears.
+1. The existing template for the selected type appears.<img src="/images/oi-et-preview_ml.png" width="400"  alt="Console branding link"></img>
 
+1. For OTP Verification email, customize the body content in the box shown. All text inside the `<body>` tags can be customized, and their OTP is inserted wherever you put the `{code}` token.
+
+```html Default OTP Email Body
+<!DOCTYPE html>
+<html>
+
+  <body>
+    <div>Your verification code is: {code}</div>
+    <div>If you didn't request this code or you received this message by accident, please disregard this email.</div>
+  </body>
+
+</html>
+```
+7. Click **Preview** to check what recipients will see.   <img src="/images/oi-et-preview_ml.png" width="600"  alt="Console branding link"></img>
 
 
 
  
-

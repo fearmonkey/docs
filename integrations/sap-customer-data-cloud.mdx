@@ -10,12 +10,14 @@ import UserDataSnippet from '/snippets/user-data-statement.mdx';
 
 A website using SAP Customer Data Cloud (CDC) as its identity platform can implement the full set of OwnID features to simplify and streamline the login experience for its users.
 ## How it Works
+OwnID supports integration with CDC through our pre-built Connector. 
+<img src="/images/oi-tile-sapdc.png" width="200"  alt="SAP Customer Data Cloud Connector tile from in OwnID Console"></img>
 
-Integrate CDC with OwnID in three basic steps:
+Integrate CDC with OwnID using these three basic steps:
 
 **Step 1** - Create a CDC application and modify the CDC schema.
 
-**Step 2** - Create an OwnID application in the OwnID Console.
+**Step 2** - Create an OwnID App in the OwnID Console.
 
 **Step 3** - Integrate OwnID with your CDC website.
 
@@ -36,11 +38,11 @@ OwnID strongly recommends that you create a _new_ CDC application that is dedica
 
 <UserDataSnippet/>
 
-## Step 2 - Create OwnID Application
+## Step 2 - Create OwnID App
 
 An OwnID application connects the existing identity platform used by your website with the OwnID widget on the front end. 
 
-This OwnID application is assigned a unique `appId` that is added to the CDC website's front end. 
+The OwnID App is assigned a unique `appId` that is added to the CDC website's front end. 
 
 <BuildAppSnippet connector_name="Customer Data Cloud"/>
 
@@ -48,7 +50,7 @@ Collect the identifying information from the CDC application (site data center, 
 
 ## Step 3 - Integrate OwnID with Your Website
 
-Add the passwordless feature to your registration and login flows by adding a small block of code to the CDC WebSDK Configuration for your website. 
+Add the passwordless feature to your registration and login flows by inserting a small block of code into the CDC WebSDK Configuration for your website. 
 
 For additional configuration options that can change the behavior and look of the OwnID button, see [Advanced Initialization Parameters](#advanced-initialization-parameters).
 1. Open your site in the CDC Console, and go to the **Settings** tab.
@@ -124,3 +126,4 @@ You can build custom functions around any of these  available events:
 * `onMagicLinkLogin` - Defines a custom function that is called just after the user logs in with a Magic Link. With Magic Link, users who are using a desktop without their phone available have the option of receiving an email that contains a one-time link. Without this parameter, the `onLogin` function is called after the user logs in with a Magic Link.
 
 <NextStepsSnippet/>
+

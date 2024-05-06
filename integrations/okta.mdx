@@ -34,21 +34,21 @@ Add an attribute in Okta called `ownidData`. This is used to store user data _in
 2. Select the User (default) user group. <img
     src="/images/okta/okta_3_profile_editor.png"
     width="400"
-    alt="Profile editor"
+    alt="User view in Okta Profile editor"
 />
 <sup>Figure 1. Profile editor</sup>
 
 3. Click **+Add Attribute**. <img
     src="/images/okta/okta_4_add_attr.png"
     width="400"
-    alt="Add attribute"
+    alt="Add attribute in the User view in Okta Profile editor"
 />
 <sup>Figure 2. Add attribute</sup>
 
 4. Complete the attribute configuration as shown below. <img
     src="/images/okta/okta_5_attr.png"
     width="400"
-    alt="Attribute configuration"
+    alt="Attribute configuration in the User view in Okta Profile editor"
 />
 <sup>Figure 3. Attribute configuration</sup>
 
@@ -62,7 +62,7 @@ Add an attribute in Okta called `ownidData`. This is used to store user data _in
 2. Click **Create Token**. <img
     src="/images/okta/okta_1_create_token.png"
     width="400"
-    alt="Create token"
+    alt="Okta Admin Dashboard with Create token button"
 />
 <sup>Figure 4. Create API token</sup>
 
@@ -70,9 +70,11 @@ Add an attribute in Okta called `ownidData`. This is used to store user data _in
 4. Copy the token value. We will use it in the next step. <img
     src="/images/okta/okta_2_token_copy.png"
     width="400"
-    alt="Copy token"
+    alt="Pop up indicating token created successfully with actual token embedded"
 />
 <sup>Figure 5. Copy API token</sup>
+
+5. Click **OK, got it** after copying the token.
 
 ## Step 3 - Create the OwnID App
 
@@ -80,7 +82,7 @@ We'll create a new OwnID app using the Okta Connector.
 <img
     src="/images/oi-tile-okt.png"
     width="200"
-    alt="Okta tile"
+    alt="Okta Connector tile in OwnID Console"
 />
 <BuildAppSnippet connector_name="Okta"/>
 
@@ -104,46 +106,46 @@ Create an OwnID OIDC Identity Provider.
 2. Click **Add identity provider**. <img
     src="/images/okta/okta_6_add_idp.png"
     width="250"
-    alt="Add identity provider"
+    alt="Add identity provider button in Okta Admin Dashboard"
 />
 <sup>Figure 6. Add identity provider</sup>
 
 3. From the provider options, select the _OpenID Connect IdP_ tile. <img
     src="/images/okta/okta_7_select_idp.png"
     width="400"
-    alt="OpenID Connect IdP"
+    alt="OpenID Connect IdP shown as selected option in grid of identity providers"
 />
 <sup>Figure 7. OpenID Connect IdP</sup>
 
 4. The _General settings_ form opens. Configure it with the following general settings: <img
     src="/images/okta/okta_8_gen_settings.png"
     width="400"
-    alt="IdP settings"
+    alt="IdP settings form for OpenID"
 />
 <sup>Figure 8. IdP settings</sup>
 
-5. For the `Client details` use the `Client ID` and `Client Secret` from the OwnID application created in the previous step. <img
+5. For the _Client details_ values use the `Client ID` and `Client Secret` from the OwnID application created in the previous step as shown. <img
     src="/images/okta/okta_9_client_settings.png"
     width="400"
-    alt="Client details"
+    alt="Client details form for client ID and secret"
 />
 <sup>Figure 9. Client details</sup>
 
-6. In _Endpoints_, enter the values from the OwnID application created in the previous step.
+6. **In _Endpoints_, enter the values from the OwnID application created in the previous step?**
 
 7. Set the remaining details as shown below: <img
     src="/images/okta/okta_10_auth_settings.png"
     width="400"
-    alt="Authentication settings"
+    alt="Authentication settings form in Okta"
 />
 <sup>Figure 10. Authentication settings</sup>
 
 8. Click **Save**. 
 
-Be sure to copy the `IdP ID` value so we can use it in the next step. <img
+Be sure to copy the `IdP ID` value from the _Summary__ so we can use it in the next step. <img
     src="/images/okta/okta_11_idp_summary.png"
     width="400"
-    alt="IdP Summary"
+    alt="IdP Summary screen showing IdP ID and the authorize and redirect URLs"
 />
 <sup>Figure 11. IdP Summary</sup>
 
@@ -151,17 +153,17 @@ Be sure to copy the `IdP ID` value so we can use it in the next step. <img
 
 1. In your Okta Admin Dashboard, go to _Customizations -> Brands_.
 2. Select your relevant brand.
-3. Click **Customize**. <img
+3. Click **Customize** on the _Sign-in page_ panel. <img
     src="/images/okta/okta_12_brand.png"
     width="400"
-    alt="Brand customization"
+    alt="Brand customization in Okta Admin Dashboard"
 />
-<sup>Figure 12. Brand customization</sup>
+<sup>Figure 12. Brand customization in Okta</sup>
 
 4. Ensure the **Code Editor** option is toggled _on_ (requires a custom domain). <img
     src="/images/okta/okta_13_code_editor.png"
     width="250"
-    alt="Code editor"
+    alt="Code editor toggle on page design tab of Okta Sign-in configuration page"
 />
 <sup>Figure 13. Code editor</sup>
 

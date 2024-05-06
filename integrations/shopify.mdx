@@ -14,7 +14,7 @@ Integration with Shopify gives you full access to the OwnID features that simpli
 ## How it Works
 
 OwnID supports integration with Shopify through our pre-built Shopify Connector. To use it, create your OwnID app in the Console and select the _Shopify Plus_ connector as described below.
- <img src="/images/oi-tile-shop.png" alt="Shopify Customer Accounts"></img>
+ <img src="/images/oi-tile-shop.png" alt="Shopify Plus Connector tile as it appears in OwnID Console"></img>
 
 Configuration on the Shopify side happens through the OwnID Connector in the Shopify marketplace. Ensure you have an account with admin access in Shopify. 
 
@@ -33,7 +33,7 @@ Integrate OwnID with Shopify in four basic steps:
 Log in to your shop admin and go to the **Settings > Checkout and accounts** page. Scroll down to the **Customer accounts section** section and ensure that you have "Allow customers to log in from online store and checkout" selected.
 
 <Frame>
-  <img src="/images/shopify-config-users.png" alt="Shopify Customer Accounts"></img>
+  <img src="/images/shopify-config-users.png" alt="Shopify Checkout and accounts configuration screen showing the selection of the option to Allow  customers to log in from the online store and checkout"></img>
 </Frame>
 
 Select **Enable Multipass**. Once enabled, a secret will be shared with you. You need the secret during the OwnID onboarding. Make sure you keep your secret private.
@@ -56,25 +56,25 @@ First enable a custom app from your Shopify owner's account:
 1. Select **Apps** in the admin section on the left sidebar.
 
 <Frame>
-  <img src="/images/shop1.png" alt="Shopify Customer Accounts"></img>
+  <img src="/images/shop1.png" alt="Shopify Customer Accounts setting screen"></img>
 </Frame>
 
 3. From the dropdown menu, select **Apps and sales channels settings**.
 
 <Frame>
-  <img src="/images/shop2.png" alt="Shopify Customer Accounts"></img> 
+  <img src="/images/shop2.png" alt="Shopify Customer Accounts setting screen with App and Sales channel settings option"></img> 
 </Frame>
 
 4. In the next window that appears click on **Develop apps for your store**.
 
 <Frame>
-  <img src="/images/shop3.png" alt="Shopify Customer Accounts"></img>
+  <img src="/images/shop3.png" alt="App and Sales channel settings page in Shopify with the button labelled Develop apps for your store"></img>
 </Frame>
 
 5. Click to **Allow Custom App Development** in the next two screens.
 
 <Frame>
-  <img src="/images/shop5.png" alt="Shopify Customer Accounts"></img>
+  <img src="/images/shop5.png" alt="Shopify confirmation page to allow custom development with the Allow Custom App Development button shown"></img>
 </Frame>
 
 6. Select **Create an app**. You'll be asked to give your app a name, and add your email in the App developer text box. 
@@ -89,13 +89,15 @@ First enable a custom app from your Shopify owner's account:
   <img src="/images/shop8.png" alt="Shopify Customer Accounts"></img>
 </Frame>
 
-8. Under **Admin API access scopes** you'll see many categories. Scroll down until you reach **Customers**, or search for "Customers" in the search bar. Here, you'll click to tick the boxes for 'write_customers' and 'read_customers', then click the **Save** button. 
+8. Under **Admin API access scopes** you'll see many categories. Scroll down until you reach **Customers**, or search for "Customers" in the search bar.  
+9. Select the boxes for 'write_customers' and 'read_customers'
+10. Click **Save**. 
 
 <Frame>
   <img src="/images/shop9.png" alt="Shopify Customer Accounts"></img>
 </Frame>
 
-8. Go to the **API Credentials** and click on **Install** in the Access tokens box. The Admin API Access Token is generated. Click on **Reveal token once** to see the token as plain text. Make a copy to use during onboarding in the OwnID console.
+11. Go to the **API Credentials** and click on **Install** in the Access tokens box. The Admin API Access Token is generated. Click on **Reveal token once** to see the token as plain text. Make a copy to use during onboarding in the OwnID console.
 <Frame>
   <img src="/images/shop12.png" alt="Shopify Customer Accounts"></img>
 </Frame>

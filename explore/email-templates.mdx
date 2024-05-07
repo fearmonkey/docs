@@ -8,9 +8,9 @@ Email templates let you customize email content to reflect your brand and to per
 ## About Email Templates
 
 The OwnID platform sends emails automatically when it needs to valiate users with either a <Tooltip tip="one-time passcode">OTP</Tooltip>
-or a Magic Link.
+or a <Tooltip tip="a one-time link that grants access with a single click">magic link</Tooltip>.
 
-OwnID sends an authorization email when a user signs up or logs in for the first time but doesn't have available biometrics on the user’s device.
+OwnID sends an authorization email when a user signs up or logs in for the first time but doesn't have available biometrics on their device.
 
 ### Templates for Each App
 For each of your OwnID apps, you can create a unique email template to use when the system sends a _Magic Link_ email and another template to use for _OTP_ emails. 
@@ -30,7 +30,9 @@ For each of your OwnID apps, you can create a unique email template to use when 
 
 1. The existing template for the selected type appears.<img src="/images/oi-et-preview_ml.png" width="400"  alt="Preview"></img>
 
-1. For OTP Verification email, customize the body content in the embedded code editor. All text inside the `<body>` tags can be customized, and their OTP is inserted wherever you put the `{code}` token.
+1. To customize the body of your OTP verification emails,  edit the html in the embedded code editor. 
+
+All text inside the `<body>` tags can be customized, and the recipient's OTP is inserted wherever you place the `{code}` token.
 
 ```html Default OTP Email Body
 <!DOCTYPE html>
@@ -43,9 +45,11 @@ For each of your OwnID apps, you can create a unique email template to use when 
 
 </html>
 ```
-7. Click **Preview** to check what recipients will see.   <img src="/images/oi-et-preview_ml.png" width="600"  alt="Preview of rendered template for verification email"></img>
+7. Click **Preview** to check what recipients will see in an authorization email.   <img src="/images/oi-et-preview_ml.png" width="600"  alt="Preview of rendered template for verification email"></img>
 
-8. For Magic Link emails, customize the body content in the embedded code editor. All text inside the `<body>` and `<style>` tags can be customized, and their magic link is inserted wherever you place the `{link}` token.
+8. To customize the body of your magic link emails, select _Magic Link_ from the dropdown, then edit the html in the embedded code editor.  <img src="/images/oi-et-main.png" width="400"  alt="Main email templates view"></img>
+
+All text inside the `<body>` and `<style>` tags can be customized, and the recipient's magic link is inserted in the DOM wherever you place the `{link}` token.
 
 ```html Default Magic Link Email Body
 <!DOCTYPE html>
@@ -90,7 +94,7 @@ For each of your OwnID apps, you can create a unique email template to use when 
 ```
 9. Click **Preview** to check what recipients will see.   <img src="/images/oi-et-preview_ml.png" width="600"  alt="Preview"></img>
 1. Click **Save** to enable your new templates.
-
+---
 Be sure also to configure your SMTP details to enable sending email. To learn more, see [SMTP Setup](/explore/smtp-setup.mdx).
 
 

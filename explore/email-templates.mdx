@@ -3,15 +3,17 @@ title: "Email Templates"
 description: "Description"
 ---
 
-Email templates let you customize email content to reflect your brand and personalize content for the customer.
+Email templates let you customize email content to reflect your brand and to personalize content for your  customers in any language.
 
 ## About Email Templates
 
 The OwnID platform sends emails automatically when it needs to valiate users with either a <Tooltip tip="one-time passcode">OTP</Tooltip>
 or a Magic Link.
 
+OwnID sends an authorization email when a user signs up or logs in for the first time but doesn't have available biometrics on the user’s device.
+
 ### Templates for Each App
-For each of your OwnID apps, you can create a unique email template to use when the system sends a _Magic Link_ email and another for _OTP_ emails. 
+For each of your OwnID apps, you can create a unique email template to use when the system sends a _Magic Link_ email and another template to use for _OTP_ emails. 
 
 ## Customize your Email Templates
 
@@ -24,9 +26,11 @@ For each of your OwnID apps, you can create a unique email template to use when 
 
 1. From the _Select a template_ option, select _Magic link_ or _Verification Email (using code)_. Be sure to configure both types for each App.
 
+1. Select the language to use in the email text.
+
 1. The existing template for the selected type appears.<img src="/images/oi-et-preview_ml.png" width="400"  alt="Preview"></img>
 
-1. For OTP Verification email, customize the body content in the box shown. All text inside the `<body>` tags can be customized, and their OTP is inserted wherever you put the `{code}` token.
+1. For OTP Verification email, customize the body content in the embedded code editor. All text inside the `<body>` tags can be customized, and their OTP is inserted wherever you put the `{code}` token.
 
 ```html Default OTP Email Body
 <!DOCTYPE html>
@@ -41,21 +45,53 @@ For each of your OwnID apps, you can create a unique email template to use when 
 ```
 7. Click **Preview** to check what recipients will see.   <img src="/images/oi-et-preview_ml.png" width="600"  alt="Preview of rendered template for verification email"></img>
 
-8. For Magic Link emails, customize the body content in the box shown. All text inside the `<body>` tags can be customized, and their OTP is inserted wherever you put the `{code}` token.
+8. For Magic Link emails, customize the body content in the embedded code editor. All text inside the `<body>` and `<style>` tags can be customized, and their magic link is inserted wherever you place the `{link}` token.
 
-```html Default OTP Email Body
+```html Default Magic Link Email Body
 <!DOCTYPE html>
 <html>
 
+  <head>
+    <style>
+      body {
+        font-family: 72;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 24px;
+      }
+
+      div {
+        margin-bottom: 20px;
+      }
+
+      .rounded-link {
+        background: #0070F2;
+        color: #FFFFFF !important;
+        display: block;
+        padding: 8px 26px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        width: auto;
+      }
+    </style>
+  </head>
+
   <body>
-    <div>Your verification code is: {code}</div>
-    <div>If you didn't request this code or you received this message by accident, please disregard this email.</div>
+    <div>Hi,<br>Click the link below to log in to your account.</div>
+    <div style="display: flex"><a target="_blank" class="rounded-link" href="{link}">Your Magic Link</a></div>
+    <div>For security reasons, this link will only be valid in the same browser that initiated this request. If the link above doesn't work, try to copy and paste the following URL in the browser:<br />{link}</div>
+    <div>If you didn’t make this magic link request, please disregard this email.</div>
   </body>
 
 </html>
 ```
 9. Click **Preview** to check what recipients will see.   <img src="/images/oi-et-preview_ml.png" width="600"  alt="Preview"></img>
+1. Click **Save** to enable your new templates.
 
+Be sure also to configure your SMTP details required to send email. To learn more, see [SMTP Setup](/explore/smtp-setup.mdx).
 
 
  

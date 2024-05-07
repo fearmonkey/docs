@@ -25,7 +25,7 @@ Integrate OwnID with SFCC using these three basic steps:
 
 ## Prerequisites
 
-Request the _Sales Force Commerce Cloud_ cartridge from [this page](https://ownid.com/enterprise-connectors/salesforce-commerce-cloud).
+Request the _SalesForce Commerce Cloud_ cartridge from [this page](https://ownid.com/enterprise-connectors/salesforce-commerce-cloud).
 
 See: [OAuth Client Credentials](https://help.salesforce.com/s/articleView?id=cc.b2c_account_manager_add_api_client_id.htm&type=5)
 
@@ -34,9 +34,9 @@ See: [OAuth Client Credentials](https://help.salesforce.com/s/articleView?id=cc.
 ### Create Credentials
 
 1. Log into the SFCC Account Manager. 
-1. Select API Client from the left side menu. 
-1. Click `Add API Client`.
-1. Enter Display Name "OwnID Integration".
+1. Select _API Client_ from the left side menu. 
+1. Click **Add API Client**.
+1. Enter "OwnID Integration" in _Display Name_.
 1. Enter a password.
 1. Assign your organization.
 1. Assign the following roles: 
@@ -60,7 +60,7 @@ Go to _Administration > Site Development > Open Commerce API Settings_.
 
 1. Add the following JSON object to the shop tab:
 
-```json shop
+```json shop tab
 {
   "_v": "23.1",
   "clients": [
@@ -122,7 +122,7 @@ Go to _Administration > Site Development > Open Commerce API Settings_.
 
 4. Add the following JSON object to the _data_ tab:
 
-```json data
+```json data tab
 {
   "_v": "23.1",
   "clients": [

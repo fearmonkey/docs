@@ -52,11 +52,11 @@ See: [OAuth Client Credentials](https://help.salesforce.com/s/articleView?id=cc.
   />
 <sup>Figure 1. Salesforce API Client Creation</sup>
 
-Saleforce displays your `Client Id` and `Secret`. Save these values for later use.
+Salesforce displays your `Client Id` and `Secret`. Save these values for later use.
 
 ### Assign Permissions
 
-Go to _Administration > Site Development > Open Commerce API Settings_.
+1. Go to _Administration > Site Development > Open Commerce API Settings_.
 
 1. Add the following JSON object to the shop tab:
 
@@ -90,9 +90,9 @@ Go to _Administration > Site Development > Open Commerce API Settings_.
  ]
 }
 ```
-2. Change `client_id` value in the _shop_ JSON to match the `Client Id` created in the previous step.
+3. Change `client_id` value in the _shop_ JSON to match the `Client Id` created in the previous step.
 
-3. If the OCAPI configuration is already in place, simply include the following resource into the resources section. 
+1. If the OCAPI configuration is already in place, simply include the following resource into the resources section. 
 
 ```json Insert Resource
 {
@@ -120,7 +120,7 @@ Go to _Administration > Site Development > Open Commerce API Settings_.
   />
 <sup>Figure 2. Example JSON configuration in _shop_ tab</sup>
 
-4. Add the following JSON object to the _data_ tab:
+5. Add the following JSON object to the _data_ tab:
 
 ```json data tab
 {
@@ -161,7 +161,7 @@ Go to _Administration > Site Development > Open Commerce API Settings_.
   />
 <sup>Figure 3. Example JSON configuration in _data_ tab</sup>
 
-5. Change the `client_id` value in the JSON to match the `Client Id` created in the previous step. 
+6. Modify the `client_id` value in the JSON object to match the Client Id created in the previous step. 
 
 <UserDataSnippet/>
 
@@ -169,13 +169,12 @@ Go to _Administration > Site Development > Open Commerce API Settings_.
 
 <BuildAppSnippet connector_name="SalesForce"/>
 
-
 1. Open the Salesforce integration page.
-1. Enter the Instance Hostname - _e.g: xyzb-001.dx.commercecloud.salesforce.com_ (only the domain, without protocol).
-1. Enter a Site ID - _e.g: RefArch_ (case sensitive). 
-1. Enter the API Client ID (generated in the previous step).
-1. Enter the API Client Secret (generated in the previous step).
-1. Enter the SFCC Username (get it from the Account Manager).
+1. Enter the _Instance Hostname_ - _e.g: xyzb-001.dx.commercecloud.salesforce.com_ (only the domain, without protocol).
+1. Enter a _Site ID_ - _e.g: RefArch_ (case sensitive). 
+1. Enter the _API Client ID_ (generated in the previous step).
+1. Enter the _API Client Secret_ (generated in the previous step).
+1. Enter the _SFCC Username_ (get it from the Account Manager).
 1. Enter the SFCC Password.
 1. Save Changes.
 

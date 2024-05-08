@@ -30,13 +30,19 @@ Integrate OwnID with Shopify in four basic steps:
 
 ## Step 1 - Enable Multipass
 
-Log in to your shop admin and go to the **Settings > Checkout and accounts** page. Scroll down to the **Customer accounts section** section and ensure that you have "Allow customers to log in from online store and checkout" selected.
+Multipass login is for store owners who have a separate website and a Shopify store. It redirects users from the website to the Shopify store and seamlessly logs them in with the same email address they used to sign up for the original website. If no account with that email address exists yet, one is created. There is no need to synchronize any customer databases.
+
+### To Enable Multipass
+1. Log in to your Shopify admin and go to the **Settings > Checkout and accounts** page. 
+1. Scroll down to the **Customer accounts section** section and ensure that you have "Allow customers to log in from online store and checkout" selected.
 
 <Frame>
   <img src="/images/shopify-config-users.png" alt="Shopify Checkout and accounts configuration screen showing the selection of the option to Allow  customers to log in from the online store and checkout"></img>
 </Frame>
 
-Select **Enable Multipass**. Once enabled, a secret will be shared with you. You need the secret during the OwnID onboarding. Make sure you keep your secret private.
+3. Select **Enable Multipass**. 
+
+Once enabled, a secret will be shared with you. You need the secret during the OwnID onboarding. Make sure you keep your secret private.
 
 <Frame>
   <img src="/images/shopify-multipass-v2.png" alt="Shopify Customer Accounts"></img>

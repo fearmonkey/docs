@@ -1,64 +1,43 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "OwnID",
-  "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
-  },
-  "favicon": "/favicon.svg",
-  "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
-    "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+  "name": "OwnID Documentation",
+  "openapi": "/OwnID-openapi.yaml",
+  "api": {
+    "playground": {
+      "mode": "hide"
     }
+  },
+  "logo": {
+    "light": "/logo/ownidd.svg",
+    "dark": "/logo/ownidlogow.svg"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#B388FF",
+    "light": "#B388FF",
+    "dark": "#B388FF"
   },
   "topbarLinks": [
-    {
-      "name": "Support",
-      "url": "mailto:hi@mintlify.com"
-    }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Sign-in",
+    "url": "https://console.ownid.com"
   },
   "tabs": [
     {
-      "name": "API Reference",
-      "url": "api-reference"
-    }
-  ],
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "name": "Platform Overview",
+      "url": "platform-overview"
     }
   ],
   "navigation": [
     {
-            "group": "Documentation",
+      "group": "Documentation",
       "pages": [
         "introduction",
         "quickstart"
-        
       ]
-
     },
-   {
+    {
       "group": "SDK Integration",
       "pages": [
         "building-blocks/introduction",
@@ -67,54 +46,68 @@
           "group": "Build Frontend Flows",
           "pages": [
             "building-blocks/build-frontend-integration",
-            "building-blocks/build-login",
-            "building-blocks/build-registration",
-            "building-blocks/build-account-recovery",
-            "building-blocks/build-onetap-signin",
-            "building-blocks/build-profile-update"
+            {
+              "group": "Core Journeys",
+              "pages": [
+                "building-blocks/build-login",
+                "building-blocks/build-registration",
+                "building-blocks/build-account-recovery"
+              ]
+            },
+            {
+              "group": "Boost Logins",
+              "pages": [
+                "building-blocks/build-onetap-signin"
+              ]
+            }
           ]
         },
         "building-blocks/security",
-        "building-blocks/pre-deployment--checklist"
+        "building-blocks/pre-deployment-checklist"
       ]
-      
-    },    
+    },
     {
       "group": "Connectors",
       "pages": [
-      "integrations/salesforce-commerce-cloud",
-      "integrations/adobe-commerce-cloud",
-      "integrations/sap-customer-data-cloud","integrations/sap-commerce",
-      "integrations/woocommerce","integrations/wordpress",
-      "integrations/drupal",
-      "integrations/shopify"
+        "integrations/using-connectors",
+        "integrations/salesforce-commerce-cloud",
+        "integrations/okta",
+        "integrations/sap-customer-data-cloud",
+        "integrations/sap-commerce",
+        "integrations/adobe-commerce-cloud",
+        "integrations/woocommerce",
+        "integrations/wordpress",
+        "integrations/drupal",
+        "integrations/shopify"
       ]
-    },  
+    },
+    {
+      "group": "Branding & Customization",
+      "pages": [
+        "explore/custom-domain",
+        {
+          "group": "Customize Emails",
+          "pages": [
+            "explore/customize-emails/introduction",
+            "explore/customize-emails/smtp-setup",
+            "explore/customize-emails/custom-provider",
+            "explore/customize-emails/email-templates"
+          ]
+        },
+        "explore/button-styles",
+        "explore/localization"
+      ]
+    },
     {
       "group": "Platform Overview",
       "pages": [
+        "platform-overview/architecture",
         "platform-overview/sdkvconnector",
-        "platform-overview/architecture", 
         "platform-overview/faq"
-      ]
-    },
-    {
-      "group": "API Documentation",
-      "pages": [
-        "api-reference/introduction"
-      ]
-    },
-    {
-      "group": "Endpoint Examples",
-      "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
       ]
     }
   ],
-  "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"  }
+  "feedback": {
+    "thumbsRating": true
+  }
 }

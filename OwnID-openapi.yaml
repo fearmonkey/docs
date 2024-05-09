@@ -1,0 +1,129 @@
+openapi: 3.1.0
+info:
+  title: OwnID Custom Integration API
+  version: 1.0.0
+  description: Server API for integrating with OwnID
+servers:
+  - url: https://{domain}/{ownIdPath}
+    variables:
+      domain:
+        default: your-server.com
+        #description: Your server's domain
+      ownIdPath:
+        default: ownid
+        #description: The path where OwnID's endpoints can be found
+paths:
+  /getOwnIDDataByLoginId:
+    post:
+      summary: Get OwnID Data
+      description: Returns the `ownIdData` associated with the specified loginId.
+      operationId: getOwnIDDataByLoginId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OwnIdUserRequest'
+      responses:
+        '200':
+          description: Successfully retrieved OwnID data for the user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WithOwnIdData'
+        '204':
+          description: User exists but without OwnIdData
+        '404':
+          description: User with the requested login ID does not exist.
+  /setOwnIDDataByLoginId:
+    post:
+      summary: Set OwnID Data
+      description: Sets the `ownIdData` associated with the specified user.
+      operationId: setOwnIDDataByLoginId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OwnIdUpdateUserRequest'
+      responses:
+        '204':
+          description: Successfully set OwnID data for the relevant user.
+        '404':
+          description: User with the requested login ID does not exist.
+  /getSessionByLoginId:
+    post:
+      summary: Get Session
+      description: Creates and returns a JSON object representing a session for the specified loginId.
+      operationId: getSessionByLoginId
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OwnIdUserRequest'
+      responses:
+        '200':
+          description: Successfully created session.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionData'
+        '404':
+          description: User with the requested login ID does not exist.
+components:
+  schemas:
+    OwnIdUserRequest:
+      type: object
+      required:
+        - loginId
+      properties:
+        loginId:
+          type: string
+          examples: 
+            - user@example.com
+    OwnIdUpdateUserRequest:
+      allOf:
+        - $ref: '#/components/schemas/OwnIdUserRequest'
+        - $ref: '#/components/schemas/WithOwnIdData'
+    WithOwnIdData:
+      oneOf:
+        - title: OwnID-New-User
+          description: An existing user that tries to use OwnID for the first time
+          type: object
+          properties:
+            ownIdData:
+              type: string
+              maxLength: 0
+              #const: ''
+          required:
+            - ownIdData
+        - title: OwnID-Returning-User
+          description: An existing user that already used OwnID before
+          type: object
+          properties:
+            ownIdData:
+              type: string
+              minLength: 1
+          required:
+            - ownIdData
+    SessionData:
+      description: An object that will be returned to the frontend integration and will be used to establish the logged in session.
+      type: object
+      additionalProperties: true
+      examples:
+        - token: my-session-token-123
+  securitySchemes:
+    OwnIdSignature:
+      type: apiKey
+      name: ownid-signature
+      in: header
+      description: Signature for verifying the authenticity of the request
+    OwnIdTimestamp:
+      type: apiKey
+      name: ownid-timestamp
+      in: header
+      description: Timestamp of the request
+security:
+  - OwnIdSignature: []
+    OwnIdTimestamp: []

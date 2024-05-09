@@ -8,7 +8,9 @@ After a mobile user logs in to your site with a password, you can offer them enr
 
 ## Build Enrollment Endpoint 
 
-This endpoint returns a jwt token for use in the SDK call on the frontend.
+If you're adding the post enrollment feature, you've already built the three basic required endpoints in your backend. Those are called by the OwnID platform based on your use of the SDK.
+
+This new endpoint is actually called directly from your frontend. It returns an authentication token for use in the subsequent `await` function as discussed in [Call Enrollment Endpoint](#) below. 
 
 <CodeGroup>
 

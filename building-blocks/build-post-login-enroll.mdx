@@ -6,7 +6,117 @@ import NextStepsSnippet from '/snippets/next-steps-after-build.mdx';
 
 After a mobile user logs in to your site with a password, you can offer them enrollment in biometric verification at any time during their user journey.
 
-## Calling Enrollment Endpoint
+## Build Enrollment Endpoint 
+
+This endpoint returns a jwt token for use in the SDK call on the frontend.
+
+<CodeGroup>
+
+```javascript Node.js
+import fs from 'fs';
+import { v4 as uuidv4 } from 'uuid';
+import jwt from 'jsonwebtoken'; 
+
+// router.post('/getOwnIDDataByLoginId', async (req, res)
+
+// OwnID application's private key
+const privateKey = await fs.readFileAsync('./private.key', 'utf8'); 
+
+const signingOptions = {
+issuer: 'OwnID',
+subject: '{user-login-id@domain.com}', // the email/phone of the relevant user
+audience: 'OwnID', 
+expiresIn: '5m', 
+notBefore: '0', 
+keyid: 'https://{OwnID-AppId}.server.ownid.com', 
+jwtid: uuidv4(),
+algorithm: 'RS256' 
+};
+
+const token = jwt.sign({}, privateKey, signingOptions); 
+
+// return the `token` to the requesting client
+
+```
+
+```C C/C++
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
+using Microsoft.IdentityModel.Tokens;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        var userLoginId = "user-login-id@domain.com"; // Replace with actual user login ID
+        var ownIdAppId = "YourOwnIDAppId"; // Replace with your OwnID App ID
+
+        var privateKey = File.ReadAllText("path/to/your/privatekey.pem"); // Path to your RSA private key
+        var rsa = RSA.Create();
+        rsa.ImportFromPem(privateKey.ToCharArray());
+
+        var signingCredentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256)
+        {
+            CryptoProviderFactory = new CryptoProviderFactory { CacheSignatureProviders = false }
+        };
+
+        var now = DateTime.UtcNow;
+        var jwtTokenHandler = new JwtSecurityTokenHandler();
+        var jwtToken = new JwtSecurityToken(
+            issuer: "OwnID",
+            audience: "OwnID",
+            notBefore: now,
+            expires: now.AddMinutes(5),
+            signingCredentials: signingCredentials,
+            claims: new System.Security.Claims.Claim[]
+            {
+                new System.Security.Claims.Claim(JwtRegisteredClaimNames.Sub, userLoginId),
+                new System.Security.Claims.Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().toString()),
+                new System.Security.Claims.Claim(JwtRegisteredClaimNames.Kid, $"https://{ownIdAppId}.server.ownid.com")
+            }
+        );
+
+        var token = jwtTokenHandler.WriteToken(jwtToken);
+
+        Console.WriteLine($"JWT Token: {token}");
+    }
+}
+
+```
+</CodeGroup>
+<sup> Sample request handler for Post Login Enrollment endpoint</sup>
+
+**Response**
+ 
+Implement these responses for this endpoint:
+
+| Status | Description | Return |
+|---------|--------- | ---------|
+| `200` | Success | returns jwt
+| `404` | User not found | returns 
+
+Examples:
+
+<CodeGroup>
+```json 200 - Return token
+{
+  "token": "<jwt>"
+}
+```
+```json 204 - Returns
+{
+  
+}
+```
+```json 404 - Fail
+{}
+```
+</CodeGroup>
+
+## Call Enrollment Endpoint
 
 In your frontend code, after a user logs in successfully, call the _post-login enrollment_ endpoint to fetch the `authToken`.
 
@@ -14,12 +124,12 @@ In your frontend code, after a user logs in successfully, call the _post-login e
 var authToken = request(postLoginEnroll)
 ```
 
-Call OwnID webSDK’s “enroll credential” function with this token.
+Call OwnID webSDK’s “enroll credential” method with this token.
 
 ```Javascript
 await ownid.enrollCredential(loginId, authToken);
 ```
-This triggers the “Enroll new credential” UX ONLY on mobile:
+This triggers the “Enroll new credential” modal:
 <img
   width="200"
   src="/images/oi-pl-enroll.png"

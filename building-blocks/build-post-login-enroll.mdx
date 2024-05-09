@@ -4,9 +4,17 @@ description: 'Description of your new file.'
 ---
 import NextStepsSnippet from '/snippets/next-steps-after-build.mdx';
 
-After a mobile user logs in to your site with a password, you can offer them enrollment in biometric verification at any time during their user journey.
+After a mobile user logs in to your site with a password, you can offer them streamlined enrollment in biometric verification at any time during their user journey.
 
-## Step - 1 Obtain Your Private Key
+Complete these three steps to implement post-login enrollement:
+
+**Step 1** - Obtain Your Private Key
+
+**Step 2** - Build Enrollment Endpoint
+
+**Step 3** - Make Request to Enrollment Endpoint
+
+## Step 1 - Obtain Your Private Key
 
 Obtain the OwnID application’s private key from the [OwnID Console](https://console.ownid.com/home):
 <img
@@ -14,6 +22,8 @@ Obtain the OwnID application’s private key from the [OwnID Console](https://co
   src="/images/oi-gen-key.png"
   alt="Widget"
   />
+  
+<sup>Figure 1. Generating a private key </sup>
 
 1. Select your App from the Apps view.
 1. Go to _Integration > Security_
@@ -23,14 +33,13 @@ Copy the key for use in generating a token in the endpoint as discussed in Step 
 
 You can generate a new key only ONCE. If you do it again you invalidate the previous one.
 
-## Step - 2 Build Enrollment Endpoint 
+## Step 2 - Build Enrollment Endpoint 
 
 If you're adding the post enrollment feature, you've already built the three basic required endpoints in your backend. Those are called by the OwnID platform based on your use of the SDK.
 
 This new endpoint is actually called _directly_ from your frontend. It's purpose is to validate that the request came from an authenticated user, then create a JWT signed by the application’s private key.
 
  returns an authentication token for use in the subsequent `await` statement as discussed in [Call Enrollment Endpoint](#) below. 
-
 
 <CodeGroup>
 
@@ -140,14 +149,16 @@ Examples:
 
 ### Token Example
 
-eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imh0dHBzOi8ve293bmlkQXBwSWR9LnNlcnZlci5vd25pZC5jb20ifQ.eyJpYXQiOjE3MDkyMTE1MTMsIm5iZiI6MTcwOTIxMTUxMywiZXhwIjoxNzA5MjExODEzLCJhdWQiOiJPd25JRCIsImlzcyI6Ik93bklEIiwic3ViIjoidXNlci1sb2dpbi1pZEBkb21haW4uY29tIiwianRpIjoiNjE1ZjZiMTAtNTJhNC00Y2M5LWExNDYtZWM0N2YxOGY1Mzc4In0.jbEmGixHkqwNYmnm9s4NHxpZigFYdK_5moWlixJTtwMoylVo3sueH0gsDfW7VS6qOurgfHLcqClT842HO5iPI7BM8jZ2jYK6wpiaNcrYa7VxE0jjyu2-IwOD1qXeAeeBSN3G0gw0QJd7NbDdsa40oWMJx1nYZgAr0vsaAyJtyYe910321fzKOmb0pWZk8zJDCMgWYGhWkF-wLfQeWspT88ZLKg8cnzW2LnCsFxmyOCujZmqyZuB9HqWDdY2zwN1LTU2k-dku3lAcqgdbRKGdkPYDz6_Ua5Pp8hlC5QLb6wmOTXpnoyg_bSSqUdQm467ORONEDnH85liOFgDOndhMiREeGDkGK9yaesLcJmgVEZI3SENX101EwoE5Ai4aoA1hsLrIyzAB0ED5xY1TYE74x5e6nOBww3rxsTv7zHeJKYyE03pAjff0jF0FPVtp8wtrnNlzpqN63RKypYzD3xyFimz-jLr-x7f18lcI5QAjBeND4CTz89R7JafxXuc3Gu1AjOgMTSf00rPb5t4mMhaLhfvSTAIZtnFcN_4uX2FhM3B6mpyTwUlIQn6IIoiSW-tvxJ7ulgVktdIxfWjRRakakHJo_tcdiRLenLMqfx3rfbjQBUCs8M6iv5nNFv_uMQNnf0RKFjS2oz-19sw8m7QcdNqDhJuxumWPPmVWhQ8O2no
-You can generate a new key only ONCE. If you do it again you lose the previous one.
+`eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Imh0dHBzOi8ve293bmlkQXBwSWR9LnNlcnZlci5vd25pZC5jb20ifQ.eyJpYXQiOjE3MDkyMTE1MTMsIm5iZiI6MTcwOTIxMTUxMywiZXhwIjoxNzA5MjExODEzLCJhdWQiOiJPd25JRCIsImlzcyI6Ik93bklEIiwic3ViIjoidXNlci1sb2dpbi1pZEBkb21haW4uY29tIiwianRpIjoiNjE1ZjZiMTAtNTJhNC00Y2M5LWExNDYtZWM0N2YxOGY1Mzc4In0.jbEmGixHkqwNYmnm9s4NHxpZigFYdK_5moWlixJTtwMoylVo3sueH0gsDfW7VS6qOurgfHLcqClT842HO5iPI7BM8jZ2jYK6wpiaNcrYa7VxE0jjyu2-IwOD1qXeAeeBSN3G0gw0QJd7NbDdsa40oWMJx1nYZgAr0vsaAyJtyYe910321fzKOmb0pWZk8zJDCMgWYGhWkF-wLfQeWspT88ZLKg8cnzW2LnCsFxmyOCujZmqyZuB9HqWDdY2zwN1LTU2k-dku3lAcqgdbRKGdkPYDz6_Ua5Pp8hlC5QLb6wmOTXpnoyg_bSSqUdQm467ORONEDnH85liOFgDOndhMiREeGDkGK9yaesLcJmgVEZI3SENX101EwoE5Ai4aoA1hsLrIyzAB0ED5xY1TYE74x5e6nOBww3rxsTv7zHeJKYyE03pAjff0jF0FPVtp8wtrnNlzpqN63RKypYzD3xyFimz-jLr-x7f18lcI5QAjBeND4CTz89R7JafxXuc3Gu1AjOgMTSf00rPb5t4mMhaLhfvSTAIZtnFcN_4uX2FhM3B6mpyTwUlIQn6IIoiSW-tvxJ7ulgVktdIxfWjRRakakHJo_tcdiRLenLMqfx3rfbjQBUCs8M6iv5nNFv_uMQNnf0RKFjS2oz-19sw8m7QcdNqDhJuxumWPPmVWhQ8O2no`
 
+The token above encodes the following parameters:
+<img
+  width="400"
+  src="/images/oi-token-parse.png"
+  alt="Widget"
+  />
 
-
-
-
-## Step - 3 Make Request to Enrollment Endpoint
+## Step 3 - Make Request to Enrollment Endpoint
 
 In your frontend code, after a user logs in successfully, call the _post-login enrollment_ endpoint to fetch the `authToken`  after a user logs in successfully with a password.
 
@@ -166,7 +177,7 @@ This triggers the “Enroll new credential” offer:
   src="/images/oi-pl-enroll.png"
   alt="Widget"
   />
-<sup>Figure 1. Enrollment offer UI example</sup>
+<sup>Figure 2. Enrollment offer UI example</sup>
 
 <NextStepsSnippet/>
 

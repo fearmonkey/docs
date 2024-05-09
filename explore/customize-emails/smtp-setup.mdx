@@ -1,0 +1,33 @@
+---
+title: 'Configuring SMTP Email Provider'
+description: 'Send user email messages through your server.'
+---
+
+Enter your SMTP server credentials to enable OwnID to send an OTP to your users through email.
+
+## Configuring SMTP
+
+You configure SMTP uniquely for each of your apps.
+
+To get started, go to the OwnID console and login to your account. 
+
+1. From the Apps page, click the app you want to set up SMTP for.
+1. Click the **User journey** link from the navigation panel. <img align="center" width="200" src="/images/oi_user_journey_nav.png"/>
+
+1. On the OTP configuration panel, select **Email** under Delivery Channel. <img src="/images/oi_smtp_cfg_btn.png"/>
+
+1. Click the **SMTP Configuration** bar.
+
+1. When the configuration form opens, enter: 
+- The SMTP server Host URL.
+- The SMTP server Port.
+- The Username and Password of the account holder.
+- Sender Email address (valid FROM address).
+- Sender Name as it will appear to your recipients.<img width="200" src="/images/oi_smtp_form.png"/>
+
+6. Click **Save Changes**.
+
+Test your configuration by running through login workflow on a device without biometric verification.
+
+Be sure to complete SMTP configuration for all your apps before deployment.
+

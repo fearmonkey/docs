@@ -1,0 +1,30 @@
+---
+title: 'Introduction'
+description: 'Send user email messages through your server and configure email templates.'
+---
+
+OwnID sends an <Tooltip tip="one-time passcode">OTP</Tooltip> to users during first time enrollment of a device, or when biometric verification is not available. 
+
+OwnID built-in email provider is not supported for use in a production environment, should only be used for testing.
+In preparation for go-live, you must set up your own email provider. 
+
+## Select your email configuration
+
+Select _Configure my SMTP Email Provider_, or if you prefer to utilize a different email provider, select _Configure A Custom Email Provider_. 
+
+<CardGroup>
+
+<Card title="Configure my SMTP Email Provider" 
+icon="gear" 
+href="/explore/customize-emails/smtp-setup">
+Enter your SMTP server credentials in the OwnID console.
+</Card>
+
+<Card
+  title="Configure a Custom Email Provider"
+  icon="webhook"
+  href="/explore/customize-emails/custom-provider"
+>
+Build an endpoint to integrate with your custom email provider.
+</Card>
+</CardGroup>

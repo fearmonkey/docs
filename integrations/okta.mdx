@@ -25,6 +25,7 @@ Complete these five basic steps to integrate OwnID with Okta:
 **Step 3** - Create the OwnID App.
 
 **Step 4** - Create an Identity Provider. 
+
 **Step 5** - Frontend Integration.
 
 ## Step 1 - Extend Okta User Schema
@@ -178,7 +179,7 @@ Be sure to copy the `IdP ID` value from the _Summary__ so we can use it in the n
 ((o, w, n, i, d) => {
     o[i] = o[i] || (async (...a) => ((o[i].q = o[i].q || []).push(a), { error: null, data: null })),
         (e = w.createElement("script")).src = 'https://cdn.ownid.com/sdk/' + n, e.async = 1, w.head.appendChild(e);
-        new OktaSignIn(OktaUtil.getSignInWidgetConfig()).on('afterRender', () => ownid("login", {idpId: d}))
+        new OktaSignIn(OktaUtil.getSignInWidgetConfig()).on('afterRender', () => ownid("oktaRender", {idpId: d}))
 })
 (window, document, '<appId>', 'ownid', '<idpId>');
 ```

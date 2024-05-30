@@ -3,21 +3,18 @@ title: "Custom Domain"
 description: "Unify the login experience with your own domain"
 ---
 
-You can use your own domain name during the OwnID flows (as for example when users scan a QR Code to sign-in). A custom domain lets you unify the login experience with your own brand and products. 
-
-The important thing is that the URL your users see  reflects your brand such as `passwordless.your_domain.com` instead of `passwordless.ownid.com`.
+You can use your own domain name in OwnID flows to maintain seamless branding (for example when users scan a QR Code to sign-in). By specifying a custom domain,  you unify the login experience with your own brand, so your users see a brand-appropriate URL such as `passwordless.your_domain.com` instead of `passwordless.ownid.com`.
 
 ## Add your custom domain
 
-First, decide what subdomain to use:
-If your domain is `example.com`, we recommend you use `passwordless.example.com` as your custom subdomain, but you can replace `passwordless` with whatever you like as long as it's a valid subdomain.
+First, decide on a subdomain. If your domain is `example.com`, we recommend you use `passwordless.example.com` as your custom subdomain, but you can replace `passwordless` with whatever you like as long as it's a valid subdomain.
 
 After you decide on a subdomain, visit the `OwnID Console`, select the app you want to configure, then click the _Custom Domain_ tab to start the domain connection process.
 
 On the Custom Domain page, click **Set up your own**. You now see a form with an input to enter your desired subdomain. After entering your desired subdomain, a panel with instructions for setting up your DNS records will appear:
 
 <Frame>
-  <img src="/images/Custom_Domain_step1.png" alt="Custom Domain Step 1"></img>
+  <img src="/images/oi_domainpend.png" alt="Custom Domain Step 1"></img>
 </Frame>
 
 ## Step 1: Create a DNS record
@@ -28,11 +25,11 @@ To start, figure out what service is managing your DNS records, so you know exac
 
 If you already know your DNS provider, you can move on to the next section. Often, it's the same place you registered your domain, but sometimes the DNS provider is different from your domain registrar.
 
-In case you are not sure, you can use a [DNS Lookup](https://mxtoolbox.com/DnsLookup.aspx) tool and enter your domain. It might tell you who your DNS provider is (but not always).
+TIP You can use a [DNS Lookup](https://mxtoolbox.com/DnsLookup.aspx) tool and enter your domain. It might tell you who your DNS provider is (but not always).
 
 ### Create required DNS records
 
-These are general instructions for creating your DNS records. If you have issues with any of the steps, please contact your DNS provider for more assistance:
+These are general instructions for creating your DNS records. If you have issues with any of the steps, contact your DNS provider for more assistance.
 
 **Sign into your DNS provider**
 

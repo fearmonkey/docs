@@ -11,55 +11,49 @@ You can use your own domain name in OwnID flows to maintain seamless branding (f
 
 <Note>**Determining Your Subdomain** If your domain is _example.com_, we recommend you use _passwordless.example.com_ as your custom subdomain, however you can replace _passwordless_ with any string you like as long as it's a valid subdomain. </Note>
 
-2. Loninn to the OwnID Console, select the app you want to configure, then click the _Custom Domain_ tab to start the domain connection process.
+2. Login to the OwnID Console, select the app you want to configure, then click the _Custom Domain_ tab to start the domain connection process.
 
-3. On the Custom Domain page, click **Set up your own**. Enter the entire your for your subdomain. After entering your desired subdomain, a panel with instructions for setting up your DNS records will appear:
-
+3. On the Custom Domain page, click **Set up your own**. Enter the entire URL for your subdomain in the form. 
 <Frame>
   <img src="/images/oi_domainpend.png" alt="Custom Domain Step 1"></img>
 </Frame>
 
+After entering your desired subdomain, a panel with instructions for setting up your DNS records will appear:
+
+<Frame>
+  <img src="/images/oi_domaincname.png" alt="Custom Domain Step 2"></img>
+</Frame>
+
+
 ## Step 2: Create a DNS Record
 
-### Identify Your DNS Provider
+Next you'll need to update your <Tooltip tip="Typically this is who you registered your domain, but it can be different from your domain registrar.">DNS provider </Tooltip> with the new subdomain information. 
 
-To start, figure out which service is managing your DNS records, so you know exactly where to login and create the new records.
+The instructions below are generalized for the _typical_ procedure for creating DNS records. Contact your DNS provider for more assistance.
 
-If you already know your DNS provider, you can move on to the next section. Often, it's the same place you registered your domain, but sometimes the DNS provider is different from your domain registrar.
-
+1. Identify and login to your DNS Provider
 <Info>**TIP** You can use a [DNS Lookup](https://mxtoolbox.com/DnsLookup.aspx) tool to enter your domain, and it should tell you who your DNS provider is (this sometimes doesn't provide an answer).</Info>
 
-### Create required DNS records
+2. Locate your management interface, typically part of your provider's _control panel_.
 
-These are generalized instructions for creating your DNS records. But providers do vary, and if you have issues with any of the steps, contact your DNS provider for more assistance.
+3. In your DNS control panel, add a new record that maps your desired subdomain to OwnID using the CNAME record information from the OwnID console, using the values from the OwnID console:
+<Frame>
+  <img src="/images/oi_domaincname.png" alt="Custom Domain Step 2"></img>
+</Frame>
 
-**Sign Into Your DNS Provider**
+_See the table below for details_.
 
-Most DNS providers have a control panel you can sign into to manage your DNS. Find your provider's control panel page and sign in.
-
-**Find Your DNS Management UI**
-
-Now that you're logged in, find where you manage the DNS records for your domain in your provider's control panel.
-
-If you're having issues finding the right page, you can:
-
-- See if your DNS provider has a help article for adding new DNS records that can point you in the right direction.
-- Contact your DNS provider for additional support.
-
-**Create your CNAME record**
-
-From your DNS control panel, add a new record that maps your desired subdomain to OwnID. Most DNS providers ask you for the record type, name, value, and TTL or expiration when creating a new record.
 
 Enter these values and save the new DNS record:
 
 | Field                   | Instructions                                                                    | Description
 | ----------------------- | ------------------------------------------------------------------------------- | ------------------------------------------ |
 | Type                    | Select **CNAME** from the dropdown | The kind of DNS record this is.           |
-| Name                    | If your custom subdomain is passwordless.example.com, enter passwordless        | For CNAME records, this field is the first part of your subdomain (the part leading up to the first period). |
-| Value                   | Copy the value from the OwnID console (example: ywdw3re63qefw.cnames.ownid.com) | This is what the new subdomain record points to–in this case, OwnID. Some providers may expect a trailing period (.) after the CNAME value. Make sure to verify that your CNAME value matches the format your provider expects. |
-| TTL                     | Enter 300                                                                       | An expiration of 5 minutes (300 seconds) is okay. Your DNS provider might not allow you to change the TTL value. If this field is missing or you can’t change it, it’s safe to ignore this part of the configuration. |
+| Name                    | If your custom subdomain is _passwordless.example.com_, enter _passwordless_        | For CNAME records, this field is the first part of your subdomain (the part leading up to the first period). |
+| Value                   | Copy the value from the OwnID console (example: ywdw3re63qefw.cnames.ownid.com) | This is what the new subdomain record points to –- in this case, OwnID. Some providers may expect a trailing period (.) after the CNAME value. Make sure to verify that your CNAME value matches the format your provider expects. |
+| TTL                     | Enter 300                                                                       | An expiration of 5 minutes (300 seconds) is typical. Your DNS provider might not allow you to change the TTL value. If this field is missing or you can’t change it, it’s safe to ignore this part of the configuration. |
 
-**Verify your CNAME record is setup**
+## Step 3: **Verify your CNAME record is setup**
 
 - Wait up to 10 minutes for your DNS provider to update its nameservers.
 - Open the [MXtoolbox](https://mxtoolbox.com/) Online Tool.
@@ -71,10 +65,6 @@ You should see canonical name that ends with `cnames.ownid.com` in the output. I
 When you see that output, move onto the next step in the OwnID console. Now Click **Verify**. 
 
 A new panel with instructions for validating the ownership of your domain will appear:
-
-<Frame>
-  <img src="/images/oi_domaincname.png" alt="Custom Domain Step 2"></img>
-</Frame>
 
 Your subdomain status is now `Pending Validation` until you prove the domain ownership. Let's move to the next step.
 

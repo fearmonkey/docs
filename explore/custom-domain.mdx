@@ -1,13 +1,13 @@
 ---
 title: "Custom Domain"
-description: "Unify the login experience with your own domain"
+description: "Unify your users' login experience with your own domain"
 ---
 
 You can use your own domain name in OwnID flows to maintain seamless branding (for example when users scan a QR Code to sign-in). By specifying a custom domain,  you unify the login experience with your own brand, so your users see a brand-appropriate URL such as `passwordless.your_domain.com` instead of `passwordless.ownid.com`.
 
-## Step 1: Add your Custom Domain
+## Add your Custom Domain
 
-1. First, decide on a subdomain. 
+1. Decide on your subdomain. 
 
 <Note>**Determining Your Subdomain** If your domain is _example.com_, we recommend you use _passwordless.example.com_ as your custom subdomain, however you can replace _passwordless_ with any string you like as long as it's a valid subdomain. </Note>
 
@@ -18,14 +18,13 @@ You can use your own domain name in OwnID flows to maintain seamless branding (f
   <img src="/images/oi_domainpend.png" alt="Custom Domain Step 1"></img>
 </Frame>
 
-After entering your desired subdomain, a panel with instructions for setting up your DNS records will appear:
+After entering your desired subdomain, a panel with instructions for setting up your DNS records appears:
 
 <Frame>
   <img src="/images/oi_domaincname.png" alt="Custom Domain Step 2"></img>
 </Frame>
 
-
-## Step 2: Create a DNS Record
+## Step 1: Create a DNS Record
 
 Next you'll need to update your <Tooltip tip="Typically this is who you registered your domain, but it can be different from your domain registrar.">DNS provider </Tooltip> with the new subdomain information. 
 
@@ -36,39 +35,22 @@ The instructions below are generalized for the _typical_ procedure for creating 
 
 2. Locate your management interface, typically part of your provider's _control panel_.
 
-3. In your DNS control panel, add a new record that maps your desired subdomain to OwnID using the CNAME record information from the OwnID console, using the values from the OwnID console:
+3. In your provider's DNS control panel, add a new record to map your subdomain to OwnID. 
+
 <Frame>
   <img src="/images/oi_domaincname.png" alt="Custom Domain Step 2"></img>
 </Frame>
 
-_See the table below for details_.
-
-
-Enter these values and save the new DNS record:
+4. Copy the CNAME record information from the OwnID console (click the copy to clipboard icon), and paste using the values into your provider's DNS form:
 
 | Field                   | Instructions                                                                    | Description
 | ----------------------- | ------------------------------------------------------------------------------- | ------------------------------------------ |
 | Type                    | Select **CNAME** from the dropdown | The kind of DNS record this is.           |
 | Name                    | If your custom subdomain is _passwordless.example.com_, enter _passwordless_        | For CNAME records, this field is the first part of your subdomain (the part leading up to the first period). |
 | Value                   | Copy the value from the OwnID console (example: ywdw3re63qefw.cnames.ownid.com) | This is what the new subdomain record points to –- in this case, OwnID. Some providers may expect a trailing period (.) after the CNAME value. Make sure to verify that your CNAME value matches the format your provider expects. |
-| TTL                     | Enter 300                                                                       | An expiration of 5 minutes (300 seconds) is typical. Your DNS provider might not allow you to change the TTL value. If this field is missing or you can’t change it, it’s safe to ignore this part of the configuration. |
+| TTL                     | Enter 300 or the value recommended by your provider.                                                                       | An expiration of 5 minutes (300 seconds) is typical. Your DNS provider might not allow you to change the TTL value. If this field is missing or you can’t change it, it’s safe to ignore this part of the configuration. |
 
-## Step 3: **Verify your CNAME record is setup**
-
-- Wait up to 10 minutes for your DNS provider to update its nameservers.
-- Open the [MXtoolbox](https://mxtoolbox.com/) Online Tool.
-- Enter your custom domain name in the Domain Name field.
-- Click MX Lookup to query for your CNAME record.
-
-You should see canonical name that ends with `cnames.ownid.com` in the output. If you don't see that output at first, wait a few minutes and try the query again.
-
-When you see that output, move onto the next step in the OwnID console. Now Click **Verify**. 
-
-A new panel with instructions for validating the ownership of your domain will appear:
-
-Your subdomain status is now `Pending Validation` until you prove the domain ownership. Let's move to the next step.
-
-## Step 2: Validate the domain ownership
+## Step 2: Validate the Domain Ownership
 
 Create a new CNAME record to verify that you're the owner of this domain. This is required to issue TLS certificates for your domain.
 
@@ -79,7 +61,6 @@ Enter these values and save the new DNS record:
 | Type                    | Select **CNAME** from the dropdown | What kind of DNS record this is.           |
 | Name                    | Copy the name from the OwnID console                                            | 
 | Value                   | Copy the value from the OwnID console                                           | 
-| TTL                     | Enter 300                                                                       | 
 
 <Info>
 The validation can take up to 72 hours, we will automatically refresh the status every 5 minutes.
@@ -94,7 +75,7 @@ Once the validation is completed, the status of your domain will change to `Issu
 <br/>
 <Check> Congratulations! Your users see your own subdomain when using OwnID. </Check>
 
-## Removing your custom domain (Optional)
+## Removing Your Custom Domain (Optional)
 
 If you need to remove your custom domain for any reason, you can. If you remove your custom domain, you’ll need to remove any DNS records you created for your custom subdomain and follow this guide again to add it back.
 

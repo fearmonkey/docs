@@ -41,7 +41,7 @@ The instructions below are generalized for the _typical_ procedure for creating 
   <img src="/images/oi_domaincname.png" alt="Custom Domain Step 2"></img>
 </Frame>
 
-4. Copy the CNAME record information from the OwnID console (click the copy to clipboard icon), and paste using the values into your provider's DNS form:
+4. In the OwnID Console, copy the CNAME record information under _Step 1: Create your CNAME record_ In the OwnID Console, and paste the values into your provider's DNS form:
 
 | Field                   | Instructions                                                                    | Description
 | ----------------------- | ------------------------------------------------------------------------------- | ------------------------------------------ |
@@ -52,9 +52,10 @@ The instructions below are generalized for the _typical_ procedure for creating 
 
 ## Step 2 - Validate the Domain Ownership
 
-Create a new CNAME record to verify that you're the owner of this domain. This is required to issue TLS certificates for your domain.
+Now create another CNAME record to verify your ownership of the domain. This is required to issue TLS certificates for your domain.
 
-Enter these values and save the new DNS record:
+1. In your provider's control panel, create a new CNAME record to verify that you're the owner of this domain. 
+2. In the OwnID Console, copy the CNAME record information under _Step 2: Verify that you're the owner of this domain_, and paste and save the values into your new DNS record:
 
 | Field                   | Instructions                                                                    |
 | ----------------------- | ------------------------------------------------------------------------------- | 

@@ -3,7 +3,7 @@ title: "Custom Domain"
 description: "Unify your users' login experience with your own domain"
 ---
 
-You can use your own domain name in OwnID flows to maintain seamless branding (for example when users scan a QR code to sign-in). By configuring a custom domain,  the login experience is unified with your own brand, so your users see a brand-appropriate URL such as `passwordless.your_domain.com` instead of `passwordless.ownid.com`.
+You can use your own domain name in OwnID flows to maintain seamless branding throughout the user journey (for example when users scan a QR code to sign-in). By configuring a custom domain, your users see a brand-appropriate URL such as `passwordless.your_domain.com` instead of `passwordless.ownid.com`.
 
 ## Add your Custom Domain
 
@@ -15,7 +15,7 @@ You can use your own domain name in OwnID flows to maintain seamless branding (f
 
 3. On the Custom Domain page, click **Set up your own**. Enter the entire URL for your subdomain in the form. 
 <Frame>
-  <img src="/images/oi_domainpend.png" alt="Custom Domain Step 1"></img>
+  <img src="/images/oi_custdomain.png" alt="Custom Domain Step 1"></img>
 </Frame>
 
 After entering your desired subdomain, a panel with instructions for setting up your DNS records appears:
@@ -26,14 +26,16 @@ After entering your desired subdomain, a panel with instructions for setting up 
 
 ## Step 1 - Create a DNS Record
 
-Next you'll need to update your <Tooltip tip="Typically this is who you registered your domain, but it can be different from your domain registrar.">DNS provider </Tooltip> with the new subdomain information. 
+The CNAME data displayed in the Console must be configured with your <Tooltip tip="Typically this is who you registered your domain, but it can be different from your domain registrar.">DNS provider </Tooltip>. 
 
 The instructions below are generalized for the _typical_ procedure for creating DNS records. Contact your DNS provider for more assistance.
+
+### To Create a DNS Record
 
 1. Identify and login to your DNS Provider
 <Info>**TIP** You can use a [DNS Lookup](https://mxtoolbox.com/DnsLookup.aspx) tool to enter your domain, and it should tell you who your DNS provider is (this sometimes doesn't provide an answer).</Info>
 
-2. Locate your management interface, typically part of your provider's _control panel_.
+2. Locate your management interface, which is typically part of your provider's _control panel_.
 
 3. In your provider's DNS control panel, add a new record to map your subdomain to OwnID. 
 

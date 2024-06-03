@@ -24,7 +24,7 @@ After entering your desired subdomain, a panel with instructions for setting up 
   <img src="/images/oi_domaincname.png" alt="Custom Domain Step 2"></img>
 </Frame>
 
-## Step 1: Create a DNS Record
+## Step 1 - Create a DNS Record
 
 Next you'll need to update your <Tooltip tip="Typically this is who you registered your domain, but it can be different from your domain registrar.">DNS provider </Tooltip> with the new subdomain information. 
 
@@ -50,7 +50,7 @@ The instructions below are generalized for the _typical_ procedure for creating 
 | Value                   | Copy the value from the OwnID console (example: ywdw3re63qefw.cnames.ownid.com) | This is what the new subdomain record points to –- in this case, OwnID. Some providers may expect a trailing period (.) after the CNAME value. Make sure to verify that your CNAME value matches the format your provider expects. |
 | TTL                     | Enter 300 or the value recommended by your provider.                                                                       | An expiration of 5 minutes (300 seconds) is typical. Your DNS provider might not allow you to change the TTL value. If this field is missing or you can’t change it, it’s safe to ignore this part of the configuration. |
 
-## Step 2: Validate the Domain Ownership
+## Step 2 - Validate the Domain Ownership
 
 Create a new CNAME record to verify that you're the owner of this domain. This is required to issue TLS certificates for your domain.
 

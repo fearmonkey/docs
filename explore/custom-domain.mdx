@@ -69,18 +69,15 @@ Now create another CNAME record to verify your ownership of the domain. This is 
 The validation can take up to 72 hours, we will automatically refresh the status every 5 minutes.
 </Info>
 
-Once the validation is completed, the status of your domain will change to `Issued`. 
+Once the validation is completed, the statustag on  your subdomain name will change to _"Issued"_. 
 
-<Frame>
-  <img src="/images/Custom_Domain_step3.png" alt="Custom Domain Issued"></img>
-</Frame>
-
-<br/>
 <Check> Congratulations! Your users see your own subdomain when using OwnID. </Check>
+
+If the status tag changes to "Failed" instead of _"Issued"_, continue reading below for remedies.
 
 ## Troubleshooting
 
-If your subdomain configuration fails, you'll see a _Failed..._ tag in the Custom Domain screen in the OwnID Console.  
+If your subdomain configuration fails, you'll see a _"Failed"_ tag in the Custom Domain screen in the OwnID Console.  
 <Frame>
   <img src="/images/oi-domain-f-startagain.png" alt="Custom Domain Step 2"></img>
 </Frame>
@@ -91,11 +88,11 @@ Each domain configuration point will be tagged with the status.
   <img src="/images/oi-rmv-domain-f.png" alt="Custom Domain Step 2"></img>
 </Frame>
 
-The strategy is to remove the domain and retry the process above. It's important to figure out why the domain setup failed. Check the values in your provider domain records. Use the copy-to-clipboard icons in the OwnID Console to get CNAME values and eliminate errors from copying manually.
+To resolve this, you must remove the domain from the Console and retry the process above. But first it's important to figure out why the domain setup failed. Check the values in your provider domain records. Be sure to use the copy-to-clipboard icons in the OwnID Console to get CNAME values and eliminate errors from copying manually.
 
 You can retry registration at any time.
 
-### Re-registering Failed Subdomain
+### Re-registering a Failed Subdomain
 1. Remove the domain registration by clicking **Remove Domain** on the custom domain screen. A confirmation dialog opens.
 <Frame>
   <img src="/images/oi_domaincname.png" alt="Custom Domain Step 2"></img>

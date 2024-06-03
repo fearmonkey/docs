@@ -76,6 +76,47 @@ Once the validation is completed, the status of your domain will change to `Issu
 <br/>
 <Check> Congratulations! Your users see your own subdomain when using OwnID. </Check>
 
+## Troubleshooting
+
+If your subdomain configuration fails, you'll see a _Failed..._ tag in the Custom Domain screen in the OwnID Console.  
+<Frame>
+  <img src="/images/oi-domain-f-startagain.png" alt="Custom Domain Step 2"></img>
+</Frame>
+
+
+Each domain configuration point will be tagged with the status.
+<Frame>
+  <img src="/images/oi-rmv-domain-f.png" alt="Custom Domain Step 2"></img>
+</Frame>
+
+The strategy is to remove the domain and retry the process above. It's important to figure out why the domain setup failed. Check the values in your provider domain records. Use the copy-to-clipboard icons in the OwnID Console to get CNAME values and eliminate errors from copying manually.
+
+You can retry registration at any time.
+
+### Re-registering Failed Subdomain
+1. Remove the domain registration by clicking **Remove Domain** on the custom domain screen. A confirmation dialog opens.
+<Frame>
+  <img src="/images/oi_domaincname.png" alt="Custom Domain Step 2"></img>
+</Frame>
+
+2. Click **Remove** in the confirmation dialog.
+<Frame>
+  <img src="/images/oi-delconfirm.png" alt="Remove  Domain dialog" width="300"></img>
+</Frame>
+
+3. Immediately after confirming removal, the status tag "Removing..." is shown in all cusom domain screens in the Console. 
+<Frame>
+  <img src="/images/oi-domain-removing.png" alt="Configure custom domain with 'removing...' notice"></img>
+</Frame>
+
+4. When the removal is complete This may take a few minutes and you won't be able to reenter a subdomain until removal is complete.
+
+<Frame>
+  <img src="/images/oi-cfg_domain-start.png" alt="Configure custom domain with 'removing...' notice"></img>
+</Frame>
+
+5. When the tag in the My app screen changes back to _"Setup required"_, follow the custom domain process from the beginning.
+
 ## Removing Your Custom Domain (Optional)
 
 If you need to remove your custom domain for any reason, you can. If you remove your custom domain, you’ll need to remove any DNS records you created for your custom subdomain and follow this guide again to add it back.
